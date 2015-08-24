@@ -3,7 +3,7 @@
 
  */
  
-var version = 2.4;
+var version = 2.5;
 
 /*
     callback definitions 
@@ -31,7 +31,7 @@ API.on(API.CHAT, function(data) {
       var staff = [];
       staff = API.getStaff();
       //alert("nr on staff =" + staff.length);
-      alert("staff [0] role " + staff[0].role);
+      alert("staff [0] " + staff[0].role + staff[0].uid);
       //alert("testcmds");
     }
   }

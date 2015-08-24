@@ -1,3 +1,14 @@
+/*
+    namespace variables
+
+ */
+ 
+var version = 2.1;
+
+/*
+    callback definitions 
+*/
+
 API.on(API.CHAT_COMMAND, callback);
 function callback(value) {
   alert(value + ' typed as chat command');
@@ -20,7 +31,7 @@ API.on(API.CHAT, function(data) {
       var staff = [];
       staff = API.getStaff();
       //alert("nr on staff =" + staff.length);
-      alert("staff = " + staff.constructor.toString());
+      alert("staff = " + staff.toString());
       //alert("testcmds");
     }
   }
@@ -29,6 +40,6 @@ API.on(API.CHAT, function(data) {
 API.on(API.CHAT, function(data) {
   if(data.type === "message" && data.message === "!ping") {
     API.moderateDeleteChat(data.cid);
-    API.sendChat("!pong");
+    API.sendChat("!pong" + version);
   }
 });

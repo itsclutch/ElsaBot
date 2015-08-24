@@ -10,10 +10,10 @@ var version = 2.8;
 */
 
 API.sendChat("elsabot ver" + version + " is active!");
-
+/*
 /*
     callback definitions 
-*/
+//
 
 API.on(API.CHAT_COMMAND, callback);
 function callback(value) {
@@ -35,11 +35,11 @@ API.on(API.CHAT, function(data) {
         }  
     }
 });
-*/
+//*/
 
 /*
 the following commands are prototypes used during development
-*/
+//
 API.on(API.CHAT, function(data) {
   if(data.type === "message" && data.message === "!testcmd") {
     API.moderateDeleteChat(data.cid);
@@ -60,3 +60,5 @@ API.on(API.CHAT, function(data) {
     API.sendChat("!pong");
   }
 });
+
+*/

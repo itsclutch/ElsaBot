@@ -23,10 +23,8 @@ API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!skip") {
         var staff = [];
         staff = API.getStaff();
-        alert(staff[0].username + ", " + data.un)
         for (var i = 0, l = staff.length; i < l; i++) {
             if (data.un === staff[i].username) {
-                alert("break");
                 if (staff[i].role > 1) {
                     API.moderateForceSkip();
                 }

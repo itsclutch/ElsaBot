@@ -3,7 +3,7 @@
 
  */
  
-var version = 3.0;
+var version = 3.1;
 
 /*
     Mainline code
@@ -12,12 +12,18 @@ var version = 3.0;
 API.sendChat("elsabot ver" + version + " is active!");
 
 /*
-    callback definitions 
+    chat_command api funtionality
 */
 
 API.on(API.CHAT_COMMAND, function(value) {
   alert(value + ' typed as chat command');
 });
+
+/*
+    Skip Commands
+*/
+
+//regular skip
 
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!skip") {
@@ -35,6 +41,8 @@ API.on(API.CHAT, function(data) {
     }
 });
 
+// overplayed skip
+
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!opskip") {
         var staff = [];
@@ -51,8 +59,30 @@ API.on(API.CHAT, function(data) {
     }
 });
 
+//blacklist skip
+
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!blskip") {
+        var staff = [];
+        staff = API.getStaff();
+        for (var i = 0, l = staff.length; i < l; i++) {
+            if (data.un === staff[i].username) {
+                if (staff[i].role > 1) {
+                    API.moderateForceSkip();
+                    API.sendChat(data.un + " skipped your song because it's blacklisted");
+                }
+            }
+        }
+        API.moderateDeleteChat(data.cid);
+    }
+});
+
+/*
+    Move Command (INCOMPLETE!!!)
+*/
+
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message === "!move") {
         var staff = [];
         staff = API.getStaff();
         for (var i = 0, l = staff.length; i < l; i++) {

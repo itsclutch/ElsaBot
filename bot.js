@@ -15,8 +15,10 @@ the following commands are prototypes used during development
 API.on(API.CHAT, function(data) {
   if(data.type === "message" && data.message === "!testcmd") {
     API.moderateDeleteChat(data.cid);
-    if (data.un === "zenopie") { 
-      alert(API.getStaff());
+    if (data.un === "zenopie") {
+      var staff = [];
+      staff = alert(API.getStaff());
+      alert("nr on staff =" + staff.length);
       //alert("testcmds");
     }
   }
@@ -24,6 +26,7 @@ API.on(API.CHAT, function(data) {
 
 API.on(API.CHAT, function(data) {
   if(data.type === "message" && data.message === "!ping") {
+    API.moderateDeleteChat(data.cid);
     API.sendChat("!pong");
   }
 });

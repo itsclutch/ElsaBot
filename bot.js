@@ -3,7 +3,7 @@
 
  */
  
-var version = 2.9;
+var version = 3.0;
 
 /*
     Mainline code
@@ -23,7 +23,7 @@ API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!skip") {
         var staff = [];
         staff = API.getStaff();
-        for(i = 0; i < staff.length; i++)
+        for(i = 0; i < staff.length; i++) {
             if (data.un === staff[i].username) {
                 if (staff[i].role >== 2) {
                     API.moderateDeleteChat(data.cid);

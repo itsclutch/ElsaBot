@@ -24,7 +24,8 @@ API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!skip") {
         var staff = [];
         staff = API.getStaff();
-        staff.forEach(el in staff) {
+        var staffNames = [];
+        staff.forEach() {
             if (data.username === staff.username) {
                 if (staff.role >== 2) {
                     API.moderateDeleteChat(data.cid);

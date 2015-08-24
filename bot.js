@@ -3,7 +3,7 @@
 
  */
  
-var version = 3.3;
+var version = 3.4;
 
 /*
     Mainline code
@@ -89,12 +89,15 @@ API.on(API.CHAT, function(data) {
         for (var i = 0, l = staff.length; i < l; i++) {
             if (data.un === staff[i].username) {
                 if (staff[i].role > 1) {
-                    var movearray = data.message.split(" ");
-                    var wl = API.getWaitList();
-                    alert(JSON.stringify(movearray));
+                    var ma = [];
+                    ma = data.message.split(" ");
+                    var wl = [];
+                    wl = API.getWaitList();
+                    alert(JSON.stringify(ma));
+                    alert(JSON.stringify(wl));
                     for (var i = 0, l = staff.length; i < l; i++) {
-                        if (movearry[2].substring(1) === wl.username[i]) {
-                            API.moderateMoveDJ(wl.id, movearray[3]);
+                        if (ma[2].substring(1) === wl.username[i]) {
+                            API.moderateMoveDJ(wl.id, ma[3]);
                         }
                     }    
                 }

@@ -32,8 +32,7 @@ if (data.type === "message" && data.message === "!skip") {
               }
           }
       }   // end forEach
-
-}
+    }
 });
 /*
 the following commands are prototypes used during development

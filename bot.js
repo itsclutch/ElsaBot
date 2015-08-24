@@ -10,10 +10,10 @@ var version = 2.8;
 */
 
 API.sendChat("elsabot ver" + version + " is active!");
-/*
+
 /*
     callback definitions 
-//
+*/
 
 API.on(API.CHAT_COMMAND, callback);
 function callback(value) {

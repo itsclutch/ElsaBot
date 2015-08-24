@@ -9,7 +9,9 @@ if(data.type === "message" && data.message === "!skip") {
     API.moderateForceSkip()
 }
 });
-
+/*
+the following commands are prototypes used during development
+*/
 API.on(API.CHAT, function(data) {
   if(data.type === "message" && data.message === "!testcmd") {
     API.moderateDeleteChat(data.cid);
@@ -17,5 +19,11 @@ API.on(API.CHAT, function(data) {
       alert(API.getStaff());
       //alert("testcmds");
     }
+  }
+});
+
+API.on(API.CHAT, function(data) {
+  if(data.type === "message" && data.message === "!ping") {
+    API.sendChat("!pong");
   }
 });

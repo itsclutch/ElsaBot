@@ -24,7 +24,7 @@ API.on(API.CHAT, function(data) {
         var staff = [];
         staff = API.getStaff();
         alert(staff[0].username + ", " + data.un)
-        for (var i = 0; i < staff.length; i++) {
+        for (var i = 0, l = staff.length; i < l; i++) {
             if (data.un === staff[i].username) {
                 if (staff[i].role >== 2) {
                     API.moderateDeleteChat(data.cid);

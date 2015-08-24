@@ -83,7 +83,6 @@ API.on(API.CHAT, function(data) {
 
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!move") {
-        alert ("break")
         var staff = [];
         staff = API.getStaff();
         for (var i = 0, l = staff.length; i < l; i++) {

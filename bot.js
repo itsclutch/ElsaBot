@@ -20,12 +20,14 @@ API.on(API.CHAT_COMMAND, function(value) {
 });
 
 API.on(API.CHAT, function(data) {
-    alert(data.username + "," + data.un);
     if (data.type === "message" && data.message === "!skip") {
         var staff = [];
         staff = API.getStaff();
-        var staffNames = [];
-        staff.forEach() {
+        staff.forEach(function(object) {
+            staff.push(object.username);
+        });
+        return staff;
+        alert(staff)
             if (data.username === staff.username) {
                 if (staff.role >== 2) {
                     API.moderateDeleteChat(data.cid);

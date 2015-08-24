@@ -3,7 +3,7 @@
 
  */
  
-var version = 2.5;
+var version = 2.6;
 
 /*
     Mainline code
@@ -37,7 +37,7 @@ API.on(API.CHAT, function(data) {
       var staff = [];
       staff = API.getStaff();
       //alert("nr on staff =" + staff.length);
-      alert("staff [0] " + staff[0].role + staff[0].uid);
+      alert("staff [0] " + staff[0].role + staff[0].un);
       //alert("testcmds");
     }
   }
@@ -46,6 +46,6 @@ API.on(API.CHAT, function(data) {
 API.on(API.CHAT, function(data) {
   if(data.type === "message" && data.message === "!ping") {
     API.moderateDeleteChat(data.cid);
-    API.sendChat("!pong" + version);
+    API.sendChat("!pong");
   }
 });

@@ -14,7 +14,7 @@ API.sendChat("elsabot ver" + version + " is active!");
 /*
     chat_command api funtionality
 */
-
+/*
 API.on(API.CHAT_COMMAND, function(data) {
   if data === "getwl" {
       var wl = [];
@@ -22,7 +22,7 @@ API.on(API.CHAT_COMMAND, function(data) {
       alert(JSON.stringify(wl));
   }
 });
-
+*/
 /*
     Skip Commands
 */

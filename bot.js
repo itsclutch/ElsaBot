@@ -55,9 +55,7 @@ API.on(API.CHAT, function(data) {
                 if (staff[i].role > 1) {
                     API.moderateForceSkip();
                     API.sendChat(data.un + " skipped your song because it is overplayed");
-                } else {
-                    API.sendChat("you must be a bouncer or better to skip")
-                }
+                } 
             }
         }
     }

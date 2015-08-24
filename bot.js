@@ -3,7 +3,7 @@
 
  */
  
-var version = 2.8;
+var version = 2.9;
 
 /*
     Mainline code
@@ -21,6 +21,7 @@ API.on(API.CHAT_COMMAND, function(value) {
 
 
 API.on(API.CHAT, function(data) {
+    alert(data.un);
     if (data.type === "message" && data.message === "!skip") {
         var staff = [];
         staff = API.getStaff();

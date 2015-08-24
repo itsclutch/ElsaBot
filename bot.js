@@ -31,7 +31,7 @@ API.on(API.CHAT, function(data) {
       var staff = [];
       staff = API.getStaff();
       //alert("nr on staff =" + staff.length);
-      alert("staff = " + staff[0].name.toString());
+      alert("staff = " + staff[0].toString());
       //alert("testcmds");
     }
   }

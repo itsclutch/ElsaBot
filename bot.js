@@ -14,8 +14,8 @@ API.on(API.CHAT, function(data) {
   if(data.type === "message" && data.message === "!testcmd") {
     API.moderateDeleteChat(data.cid);
     if (data.un === "zenopie") { 
-      //alert(API.getStaff());
-      alert("testcmds");
+      alert(API.getStaff());
+      //alert("testcmds");
     }
   }
 });

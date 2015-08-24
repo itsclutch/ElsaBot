@@ -41,7 +41,6 @@ API.on(API.CHAT, function(data) {
                 }
             }
         }
-        API.moderateDeleteChat(data.cid);
     }
 });
 
@@ -56,10 +55,11 @@ API.on(API.CHAT, function(data) {
                 if (staff[i].role > 1) {
                     API.moderateForceSkip();
                     API.sendChat(data.un + " skipped your song because it is overplayed");
+                } else {
+                    API.sendChat("you must be a bouncer or better to skip")
                 }
             }
         }
-        API.moderateDeleteChat(data.cid);
     }
 });
 
@@ -77,7 +77,6 @@ API.on(API.CHAT, function(data) {
                 }
             }
         }
-        API.moderateDeleteChat(data.cid);
     }
 });
 
@@ -98,30 +97,24 @@ API.on(API.CHAT, function(data) {
                     wl = API.getWaitList();
                     for (var i = 0, l = staff.length; i < l; i++) {
                         if (ma[1].substring(1) === wl[i].username) {
-                            API.moderateMoveDJ(wl.id, ma[2]);
+                            API.moderateMoveDJ(wl[i].id, ma[2]);
+                        } else {
+                            API.moderateLockWaitList(true, false);
+                            var all = [];
+                            all = API.getUsers();
+                            for (var i = 0, l = all.length; i < l; i++) {
+                                if (ma[1].substring(1) === all[i].username) {
+                                    API.moderateAddDJ(all[i].id);
+                                    setTimeout()
+                                }
+                            }
+                        }
                         }
                     }    
                 }
             }
         }
     }
-});
-
-/*
-the following commands are prototypes used during development
-//
-API.on(API.CHAT, function(data) {
-  if(data.type === "message" && data.message === "!testcmd") {
-    API.moderateDeleteChat(data.cid);
-    if (data.un === "zenopie") {
-      //alert("t1");
-      var staff = [];
-      staff = API.getStaff();
-      //alert("nr on staff =" + staff.length);
-      alert("staff [0] " + staff[0].role + staff[0].username);
-      //alert("testcmds");
-    }
-  }
 });
 
 API.on(API.CHAT, function(data) {
@@ -131,4 +124,3 @@ API.on(API.CHAT, function(data) {
   }
 });
 
-*/

@@ -3,7 +3,7 @@
 
  */
  
-var version = 2.6;
+var version = 2.7;
 
 /*
     Mainline code
@@ -37,7 +37,7 @@ API.on(API.CHAT, function(data) {
       var staff = [];
       staff = API.getStaff();
       //alert("nr on staff =" + staff.length);
-      alert("staff [0] " + staff[0].role + staff[0].un);
+      alert("staff [0] " + staff[0].role + staff[0].username);
       //alert("testcmds");
     }
   }

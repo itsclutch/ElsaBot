@@ -1,20 +1,14 @@
 /*
     namespace variables
-
- */
- 
+*/
 var version = 3.4;
-
 /*
     Mainline code
 */
-
 API.sendChat("elsabot ver" + version + " is active!");
-
 /*
     chat_command api funtionality
 */
-/*
 API.on(API.CHAT_COMMAND, function(data) {
   if data === "getwl" {
       var wl = [];
@@ -22,7 +16,6 @@ API.on(API.CHAT_COMMAND, function(data) {
       alert(JSON.stringify(wl));
   }
 });
-*/
 /*
     Skip Commands
 */
@@ -77,11 +70,9 @@ API.on(API.CHAT, function(data) {
         }
     }
 });
-
 /*
     Move Command (INCOMPLETE!!!)
 */
-/*
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!move") {
         var staff = [];
@@ -114,6 +105,8 @@ API.on(API.CHAT, function(data) {
         }
     }
 });
+
+//ping
 
 API.on(API.CHAT, function(data) {
   if(data.type === "message" && data.message === "!ping") {

@@ -82,7 +82,7 @@ API.on(API.CHAT, function(data) {
 */
 
 API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message.substing(0,4) === "!move") {
+    if (data.type === "message" && data.message.substring(0,4) === "!move") {
         var staff = [];
         staff = API.getStaff();
         for (var i = 0, l = staff.length; i < l; i++) {

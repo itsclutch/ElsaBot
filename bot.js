@@ -95,10 +95,10 @@ API.on(API.CHAT, function(data) {
                     wl = API.getWaitList();
                     alert(JSON.stringify(ma));
                     alert(JSON.stringify(wl));
-                    alert(JSON.stringify(wl[3]));
+                    alert(ma3);
                     for (var i = 0, l = staff.length; i < l; i++) {
-                        if (ma[2].substring(1) === wl[i].username) {
-                            API.moderateMoveDJ(wl.id, ma[3]);
+                        if (ma2.substring(1) === wl[i].username) {
+                            API.moderateMoveDJ(wl.id, ma3);
                         }
                     }    
                 }

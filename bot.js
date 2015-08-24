@@ -15,10 +15,9 @@ API.sendChat("elsabot ver" + version + " is active!");
     callback definitions 
 */
 
-API.on(API.CHAT_COMMAND, callback);
-function callback(value) {
+API.on(API.CHAT_COMMAND, function(value) {
   alert(value + ' typed as chat command');
-}
+});
 
 /*
 API.on(API.CHAT, function(data) {

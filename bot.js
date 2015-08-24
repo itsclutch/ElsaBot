@@ -3,7 +3,8 @@ function callback(value) {
   alert(value + ' typed as chat command');
 }
 API.on(API.CHAT, function(data){
-if(data.type === "message" && data.message === "!commands"){
+if(data.type === "message" && data.message === "!skip"){
 API.moderateDeleteChat(data.cid);
+API.moderateForceSkip()
 }
 });

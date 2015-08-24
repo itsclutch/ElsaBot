@@ -15,8 +15,12 @@ API.sendChat("elsabot ver" + version + " is active!");
     chat_command api funtionality
 */
 
-API.on(API.CHAT_COMMAND, function(value) {
-  alert(value + ' typed as chat command');
+API.on(API.CHAT_COMMAND, function(data) {
+  if data === "getwl" {
+      var wl = [];
+      wl = API.getWaitList();
+      alert(JSON.stringify(wl));
+  }
 });
 
 /*
@@ -85,7 +89,6 @@ API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!move") {
         var staff = [];
         staff = API.getStaff();
-        alert(JSON.stringify(staff));
         for (var i = 0, l = staff.length; i < l; i++) {
             if (data.un === staff[i].username) {
                 if (staff[i].role > 1) {
@@ -93,7 +96,6 @@ API.on(API.CHAT, function(data) {
                     ma = data.message.split(" ");
                     var wl = [];
                     wl = API.getWaitList();
-                    alert(JSON.stringify(wl));
                     for (var i = 0, l = staff.length; i < l; i++) {
                         if (ma[1].substring(1) === wl[i].username) {
                             API.moderateMoveDJ(wl.id, ma[2]);

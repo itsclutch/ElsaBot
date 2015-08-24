@@ -30,6 +30,8 @@ API.on(API.CHAT, function(data) {
                 }
             }
         }
+        API.moderateDeleteChat(data.cid);
+        API.sendChat(data.un + " skipped your song");
     }
 });
 

@@ -19,11 +19,11 @@ API.on(API.CHAT_COMMAND, function(value) {
   alert(value + ' typed as chat command');
 });
 
-/*
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!skip") {
         var staff = [];
         staff = API.getStaff();
+        /*
         forEach(element in staff) {
             if (data.username === element.username) {
                 if (element.role >== 2) {

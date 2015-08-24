@@ -21,9 +21,10 @@ API.on(API.CHAT_COMMAND, function(value) {
 
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!skip") {
-        var staff = [],
-        i;
+        var staff = [];
         staff = API.getStaff();
+        alert(staff[0].username)
+        /*
         for(i = 0; i < staff.length; i++) {
             if (data.un === staff[i].username) {
                 if (staff[i].role >== 2) {
@@ -32,6 +33,7 @@ API.on(API.CHAT, function(data) {
                 }
             }
         }
+        */
     }
 });
 

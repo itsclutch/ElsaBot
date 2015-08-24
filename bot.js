@@ -6,6 +6,12 @@
 var version = 2.5;
 
 /*
+    Mainline code
+*/
+
+API.sendChat("elsabot ver" + version + " is active!");
+
+/*
     callback definitions 
 */
 

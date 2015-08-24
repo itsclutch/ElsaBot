@@ -91,7 +91,7 @@ API.on(API.CHAT, function(data) {
                 if (staff[i].role > 1) {
                     var movearray = data.message.split(" ");
                     var wl = API.getWaitList();
-                    alert(movearray[3])
+                    alert(JSON.stringify(movearray));
                     for (var i = 0, l = staff.length; i < l; i++) {
                         if (movearry[2].substring(1) === wl.username[i]) {
                             API.moderateMoveDJ(wl.id, movearray[3]);

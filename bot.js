@@ -82,14 +82,14 @@ API.on(API.CHAT, function(data) {
 */
 
 API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message === "!move") {
+    if (data.type === "message" && data.message.substing(0,4) === "!move") {
         var staff = [];
         staff = API.getStaff();
         for (var i = 0, l = staff.length; i < l; i++) {
             if (data.un === staff[i].username) {
                 if (staff[i].role > 1) {
-                    API.moderateForceSkip();
-                    API.sendChat(data.un + " skipped your song because it's blacklisted");
+                    var movearray = data.message.split(" ");
+                    alert(movearray)
                 }
             }
         }

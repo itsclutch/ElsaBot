@@ -21,19 +21,20 @@ function callback(value) {
 }
 
 API.on(API.CHAT, function(data) {
-if (data.type === "message" && data.message === "!skip") {
-    var staff = [];
-      staff = API.getStaff();
-      forEach(element in staff) {
-          if (data.un === element.username) {
-              if (element.role >== 2) {
-                API.moderateDeleteChat(data.cid);
-                API.moderateForceSkip();
-              }
-          }
-      }   // end forEach
+    if (data.type === "message" && data.message === "!skip") {
+        var staff = [];
+        staff = API.getStaff();
+        forEach(element in staff) {
+            if (data.un === element.username) {
+                if (element.role >== 2) {
+                    API.moderateDeleteChat(data.cid);
+                    API.moderateForceSkip();
+                }
+            }
+        }  
     }
 });
+
 /*
 the following commands are prototypes used during development
 */

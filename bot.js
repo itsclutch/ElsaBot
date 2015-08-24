@@ -21,7 +21,6 @@ API.on(API.CHAT_COMMAND, function(value) {
 
 
 API.on(API.CHAT, function(data) {
-   // alert(data.username);
     if (data.type === "message" && data.message === "!skip") {
         var staff = [];
         staff = API.getStaff();

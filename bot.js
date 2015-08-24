@@ -27,12 +27,9 @@ API.on(API.CHAT, function(data) {
         for (var i = 0, l = staff.length; i < l; i++) {
             if (data.un === staff[i].username) {
                 alert("break")
-                /*
-                if (staff[i].role >== 2) {
-                    API.moderateDeleteChat(data.cid);
+                if (staff[i].role > 1) {
                     API.moderateForceSkip();
                 }
-                */
             }
         }
     }

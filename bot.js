@@ -18,7 +18,7 @@ API.sendChat("elsabot ver" + version + " is active!");
 API.on(API.CHAT_COMMAND, function(value) {
   alert(value + ' typed as chat command');
 });
-/*
+
 API.on(API.CHAT, function(data) {
     alert(data.username + "," + data.un);
     if (data.type === "message" && data.message === "!skip") {

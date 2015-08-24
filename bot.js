@@ -20,12 +20,13 @@ API.on(API.CHAT_COMMAND, function(value) {
 });
 
 API.on(API.CHAT, function(data) {
+    alert(data.username + "," + data.un);
     if (data.type === "message" && data.message === "!skip") {
         var staff = [];
         staff = API.getStaff();
-        for(element in staff) {
-            if (data.username === element.username) {
-                if (element.role >== 2) {
+        for (i=0; i < staff.length; i++) {
+            if (data.username === staff[i].username) {
+                if (staff[i].role >== 2) {
                     API.moderateDeleteChat(data.cid);
                     API.moderateForceSkip();
                 }

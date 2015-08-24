@@ -8,3 +8,11 @@ API.moderateDeleteChat(data.cid);
 API.moderateForceSkip()
 }
 });
+API.on(API.CHAT, function(data){
+  if(data.type === "message" && data.message === "!testcmd"){
+    if (data.un === "zenopie"){
+      alert(API.getStaff());
+    }
+    }
+  }
+}

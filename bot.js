@@ -85,11 +85,14 @@ API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!move") {
         var staff = [];
         staff = API.getStaff();
+        alert(JSON.stringify(staff))
         for (var i = 0, l = staff.length; i < l; i++) {
             if (data.un === staff[i].username) {
                 if (staff[i].role > 1) {
                     var movearray = data.message.split(" ");
-                    alert(movearray)
+                    var wl = API.getWaitList()
+                    alert(JSON.stringify(wl))
+                    
                 }
             }
         }

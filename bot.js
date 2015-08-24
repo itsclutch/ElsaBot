@@ -27,11 +27,43 @@ API.on(API.CHAT, function(data) {
             if (data.un === staff[i].username) {
                 if (staff[i].role > 1) {
                     API.moderateForceSkip();
+                    API.sendChat(data.un + " skipped your song");
                 }
             }
         }
         API.moderateDeleteChat(data.cid);
-        API.sendChat(data.un + " skipped your song");
+    }
+});
+
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message === "!opskip") {
+        var staff = [];
+        staff = API.getStaff();
+        for (var i = 0, l = staff.length; i < l; i++) {
+            if (data.un === staff[i].username) {
+                if (staff[i].role > 1) {
+                    API.moderateForceSkip();
+                    API.sendChat(data.un + " skipped your song because it is overplayed");
+                }
+            }
+        }
+        API.moderateDeleteChat(data.cid);
+    }
+});
+
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message === "!blskip") {
+        var staff = [];
+        staff = API.getStaff();
+        for (var i = 0, l = staff.length; i < l; i++) {
+            if (data.un === staff[i].username) {
+                if (staff[i].role > 1) {
+                    API.moderateForceSkip();
+                    API.sendChat(data.un + " skipped your song because it's blacklisted");
+                }
+            }
+        }
+        API.moderateDeleteChat(data.cid);
     }
 });
 

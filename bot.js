@@ -19,7 +19,7 @@ API.on(API.CHAT_COMMAND, function(value) {
   alert(value + ' typed as chat command');
 });
 
-/*
+
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!skip") {
         var staff = [];
@@ -34,7 +34,6 @@ API.on(API.CHAT, function(data) {
         }  
     }
 });
-//*/
 
 /*
 the following commands are prototypes used during development

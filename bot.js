@@ -35,6 +35,7 @@ API.on(API.CHAT, function(data) {
                     dj = API.getDJ();
                     API.moderateForceSkip();
                     if(data.type === "message" && data.message.substring(5) !== null) {
+                        alert(data.message.substring(5));
                         var wl = [];
                         wl = API.getWaitList();
                         if(wl.length < 50) {

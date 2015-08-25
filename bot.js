@@ -22,17 +22,26 @@ API.on(API.CHAT, function(data) {
     }
 });
 /*
-    Skip Commands
+    Skip Command
 */
 API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message === "!skip") {
+    if (data.type === "message" && data.message.substring(0,5) === "!skip") {
         var staff = [];
         staff = API.getStaff();
         for (var i = 0, l = staff.length; i < l; i++) {
             if (data.un === staff[i].username) {
                 if (staff[i].role > 1) {
+                    var dj = [];
+                    dj = API.getDJ();
                     API.moderateForceSkip();
-                    API.sendChat(data.un + " skipped your song");
+                    if(data.message.substring(5) === "op","bl","theme") {
+                        var wl = [];
+                        wl = API.getWaitList();
+                        if(wl.length < 50) {
+                            API.moderateAddDj(dj.id);
+                            API.moderateMoveDJ(dj.id, 3);
+                        }
+                    }
                 }
             }
         }

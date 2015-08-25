@@ -3,11 +3,6 @@
 */
 var version = 3.4;
 /*
-
-    Mainline code
-    
-*/
-/*
     Welcome Message
 */
 API.sendChat("elsabot ver" + version + " is active!");

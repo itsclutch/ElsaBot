@@ -77,6 +77,7 @@ API.on(API.CHAT, function(data) {
                     wl = API.getWaitList();
                     for (var i = 0, l = staff.length; i < l; i++) {
                         if (ma[1].substring(1) === wl[i].username) {
+                            alert("found the dj in the waitlist")
                             API.moderateMoveDJ(wl[i].id, ma[2]);
                         } else {
                             API.moderateLockWaitList(true, false);

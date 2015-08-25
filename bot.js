@@ -38,6 +38,7 @@ API.on(API.CHAT, function(data) {
                         var wl = [];
                         wl = API.getWaitList();
                         if(wl.length < 50) {
+                            alert("pause")
                             API.moderateAddDj(dj.id);
                             API.moderateMoveDJ(dj.id, 3);
                         }

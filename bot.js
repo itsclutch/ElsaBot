@@ -18,7 +18,7 @@ API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!getwlprop") {
         wl = [];
         wl = API.getWaitlist;
-        alert(JSON.stringify(wl))
+        alert(JSON.stringify(wl));
     }
 });
 /*
@@ -38,7 +38,9 @@ API.on(API.CHAT, function(data) {
         }
     }
 });
-
+/*
+    Move Command
+*/
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!move") {
         var staff = [];
@@ -68,7 +70,6 @@ API.on(API.CHAT, function(data) {
                                     }
                                 }
                             }
-                        }
                         }
                     }    
                 }

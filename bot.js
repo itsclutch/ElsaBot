@@ -3,16 +3,27 @@
 */
 var version = 3.4;
 /*
+
     Mainline code
+    
+*/
+/*
+    Welcome Message
 */
 API.sendChat("elsabot ver" + version + " is active!");
-
+/*
+    Wailist Property Test
+*/
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message === "!getwlprop") {
+        wl = [];
+        wl = API.getWaitlist;
+        alert(JSON.stringify(wl))
+    }
+});
 /*
     Skip Commands
 */
-
-//regular skip
-
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!skip") {
         var staff = [];
@@ -27,42 +38,6 @@ API.on(API.CHAT, function(data) {
         }
     }
 });
-
-// overplayed skip
-
-API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message === "!opskip") {
-        var staff = [];
-        staff = API.getStaff();
-        for (var i = 0, l = staff.length; i < l; i++) {
-            if (data.un === staff[i].username) {
-                if (staff[i].role > 1) {
-                    API.moderateForceSkip();
-                    API.sendChat(data.un + " skipped your song because it is overplayed");
-                } 
-            }
-        }
-    }
-});
-
-//blacklist skip
-
-API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message === "!blskip") {
-        var staff = [];
-        staff = API.getStaff();
-        for (var i = 0, l = staff.length; i < l; i++) {
-            if (data.un === staff[i].username) {
-                if (staff[i].role > 1) {
-                    API.moderateForceSkip();
-                    API.sendChat(data.un + " skipped your song because it's blacklisted");
-                }
-            }
-        }
-    }
-});
-
-//move command
 
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!move") {
@@ -79,14 +54,18 @@ API.on(API.CHAT, function(data) {
                         if (ma[1].substring(1) === wl[i].username) {
                             alert("found the dj in the waitlist")
                             API.moderateMoveDJ(wl[i].id, ma[2]);
-                        } else {
+                        } 
+                        else {
                             API.moderateLockWaitList(true, false);
                             var all = [];
                             all = API.getUsers();
                             for (var i = 0, l = all.length; i < l; i++) {
                                 if (ma[1].substring(1) === all[i].username) {
-                                    API.moderateAddDJ(all[i].id);
-                                    setTimeout()
+                                    if(wl.length < 50) {
+                                        API.moderateAddDj(all[i].id);
+                                        API.moderateMoveDJ(wl[i].id, ma[2]);
+                                        API.moderateLockWaitList(false, false);
+                                    }
                                 }
                             }
                         }
@@ -95,5 +74,13 @@ API.on(API.CHAT, function(data) {
                 }
             }
         }
+    }
+});
+/*
+    Delete commands from chat
+*/
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message.substring(0,1) === "!") {
+        API.moderateDeleteChat(data.cid);
     }
 });

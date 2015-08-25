@@ -9,15 +9,13 @@ API.sendChat("boop")
 /*
     chat_command api funtionality
 */
-API.on(API.CHAT_COMMAND, callback);
-
-function callback(value) {
-    if(value === "getwl") {
+API.on(API.CHAT_COMMAND, function(value) {
+    if(value === "/getwl") {
         wl = [];
         wl = API.getWaitList();
         alert(JSON.stringify(wl));
     }
-}
+});
 /*
     Move Command (INCOMPLETE!!!)
 */

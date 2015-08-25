@@ -5,7 +5,7 @@ var version = 3.4;
 /*
     Mainline code
 */
-API.sendChat("elsabot ver" + version + " is active!");
+API.sendChat("boop")
 /*
     chat_command api funtionality
 */

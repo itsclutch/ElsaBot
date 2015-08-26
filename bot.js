@@ -47,14 +47,63 @@ API.on(API.CHAT, function(data) {
                                 if (wl.length === 50) {
                                     do {
                                         API.moderateLockWaitList(true, false);
-                                        //setTimeout(function() { API.moderateAddDJ(JSON.stringify(dj.id))}; , 5000);
+                                        setTimeout(function() { API.moderateAddDJ(JSON.stringify(dj.id)); } , 5000);
                                         wl = API.getWaitList();
                                     }
                                     while (wl.length === 50);
                                     API.moderateMoveDJ(dj.id, 3);
                                     API.moderateLockWaitList(false, false);
+                                    API.sendChat(data.un + " skipped the song because it's overplayed.")
                                 }
                             }
+                        }
+                        if (skiparray[1] === "theme") {
+                            if (wl.length < 50) {
+                                alert(JSON.stringify(dj));
+                                API.moderateAddDJ(JSON.stringify(dj.id));
+                                API.moderateMoveDJ(dj.id, 3);
+                                if (wl.length === 50) {
+                                    do {
+                                        API.moderateLockWaitList(true, false);
+                                        setTimeout(function() { API.moderateAddDJ(JSON.stringify(dj.id)); } , 5000);
+                                        wl = API.getWaitList();
+                                    }
+                                    while (wl.length === 50);
+                                    API.moderateMoveDJ(dj.id, 3);
+                                    API.moderateLockWaitList(false, false);
+                                    API.sendChat(data.un + " skipped the song because it doesn't fit the room theme.")
+                                }
+                            }
+                        }
+                        if (skiparray[1] === "nsfw") {
+                            if (wl.length < 50) {
+                                alert(JSON.stringify(dj));
+                                API.moderateAddDJ(JSON.stringify(dj.id));
+                                API.moderateMoveDJ(dj.id, 3);
+                                if (wl.length === 50) {
+                                    do {
+                                        API.moderateLockWaitList(true, false);
+                                        setTimeout(function() { API.moderateAddDJ(JSON.stringify(dj.id)); } , 5000);
+                                        wl = API.getWaitList();
+                                    }
+                                    while (wl.length === 50);
+                                    API.moderateMoveDJ(dj.id, 3);
+                                    API.moderateLockWaitList(false, false);
+                                    API.sendChat(data.un + " skipped the song because it's NSFW.")
+                                }
+                            }
+                        }
+                        if (skiparray[1] === "ban") {
+                            setTimeout(function() { API.moderateBanUser(dj.id, 1, API.BAN.HOUR); } , 10000);
+                            API.sendChat("the song you played is so bad you will be banned for an hour in 10 seconds");
+                            var i;
+                            i = 9
+                            do {
+                                setTimeout(function() { API.sendchat(i); } , 1000);
+                                i = i - 1;
+                            }
+                            while (i > 0);
+                            API.moderateBanUser(dj.id, 1, API.BAN.HOUR);
                         }
                     }
                 }

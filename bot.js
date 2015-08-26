@@ -90,7 +90,7 @@ API.on(API.CHAT, function(data) {
 */
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,4) === "!add") {
-        API.moderateAddDJ(data.id)
+        alert(JSON.stringify(data));
     }
 });
 /*

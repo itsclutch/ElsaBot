@@ -173,13 +173,12 @@ API.on(API.CHAT, function(data) {
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
         API.sendChat("the song you played is so bad you will be banned for an hour in 10 seconds");
-        for(var i = 9) {
-            do {
-                setTimeout( function() { API.sendChat(i); }, 1000);
-                i--;
-            }
-            while (i > 0);
+        var i = 9;
+        do {
+            setTimeout( function() { API.sendChat(i); }, 1000);
+            (i--);
         }
+        while (i > 0);
     }
 });
 /*

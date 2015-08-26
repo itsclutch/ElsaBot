@@ -32,13 +32,12 @@ API.on(API.CHAT, function(data) {
                 if (staff[i].role > 1) {
                     var dj = [];
                     dj = API.getDJ();
-                    //API.moderateForceSkip();
+                    API.moderateForceSkip();
                     if(data.type === "message" && data.message.substring(5) !== null) {
                         var wl = [];
                         wl = API.getWaitList();
                         if(wl.length < 50) {
-                            setTimeout(function
-                            API.moderateAddDj(dj.id);
+                            setTimeout(function() { API.moderateAddDj(dj.id); }, 3000);
                             API.moderateMoveDJ(dj.id, 3);
                         }
                     }

@@ -173,7 +173,7 @@ API.on(API.CHAT, function(data) {
         function secondPassed() {
             alert("test");
             API.sendChat(seconds);
-            if (seconds === 0) {
+            if (seconds == 0) {
                 clearInterval(countdownTimer);
             } 
             else {
@@ -182,7 +182,7 @@ API.on(API.CHAT, function(data) {
         }
     }
 });
-var countdownTimer = setInterval('secondPassed()', 1000);
+var countdownTimer = setInterval(secondPassed, 1000);
 /*
     Delete commands from chat
 */

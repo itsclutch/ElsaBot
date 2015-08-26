@@ -38,6 +38,7 @@ API.on(API.CHAT, function(data) {
                         var wl = [];
                         wl = API.getWaitList();
                         if(wl.length < 50) {
+                            alert(JSON.stringify(dj));
                             setTimeout(function() { API.moderateAddDj(dj.id); }, 3000);
                             API.moderateMoveDJ(dj.id, 3);
                         }
@@ -63,7 +64,6 @@ API.on(API.CHAT, function(data) {
                     wl = API.getWaitList();
                     for (var i = 0, l = staff.length; i < l; i++) {
                         if (ma[1].substring(1) === wl[i].username) {
-                            alert("found the dj in the waitlist")
                             API.moderateMoveDJ(wl[i].id, ma[2]);
                         } 
                         else {
@@ -91,6 +91,7 @@ API.on(API.CHAT, function(data) {
 */
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,4) === "!add") {
+        API.moderateAddDJ(data.uid)
         alert(JSON.stringify(data));
     }
 });

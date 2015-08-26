@@ -39,7 +39,7 @@ API.on(API.CHAT, function(data) {
                         wl = API.getWaitList();
                         if(wl.length < 50) {
                             alert(JSON.stringify(dj));
-                            setTimeout(function() { API.moderateAddDj(dj.id); }, 3000);
+                            API.moderateAddDJ(JSON.stringify(dj.id));
                             API.moderateMoveDJ(dj.id, 3);
                         }
                     }

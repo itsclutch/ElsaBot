@@ -83,8 +83,25 @@ API.on(API.CHAT, function(data) {
                             }
                         }
                         if (skiparray[1] === "ban") {
-                            API.sendChat("the song you played is so bad you will be banned for an hour in 10 seconds");
-                            API.moderateBanUser(dj.id, 1, API.BAN.HOUR);
+                            API.sendChat("You played a really bad song.  You will be kicked for 1 hour.");
+                            setTimout(delay, 1000);
+                            function delay() {
+                                API.sendChat("PREPARING BAN HAMMER");
+                            }
+                            var seconds;
+                            seconds = 10;
+                            var timer;
+                            timer = setInterval(secondPassed, 1000);
+                            function secondPassed() {
+                                API.sendChat(seconds);
+                                if (seconds === 0) {
+                                    clearInterval(timer);
+                                    API.moderateBanUser(dj.id, 1, API.BAN.HOUR);
+                                }
+                                else {
+                                    seconds--;
+                                }
+                            }
                         }
                     }
                 }

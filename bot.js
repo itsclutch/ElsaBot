@@ -34,7 +34,7 @@ API.on(API.CHAT, function(data) {
                     var dj = [];
                     dj = API.getDJ();
                     API.moderateForceSkip();
-                    if(data.type === "message" && data.message.substring(5) !== null) {
+                    if(data.type === "message" && data.message.substring(5) !== undefined) {
                         var wl = [];
                         wl = API.getWaitList();
                         if(wl.length < 50) {
@@ -91,8 +91,11 @@ API.on(API.CHAT, function(data) {
 */
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,4) === "!add") {
-        API.moderateAddDJ(data.uid)
-        alert(JSON.stringify(data));
+        var addarray = [];
+        addarray = data.message.split(" ");
+        if (addarray[1].substring(1) === me || data.un) {
+            API.moderateAddDJ(JSON.stringify(data.uid));
+        }
     }
 });
 /*

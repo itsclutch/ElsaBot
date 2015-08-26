@@ -47,7 +47,7 @@ API.on(API.CHAT, function(data) {
                                 if (wl.length === 50) {
                                     do {
                                         API.moderateLockWaitList(true, false);
-                                        setTimeout(function() { API.moderateAddDJ(JSON.stringify(dj.id)); , 5000});
+                                        //setTimeout(function myfunction() { API.moderateAddDJ(JSON.stringify(dj.id)); , 5000});
                                         wl = API.getWaitList();
                                     }
                                     while (wl.length === 50);

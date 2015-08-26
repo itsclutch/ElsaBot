@@ -170,11 +170,10 @@ API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
         API.sendChat("the song you played is so bad you will be banned for an hour in 10 seconds");
         var i = 9;
-        do {
-            setTimeout( function() { API.sendChat(i); }, 1000);
-            (i--);
-        }
-        while (i > 0);
+        setInterval( do {
+            API.sendChat(i);
+            i--;
+        }, 1000);
     }
 });
 /*

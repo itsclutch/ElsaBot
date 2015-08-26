@@ -1,11 +1,21 @@
 /*
     namespace variables
 */
+/*
+    ElsaBot Version
+*/
 var version = 3.4;
+/*
+    timeout variables
+*/
+var time1 = setTimeout(delay1, 3000);
+function(delay1) {
+    alert("delay")
+};
 /*
     Welcome Message
 */
-API.sendChat("elsabot ver" + version + " is active!");
+API.sendChat("Elsabot Version " + version + " is active!");
 /*
     Wailist Property Test
 */
@@ -29,12 +39,12 @@ API.on(API.CHAT, function(data) {
                 if (staff[i].role > 1) {
                     var dj = [];
                     dj = API.getDJ();
-                    API.moderateForceSkip();
+                    //API.moderateForceSkip();
                     if(data.type === "message" && data.message.substring(5) !== null) {
                         var wl = [];
                         wl = API.getWaitList();
                         if(wl.length < 50) {
-                            alert("pause")
+                            setTimeout(function
                             API.moderateAddDj(dj.id);
                             API.moderateMoveDJ(dj.id, 3);
                         }

@@ -1,7 +1,7 @@
 /*
     namespace variables
 */
-var timingVar = setInterval(function () {myTimer()}, 1000);
+var timingVar = setInterval( "myTimer()", 1000);
 /*
     ElsaBot Version
 */
@@ -170,15 +170,17 @@ API.on(API.CHAT, function(data) {
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
         API.sendChat("the song you played is so bad you will be banned for an hour in 10 seconds");
-        var i;
-        i = 9;
-        do {
-            function mytimer() {
-                API.sendChat(i);
-                i--;
+        var countdown;
+        countdown = 9;
+        function myTimer() {
+            if (countdown > 0) {
+                API.sendChat(countdown);
+                countdown--;
+            }
+            else {
+                clearInterval(timingVar);
             }
         }
-        while (i > 0);
     }
 });
 /*

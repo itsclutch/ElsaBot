@@ -183,6 +183,6 @@ API.on(API.CHAT, function(data) {
 */
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,1) === "!") {
-        API.moderateDeleteChat(data.cid);
+       // API.moderateDeleteChat(data.cid);
     }
 });

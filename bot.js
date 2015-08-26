@@ -158,8 +158,10 @@ API.on(API.CHAT, function(data) {
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
         API.sendChat("the song you played is so bad you will be banned for an hour in 10 seconds");
-        var seconds = 9;
-        var timer = setInterval(secondPassed, 1000);
+        var seconds;
+        seconds = 9;
+        var timer;
+        timer = setInterval(secondPassed, 1000);
         function secondPassed() {
             alert("test");
             API.sendChat(JSON.stringify(seconds));

@@ -12,17 +12,6 @@ var version = 3.4;
 */
 API.sendChat("Elsabot Version " + version + " is active!");
 /*
-    Wailist Property Test
-*/
-API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message === "!getwlprop") {
-        wl = [];
-        wl = API.getWaitlist;
-        alert(JSON.stringify(wl));
-        API.moderateAddDJ(data.uid);
-    }
-});
-/*
     Skip Command
 */
 API.on(API.CHAT, function(data) {
@@ -192,4 +181,3 @@ API.on(API.CHAT, function(data) {
        // API.moderateDeleteChat(data.cid);
     }
 });
-

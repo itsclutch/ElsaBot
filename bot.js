@@ -86,6 +86,14 @@ API.on(API.CHAT, function(data) {
     }
 });
 /*
+    Add Command
+*/
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message.substring(0,4) === "!add") {
+        API.moderateAddDJ(data.id)
+    }
+});
+/*
     Delete commands from chat
 */
 API.on(API.CHAT, function(data) {

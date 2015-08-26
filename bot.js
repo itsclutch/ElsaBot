@@ -21,6 +21,7 @@ API.on(API.CHAT, function(data) {
 */
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!skip") {
+        alert(data.message.substring(5));
         var staff = [];
         staff = API.getStaff();
         for (var i = 0, l = staff.length; i < l; i++) {
@@ -30,7 +31,6 @@ API.on(API.CHAT, function(data) {
                     dj = API.getDJ();
                     API.moderateForceSkip();
                     if(data.type === "message" && data.message.substring(5) !== null) {
-                        alert(data.message.substring(5));
                         var wl = [];
                         wl = API.getWaitList();
                         if(wl.length < 50) {

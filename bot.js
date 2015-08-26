@@ -95,10 +95,6 @@ API.on(API.CHAT, function(data) {
                         }
                         if (skiparray[1] === "ban") {
                             API.sendChat("the song you played is so bad you will be banned for an hour in 10 seconds");
-                            for( var i = 9; i > 0 ; i-- ) {
-                                setTimeout(function() { API.sendchat(i); } , 1000);
-                                i = (i - 1);
-                            }
                             API.moderateBanUser(dj.id, 1, API.BAN.HOUR);
                         }
                     }

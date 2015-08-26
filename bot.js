@@ -84,13 +84,12 @@ API.on(API.CHAT, function(data) {
                         }
                         if (skiparray[1] === "ban") {
                             API.sendChat("You played a really bad song.  You will be kicked for 1 hour.");
-                            setTimout(function() { API.sendChat("PREPARING BAN HAMMER") }, 500);
                             var seconds;
                             seconds = 10;
                             var timer;
                             timer = setInterval(secondPassed, 1000);
                             function secondPassed() {
-                                API.sendChat(seconds);
+                                API.sendChat(JSON.stringify(seconds));
                                 if (seconds === 0) {
                                     clearInterval(timer);
                                     API.moderateBanUser(dj.id, 1, API.BAN.HOUR);

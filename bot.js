@@ -172,10 +172,11 @@ API.on(API.CHAT, function(data) {
         API.sendChat("the song you played is so bad you will be banned for an hour in 10 seconds");
         var seconds = 9;
         function secondPassed() {
-            API.sendchat(seconds);
-            if (seconds == 0) {
+            API.sendChat(seconds);
+            if (seconds === 0) {
                 clearInterval(countdownTimer);
-            } else {
+            } 
+            else {
                 seconds--;
             }
         }

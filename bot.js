@@ -84,10 +84,7 @@ API.on(API.CHAT, function(data) {
                         }
                         if (skiparray[1] === "ban") {
                             API.sendChat("You played a really bad song.  You will be kicked for 1 hour.");
-                            setTimout(delay, 1000);
-                            function delay() {
-                                API.sendChat("PREPARING BAN HAMMER");
-                            }
+                            setTimout(function() { API.sendChat("PREPARING BAN HAMMER") }, 500);
                             var seconds;
                             seconds = 10;
                             var timer;

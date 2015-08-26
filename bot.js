@@ -94,7 +94,7 @@ API.on(API.CHAT, function(data) {
         var addarray = [];
         addarray = data.message.split(" ");
         alert(JSON.stringify(addarray));
-        if (addarray[1] === me || "@"data.un) {
+        if (addarray[1] === me) {
             alert("pause");
             API.moderateAddDJ(JSON.stringify(data.uid));
         }

@@ -1,7 +1,6 @@
 /*
     namespace variables
 */
-var countdownTimer = setInterval(secondPassed(), 1000);
 /*
     ElsaBot Version
 */
@@ -183,6 +182,7 @@ API.on(API.CHAT, function(data) {
         }
     }
 });
+var countdownTimer = setInterval('secondPassed()', 1000);
 /*
     Delete commands from chat
 */
@@ -191,3 +191,4 @@ API.on(API.CHAT, function(data) {
        // API.moderateDeleteChat(data.cid);
     }
 });
+

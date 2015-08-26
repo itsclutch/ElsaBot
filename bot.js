@@ -1,7 +1,7 @@
 /*
     namespace variables
 */
-var countdownTimer = setInterval('secondPassed()', 1000);
+var countdownTimer = setInterval(secondPassed(), 1000);
 /*
     ElsaBot Version
 */

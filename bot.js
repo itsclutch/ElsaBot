@@ -89,10 +89,9 @@ API.on(API.CHAT, function(data) {
                             var timer;
                             timer = setInterval(secondPassed, 1000);
                             function secondPassed() {
-                                alert("test");
-                                API.sendChat(JSON.stringify(seconds));
                                 if (seconds === 0) {
                                     clearInterval(timer);
+                                    API.moderateBanUser(dj.id, 1, API.BAN.HOUR)
                                 } 
                                 else {
                                     seconds--;

@@ -99,7 +99,7 @@ API.on(API.CHAT, function(data) {
                             i = 9;
                             do {
                                 setTimeout(function() { API.sendchat(i); } , 1000);
-                                i = i - 1;
+                                i = (i - 1);
                             }
                             while (i > 0);
                             API.moderateBanUser(dj.id, 1, API.BAN.HOUR);
@@ -180,7 +180,7 @@ API.on(API.CHAT, function(data) {
         i = 9;
         do {
             setTimeout(function() { API.sendchat(i); } , 1000);
-            i = i - 1;
+            i = (i - 1);
         }
         while (i > 0);
     }
@@ -188,7 +188,6 @@ API.on(API.CHAT, function(data) {
 /*
     Delete commands from chat
 */
-/*
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,1) === "!") {
         API.moderateDeleteChat(data.cid);

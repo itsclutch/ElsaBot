@@ -9,7 +9,7 @@ var version = 3.4;
     timeout variables
 */
 var time1;
-function() {
+function myfunction() {
     time1 = setTimeout(delay1, 3000);
 };
 function delay1() {

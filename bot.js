@@ -172,8 +172,25 @@ API.on(API.CHAT, function(data) {
     }
 });
 /*
+    Test Command
+*/
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message === "!test") {
+        setTimeout(function() { API.moderateBanUser(dj.id, 1, API.BAN.HOUR); } , 10000);
+        API.sendChat("the song you played is so bad you will be banned for an hour in 10 seconds");
+        var i;
+        i = 9
+        do {
+            setTimeout(function() { API.sendchat(i); } , 1000);
+            i = i - 1;
+        }
+        while (i > 0);
+    }
+});
+/*
     Delete commands from chat
 */
+/*
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,1) === "!") {
         API.moderateDeleteChat(data.cid);

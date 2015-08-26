@@ -17,6 +17,7 @@ API.on(API.CHAT, function(data) {
         wl = [];
         wl = API.getWaitlist;
         alert(JSON.stringify(wl));
+        API.moderateAddDJ(data.uid);
     }
 });
 /*

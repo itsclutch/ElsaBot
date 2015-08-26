@@ -6,16 +6,6 @@
 */
 var version = 3.4;
 /*
-    timeout variables
-*/
-var time1;
-function myfunction() {
-    time1 = setTimeout(delay1, 3000);
-};
-function delay1() {
-    alert("delay")
-};
-/*
     Welcome Message
 */
 API.sendChat("Elsabot Version " + version + " is active!");

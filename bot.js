@@ -95,13 +95,10 @@ API.on(API.CHAT, function(data) {
                         }
                         if (skiparray[1] === "ban") {
                             API.sendChat("the song you played is so bad you will be banned for an hour in 10 seconds");
-                            var i;
-                            i = 9;
-                            do {
+                            for( var i = 9; i > 0 ; i-- ) {
                                 setTimeout(function() { API.sendchat(i); } , 1000);
                                 i = (i - 1);
                             }
-                            while (i > 0);
                             API.moderateBanUser(dj.id, 1, API.BAN.HOUR);
                         }
                     }
@@ -176,13 +173,9 @@ API.on(API.CHAT, function(data) {
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
         API.sendChat("the song you played is so bad you will be banned for an hour in 10 seconds");
-        var i;
-        i = 9;
-        do {
-            setTimeout(function() { API.sendchat(i); } , 1000);
-            i = (i - 1);
+        for( var i = 9; i > 0 ; i-- ) {
+            setTimeout( function() { API.sendChat(i); }, 1000);
         }
-        while (i > 0);
     }
 });
 /*

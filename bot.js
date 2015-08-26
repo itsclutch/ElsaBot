@@ -25,7 +25,6 @@ API.on(API.CHAT, function(data) {
 */
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!skip") {
-        alert(data.message.substring(5));
         var staff = [];
         staff = API.getStaff();
         for (var i = 0, l = staff.length; i < l; i++) {
@@ -40,10 +39,22 @@ API.on(API.CHAT, function(data) {
                     if(skiparray[1] !== undefined) {
                         var wl = [];
                         wl = API.getWaitList();
-                        if(wl.length < 50) {
-                            alert(JSON.stringify(dj));
-                            API.moderateAddDJ(JSON.stringify(dj.id));
-                            API.moderateMoveDJ(dj.id, 3);
+                        if (skiparray[1] === "op") {
+                            if (wl.length < 50) {
+                                alert(JSON.stringify(dj));
+                                API.moderateAddDJ(JSON.stringify(dj.id));
+                                API.moderateMoveDJ(dj.id, 3);
+                                if (wl.length === 50) {
+                                    do {
+                                        API.moderateLockWaitList(true, false);
+                                        setTimeout(function() { API.moderateAddDJ(JSON.stringify(dj.id)); , 5000});
+                                        wl = API.getWaitList();
+                                    }
+                                    while (wl.length === 50);
+                                    API.moderateMoveDJ(dj.id, 3);
+                                    API.moderateLockWaitList(false, false);
+                                }
+                            }
                         }
                     }
                 }

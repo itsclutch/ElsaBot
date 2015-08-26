@@ -1,7 +1,7 @@
 /*
     namespace variables
 */
-var timingVar = setInterval( "myTimer()", 1000);
+var countdownTimer = setInterval('secondPassed()', 1000);
 /*
     ElsaBot Version
 */
@@ -170,15 +170,13 @@ API.on(API.CHAT, function(data) {
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
         API.sendChat("the song you played is so bad you will be banned for an hour in 10 seconds");
-        var countdown;
-        countdown = 9;
-        function myTimer() {
-            if (countdown > 0) {
-                API.sendChat(countdown);
-                countdown--;
-            }
-            else {
-                clearInterval(timingVar);
+        var seconds = 9;
+        function secondPassed() {
+            API.sendchat(seconds);
+            if (seconds == 0) {
+                clearInterval(countdownTimer);
+            } else {
+                seconds--;
             }
         }
     }

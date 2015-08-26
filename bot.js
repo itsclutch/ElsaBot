@@ -96,7 +96,7 @@ API.on(API.CHAT, function(data) {
                         if (skiparray[1] === "ban") {
                             API.sendChat("the song you played is so bad you will be banned for an hour in 10 seconds");
                             var i;
-                            i = 9
+                            i = 9;
                             do {
                                 setTimeout(function() { API.sendchat(i); } , 1000);
                                 i = i - 1;
@@ -177,7 +177,7 @@ API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
         API.sendChat("the song you played is so bad you will be banned for an hour in 10 seconds");
         var i;
-        i = 9
+        i = 9;
         do {
             setTimeout(function() { API.sendchat(i); } , 1000);
             i = i - 1;

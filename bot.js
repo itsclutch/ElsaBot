@@ -8,8 +8,11 @@ var version = 3.4;
 /*
     timeout variables
 */
-var time1 = setTimeout(delay1, 3000);
-function(delay1) {
+var time1;
+function() {
+    time1 = setTimeout(delay1, 3000);
+};
+function delay1() {
     alert("delay")
 };
 /*

@@ -184,7 +184,30 @@ API.on(API.CHAT, function(data) {
                             API.moderateMoveDJ(wl[i].id, ma[2]);
                         } 
                         else {
-                            if (wl.length < 50) {
+                            var allusers = [];
+                            allusers = API.getUsers();
+                            for (var i = 0, l = allusers.length; i < l; i++) {
+                                if (ma[1].substring(1) === allusers[i].username) {
+                                    if (wl.length < 50) {
+                                        API.moderateAddDJ(JSON.stringify(allusers[i].id));
+                                        API.moderateMoveDJ(allusers[i].id, ma[2]);
+                                    }
+                                    else {
+                                        API.moderateLockWaitList(true, false);
+                                        var timer;
+                                        timer = setInterval(secondPassed, 1000);
+                                        function secondPassed() {
+                                            if (wl.length < 50) {
+                                                clearInterval(timer);
+                                                API.moderateAddDJ(JSON.stringify(allusers[i].id));
+                                                API.moderateLockWaitList(false, false);
+                                            } 
+                                            else {
+                                                wl = API.getWaitList();
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }    

@@ -4,7 +4,7 @@
 /*
     ElsaBot Version
 */
-var version = 5.2;
+var version = 5.3;
 /*
     Welcome Message
 */
@@ -268,7 +268,6 @@ API.on(API.CHAT, function(data) {
 /*
     Dc lookup
 */
-var lastChat = [];
 /*
     Test Command
 */

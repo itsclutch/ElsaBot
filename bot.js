@@ -4,7 +4,7 @@
 /*
     ElsaBot Version
 */
-var version = 3.4;
+var version = 5.0;
 /*
     Welcome Message
 */

@@ -287,9 +287,9 @@ API.on(API.USER_LEAVE, function(data) {
 */
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
-        var time;
-        time = getTime();
-        alert(JSON.stringify(time));
+        var d = new Date();
+        var n = d.getTime();
+        alert(JSON.stringify(n));
     }
 });
 /*

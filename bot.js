@@ -4,7 +4,7 @@
 /*
     ElsaBot Version
 */
-var version = 5.4;
+var version = 5.5;
 /*
     Welcome Message
 */
@@ -289,7 +289,8 @@ API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
         var d = new Date();
         var n = d.getTime();
-        alert(n);
+        alert("hello");
+        alert(JSON.stringify(n));
     }
 });
 /*

@@ -269,7 +269,7 @@ API.on(API.CHAT, function(data) {
 */
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
-        API.sendChat("the song you played is so bad you will be banned for an hour in 10 seconds");
+        alert(JSON.stringify(data));
     }
 });
 /*

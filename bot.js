@@ -262,7 +262,6 @@ API.on(API.CHAT, function(data) {
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!join") {
         API.moderateAddDJ(JSON.stringify(data.uid));
-        alert(JSON.stringify(18:00 - 17:00));
     }
 });
 /*

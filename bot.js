@@ -28,48 +28,48 @@ API.on(API.CHAT, function(data) {
                     if(skiparray[1] !== undefined) {
                         var wl = [];
                         wl = API.getWaitList();
-                        if (skiparray[1] === "op") {
-                            API.sendChat("@" + dj.username + " That song is overplayed. Please pick a fresher song.");
+                        if (skiparray[1] === "bl") {
+                            API.sendChat("@" + dj.username + " That song is on the room's blacklist. Please pick a different song.");
                             if (wl.length < 50) {
                                 alert(JSON.stringify(dj));
                                 API.moderateAddDJ(JSON.stringify(dj.id));
                                 API.moderateMoveDJ(dj.id, 3);
-                                if (wl.length === 50) {
-                                    API.moderateLockWaitList(true, false);
-                                    var timer;
-                                    timer = setInterval(secondPassed, 1000);
-                                    function secondPassed() {
-                                        if (wl.length < 50) {
-                                            clearInterval(timer);
-                                            API.moderateAddDJ(JSON.stringify(dj.id));
-                                            API.moderateLockWaitList(false, false);
-                                        } 
-                                        else {
-                                            wl = API.getWaitList();
-                                        }
+                            }
+                            else {
+                                API.moderateLockWaitList(true, false);
+                                var timer;
+                                timer = setInterval(secondPassed, 1000);
+                                function secondPassed() {
+                                    if (wl.length < 50) {
+                                        clearInterval(timer);
+                                        API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateLockWaitList(false, false);
+                                    } 
+                                    else {
+                                        wl = API.getWaitList();
                                     }
                                 }
                             }
                         }
-                        if (skiparray[1] === "theme") {
-                            API.sendChat("@" + dj.username + " That song does not fit the room theme. Please pick a different song.");
+                        if (skiparray[1] === "op") {
+                            API.sendChat("@" + dj.username + " That song is over played. Please pick a fresher song.");
                             if (wl.length < 50) {
                                 alert(JSON.stringify(dj));
                                 API.moderateAddDJ(JSON.stringify(dj.id));
                                 API.moderateMoveDJ(dj.id, 3);
-                                if (wl.length === 50) {
-                                    API.moderateLockWaitList(true, false);
-                                    var timer;
-                                    timer = setInterval(secondPassed, 1000);
-                                    function secondPassed() {
-                                        if (wl.length < 50) {
-                                            clearInterval(timer);
-                                            API.moderateAddDJ(JSON.stringify(dj.id));
-                                            API.moderateLockWaitList(false, false);
-                                        } 
-                                        else {
-                                            wl = API.getWaitList();
-                                        }
+                            }
+                            else {
+                                API.moderateLockWaitList(true, false);
+                                var timer;
+                                timer = setInterval(secondPassed, 1000);
+                                function secondPassed() {
+                                    if (wl.length < 50) {
+                                        clearInterval(timer);
+                                        API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateLockWaitList(false, false);
+                                    } 
+                                    else {
+                                        wl = API.getWaitList();
                                     }
                                 }
                             }
@@ -77,44 +77,68 @@ API.on(API.CHAT, function(data) {
                         if (skiparray[1] === "nsfw") {
                             API.sendChat("@" + dj.username + " That song is NSFW. Please pick a cleaner song.");
                             if (wl.length < 50) {
+                                alert(JSON.stringify(dj));
                                 API.moderateAddDJ(JSON.stringify(dj.id));
                                 API.moderateMoveDJ(dj.id, 3);
-                                if (wl.length === 50) {
-                                    API.moderateLockWaitList(true, false);
-                                    var timer;
-                                    timer = setInterval(secondPassed, 1000);
-                                    function secondPassed() {
-                                        if (wl.length < 50) {
-                                            clearInterval(timer);
-                                            API.moderateAddDJ(JSON.stringify(dj.id));
-                                            API.moderateLockWaitList(false, false);
-                                        } 
-                                        else {
-                                            wl = API.getWaitList();
-                                        }
+                            }
+                            else {
+                                API.moderateLockWaitList(true, false);
+                                var timer;
+                                timer = setInterval(secondPassed, 1000);
+                                function secondPassed() {
+                                    if (wl.length < 50) {
+                                        clearInterval(timer);
+                                        API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateLockWaitList(false, false);
+                                    } 
+                                    else {
+                                        wl = API.getWaitList();
                                     }
                                 }
                             }
                         }
-                        if (skiparray[1] === "bl") {
-                            API.sendChat("@" + dj.username + " That song is on the room's blacklist. Please pick a different song.");
+                        if (skiparray[1] === "theme") {
+                            API.sendChat("@" + dj.username + " That song doesnt fit the room's theme. Please pick a different song.");
                             if (wl.length < 50) {
                                 alert(JSON.stringify(dj));
                                 API.moderateAddDJ(JSON.stringify(dj.id));
                                 API.moderateMoveDJ(dj.id, 3);
-                                if (wl.length === 50) {
-                                    API.moderateLockWaitList(true, false);
-                                    var timer;
-                                    timer = setInterval(secondPassed, 1000);
-                                    function secondPassed() {
-                                        if (wl.length < 50) {
-                                            clearInterval(timer);
-                                            API.moderateAddDJ(JSON.stringify(dj.id));
-                                            API.moderateLockWaitList(false, false);
-                                        } 
-                                        else {
-                                            wl = API.getWaitList();
-                                        }
+                            }
+                            else {
+                                API.moderateLockWaitList(true, false);
+                                var timer;
+                                timer = setInterval(secondPassed, 1000);
+                                function secondPassed() {
+                                    if (wl.length < 50) {
+                                        clearInterval(timer);
+                                        API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateLockWaitList(false, false);
+                                    } 
+                                    else {
+                                        wl = API.getWaitList();
+                                    }
+                                }
+                            }
+                        }
+                        if (skiparray[1] === "vibe") {
+                            API.sendChat("@" + dj.username + " You just killed the vibe. Please try again.");
+                            if (wl.length < 50) {
+                                alert(JSON.stringify(dj));
+                                API.moderateAddDJ(JSON.stringify(dj.id));
+                                API.moderateMoveDJ(dj.id, 3);
+                            }
+                            else {
+                                API.moderateLockWaitList(true, false);
+                                var timer;
+                                timer = setInterval(secondPassed, 1000);
+                                function secondPassed() {
+                                    if (wl.length < 50) {
+                                        clearInterval(timer);
+                                        API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateLockWaitList(false, false);
+                                    } 
+                                    else {
+                                        wl = API.getWaitList();
                                     }
                                 }
                             }
@@ -160,17 +184,7 @@ API.on(API.CHAT, function(data) {
                             API.moderateMoveDJ(wl[i].id, ma[2]);
                         } 
                         else {
-                            API.moderateLockWaitList(true, false);
-                            var all = [];
-                            all = API.getUsers();
-                            for (var i = 0, l = all.length; i < l; i++) {
-                                if (ma[1].substring(1) === all[i].username) {
-                                    if(wl.length < 50) {
-                                        API.moderateAddDj(all[i].id);
-                                        API.moderateMoveDJ(wl[i].id, ma[2]);
-                                        API.moderateLockWaitList(false, false);
-                                    }
-                                }
+                            if (wl.length < 50) {
                             }
                         }
                     }    

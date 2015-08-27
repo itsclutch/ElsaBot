@@ -4,7 +4,7 @@
 /*
     ElsaBot Version
 */
-var version = 5.0;
+var version = 5.1;
 /*
     Welcome Message
 */
@@ -215,10 +215,39 @@ API.on(API.CHAT, function(data) {
 */
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,4) === "!add") {
-        var addarray = [];
-        addarray = data.message.split(" ");
-        if (addarray[1] === "me") {
-            API.moderateAddDJ(JSON.stringify(data.uid));
+        var staff = [];
+        staff = API.getStaff();
+        for (var i = 0, l = staff.length; i < l; i++) {
+            if (data.un === staff[i].username) {
+                if (staff[i].role > 1) {
+                    var addarray = [];
+                    addarray = data.message.split(" ");
+                    var allusers = [];
+                    allusers = API.getUsers();
+                    for (var i = 0, l = allusers.length; i < l; i++) {
+                        if (allusers[i].username === addarray[1].substring(1)) {
+                            if (wl.length < 50) {
+                                API.moderateAddDJ(JSON.stringify(allusers[i].id));
+                            }
+                            else {
+                                API.moderateLockWaitList(true, false);
+                                var timer;
+                                timer = setInterval(secondPassed, 1000);
+                                function secondPassed() {
+                                    if (wl.length < 50) {
+                                        clearInterval(timer);
+                                        API.moderateAddDJ(JSON.stringify(allusers[i].id));
+                                        API.moderateLockWaitList(false, false);
+                                    } 
+                                    else {
+                                        wl = API.getWaitList();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 });

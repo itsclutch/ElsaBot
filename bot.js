@@ -29,6 +29,7 @@ API.on(API.CHAT, function(data) {
                         var wl = [];
                         wl = API.getWaitList();
                         if (skiparray[1] === "op") {
+                            API.sendChat("@" + dj.username + " That song is overplayed. Please pick a fresher song.");
                             if (wl.length < 50) {
                                 alert(JSON.stringify(dj));
                                 API.moderateAddDJ(JSON.stringify(dj.id));
@@ -51,6 +52,7 @@ API.on(API.CHAT, function(data) {
                             }
                         }
                         if (skiparray[1] === "theme") {
+                            API.sendChat("@" + dj.username + " That song does not fit the room theme. Please pick a different song.");
                             if (wl.length < 50) {
                                 alert(JSON.stringify(dj));
                                 API.moderateAddDJ(JSON.stringify(dj.id));
@@ -73,8 +75,8 @@ API.on(API.CHAT, function(data) {
                             }
                         }
                         if (skiparray[1] === "nsfw") {
+                            API.sendChat("@" + dj.username + " That song is NSFW. Please pick a cleaner song.");
                             if (wl.length < 50) {
-                                alert(JSON.stringify(dj));
                                 API.moderateAddDJ(JSON.stringify(dj.id));
                                 API.moderateMoveDJ(dj.id, 3);
                                 if (wl.length === 50) {
@@ -95,9 +97,9 @@ API.on(API.CHAT, function(data) {
                             }
                         }
                         if (skiparray[1] === "ban") {
-                            API.sendChat("You played a really bad song.  You will be kicked for 1 hour.");
+                            API.sendChat("@" + dj.username + " You played a really bad song.  You will be kicked for 1 hour.");
                             var seconds;
-                            seconds = 9;
+                            seconds = 5;
                             var timer;
                             timer = setInterval(secondPassed, 1000);
                             function secondPassed() {

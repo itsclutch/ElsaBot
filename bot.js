@@ -4,7 +4,7 @@
 /*
     ElsaBot Version
 */
-var version = 5.6;
+var version = 5.7;
 /*
     Welcome Message
 */
@@ -277,15 +277,57 @@ API.on(API.ADVANCE, function(data) {
     globaWaitList = API.getWaitList();
     var d = new Date();
     var n = d.getTime();
-    for (var i = 0, l = wl.length; i < l; i++) {
+    for (var i = 0, l = dcTime.length; i < l; i++) {
+        var g = (n - dcTime[i]);
+        if (g > 3600000) {
+            dcTime.splice(i, 1);
+            dcListPos.splice(i, 1);
+            dcListId.splice(i, 1);
+        }
     }
 });
 API.on(API.USER_LEAVE, function(data) {
-    for (var i = 0, l = wl.length; i < l; i++) {
+    for (var i = 0, l = globalWaitList.length; i < l; i++) {
         if (globalWaitList[i].username === data.username) {
+            var d = new Date();
+            var n = d.getTime();
             dcListId.push(data.username);
             dcListPos.push(i);
-            
+            dcTime.push(n);
+        }
+    }
+});
+API.on(API.USER_JOIN, function(data) {
+    for (var i = 0, l = dcListId.length; i < l; i++) {
+        if (data.id === dcListId[i]) {
+            wl = [];
+            wl = API.getWaitlist();
+            if (wl.length < 50) {
+                API.moderateAddDJ(JSON.stringify(data.id));
+                API.moderateMoveDJ(data.id, dcListPos[i]);
+                dcTime.splice(i, 1);
+                dcListPos.splice(i, 1);
+                dcListId.splice(i, 1);
+            }
+            else {
+                API.moderateLockWaitList(true, false);
+                var timer;
+                timer = setInterval(secondPassed, 1000);
+                function secondPassed() {
+                    if (wl.length < 50) {
+                        clearInterval(timer);
+                        API.moderateAddDJ(JSON.stringify(data.id));
+                        API.moderateMoveDJ(data.id, dcListPos[i]);
+                        API.moderateLockWaitList(false, false);
+                        dcTime.splice(i, 1);
+                        dcListPos.splice(i, 1);
+                        dcListId.splice(i, 1);
+                    } 
+                    else {
+                        wl = API.getWaitList();
+                    }
+                }
+            }
         }
     }
 });

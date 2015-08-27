@@ -276,7 +276,6 @@ API.on(API.ADVANCE, function(data) {
     var d = new Date();
     var n = d.getTime();
     for (var i = 0, l = wl.length; i < l; i++) {
-        }
     }
 });
 API.on(API.USER_LEAVE, function(data) {

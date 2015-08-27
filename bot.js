@@ -1,7 +1,4 @@
 /*
-    namespace variables
-*/
-/*
     ElsaBot Version
 */
 var version = 5.7;

@@ -289,7 +289,7 @@ API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
         var d = new Date();
         var n = d.getTime();
-        alert(JSON.stringify(n));
+        alert(n);
     }
 });
 /*

@@ -96,6 +96,29 @@ API.on(API.CHAT, function(data) {
                                 }
                             }
                         }
+                        if (skiparray[1] === "bl") {
+                            API.sendChat("@" + dj.username + " That song is on the room's blacklist. Please pick a different song.");
+                            if (wl.length < 50) {
+                                alert(JSON.stringify(dj));
+                                API.moderateAddDJ(JSON.stringify(dj.id));
+                                API.moderateMoveDJ(dj.id, 3);
+                                if (wl.length === 50) {
+                                    API.moderateLockWaitList(true, false);
+                                    var timer;
+                                    timer = setInterval(secondPassed, 1000);
+                                    function secondPassed() {
+                                        if (wl.length < 50) {
+                                            clearInterval(timer);
+                                            API.moderateAddDJ(JSON.stringify(dj.id));
+                                            API.moderateLockWaitList(false, false);
+                                        } 
+                                        else {
+                                            wl = API.getWaitList();
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         if (skiparray[1] === "ban") {
                             API.sendChat("@" + dj.username + " You played a really bad song.  You will be kicked for 1 hour.");
                             var seconds;

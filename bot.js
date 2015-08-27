@@ -225,6 +225,8 @@ API.on(API.CHAT, function(data) {
         for (var i = 0, l = staff.length; i < l; i++) {
             if (data.un === staff[i].username) {
                 if (staff[i].role > 1) {
+                    var wl = [];
+                    wl = API.getWaitList();
                     var addarray = [];
                     addarray = data.message.split(" ");
                     var allusers = [];

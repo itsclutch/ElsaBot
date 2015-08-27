@@ -217,7 +217,7 @@ API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,4) === "!add") {
         var addarray = [];
         addarray = data.message.split(" ");
-        if (addarray[1] === "me) {
+        if (addarray[1] === "me") {
             API.moderateAddDJ(JSON.stringify(data.uid));
         }
     }

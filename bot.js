@@ -34,15 +34,18 @@ API.on(API.CHAT, function(data) {
                                 API.moderateAddDJ(JSON.stringify(dj.id));
                                 API.moderateMoveDJ(dj.id, 3);
                                 if (wl.length === 50) {
-                                    do {
-                                        API.moderateLockWaitList(true, false);
-                                        setTimeout(function() { API.moderateAddDJ(JSON.stringify(dj.id)); } , 5000);
+                                    API.moderateLockWaitList(true, false);
+                                    var timer;
+                                    timer = setInterval(secondPassed, 1000);
+                                    function secondPassed() {
+                                    if (wl.length < 50) {
+                                        clearInterval(timer);
+                                        API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateLockWaitList(false, false);
+                                    } 
+                                    else {
                                         wl = API.getWaitList();
                                     }
-                                    while (wl.length === 50);
-                                    API.moderateMoveDJ(dj.id, 3);
-                                    API.moderateLockWaitList(false, false);
-                                    API.sendChat(data.un + " skipped the song because it's overplayed.")
                                 }
                             }
                         }
@@ -52,15 +55,18 @@ API.on(API.CHAT, function(data) {
                                 API.moderateAddDJ(JSON.stringify(dj.id));
                                 API.moderateMoveDJ(dj.id, 3);
                                 if (wl.length === 50) {
-                                    do {
-                                        API.moderateLockWaitList(true, false);
-                                        setTimeout(function() { API.moderateAddDJ(JSON.stringify(dj.id)); } , 5000);
+                                    API.moderateLockWaitList(true, false);
+                                    var timer;
+                                    timer = setInterval(secondPassed, 1000);
+                                    function secondPassed() {
+                                    if (wl.length < 50) {
+                                        clearInterval(timer);
+                                        API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateLockWaitList(false, false);
+                                    } 
+                                    else {
                                         wl = API.getWaitList();
                                     }
-                                    while (wl.length === 50);
-                                    API.moderateMoveDJ(dj.id, 3);
-                                    API.moderateLockWaitList(false, false);
-                                    API.sendChat(data.un + " skipped the song because it doesn't fit the room theme.")
                                 }
                             }
                         }
@@ -70,15 +76,18 @@ API.on(API.CHAT, function(data) {
                                 API.moderateAddDJ(JSON.stringify(dj.id));
                                 API.moderateMoveDJ(dj.id, 3);
                                 if (wl.length === 50) {
-                                    do {
-                                        API.moderateLockWaitList(true, false);
-                                        setTimeout(function() { API.moderateAddDJ(JSON.stringify(dj.id)); } , 5000);
+                                    API.moderateLockWaitList(true, false);
+                                    var timer;
+                                    timer = setInterval(secondPassed, 1000);
+                                    function secondPassed() {
+                                    if (wl.length < 50) {
+                                        clearInterval(timer);
+                                        API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateLockWaitList(false, false);
+                                    } 
+                                    else {
                                         wl = API.getWaitList();
                                     }
-                                    while (wl.length === 50);
-                                    API.moderateMoveDJ(dj.id, 3);
-                                    API.moderateLockWaitList(false, false);
-                                    API.sendChat(data.un + " skipped the song because it's NSFW.")
                                 }
                             }
                         }

@@ -38,13 +38,14 @@ API.on(API.CHAT, function(data) {
                                     var timer;
                                     timer = setInterval(secondPassed, 1000);
                                     function secondPassed() {
-                                    if (wl.length < 50) {
-                                        clearInterval(timer);
-                                        API.moderateAddDJ(JSON.stringify(dj.id));
-                                        API.moderateLockWaitList(false, false);
-                                    } 
-                                    else {
-                                        wl = API.getWaitList();
+                                        if (wl.length < 50) {
+                                            clearInterval(timer);
+                                            API.moderateAddDJ(JSON.stringify(dj.id));
+                                            API.moderateLockWaitList(false, false);
+                                        } 
+                                        else {
+                                            wl = API.getWaitList();
+                                        }
                                     }
                                 }
                             }
@@ -59,13 +60,14 @@ API.on(API.CHAT, function(data) {
                                     var timer;
                                     timer = setInterval(secondPassed, 1000);
                                     function secondPassed() {
-                                    if (wl.length < 50) {
-                                        clearInterval(timer);
-                                        API.moderateAddDJ(JSON.stringify(dj.id));
-                                        API.moderateLockWaitList(false, false);
-                                    } 
-                                    else {
-                                        wl = API.getWaitList();
+                                        if (wl.length < 50) {
+                                            clearInterval(timer);
+                                            API.moderateAddDJ(JSON.stringify(dj.id));
+                                            API.moderateLockWaitList(false, false);
+                                        } 
+                                        else {
+                                            wl = API.getWaitList();
+                                        }
                                     }
                                 }
                             }
@@ -80,13 +82,14 @@ API.on(API.CHAT, function(data) {
                                     var timer;
                                     timer = setInterval(secondPassed, 1000);
                                     function secondPassed() {
-                                    if (wl.length < 50) {
-                                        clearInterval(timer);
-                                        API.moderateAddDJ(JSON.stringify(dj.id));
-                                        API.moderateLockWaitList(false, false);
-                                    } 
-                                    else {
-                                        wl = API.getWaitList();
+                                        if (wl.length < 50) {
+                                            clearInterval(timer);
+                                            API.moderateAddDJ(JSON.stringify(dj.id));
+                                            API.moderateLockWaitList(false, false);
+                                        } 
+                                        else {
+                                            wl = API.getWaitList();
+                                        }
                                     }
                                 }
                             }

@@ -4,7 +4,7 @@
 /*
     ElsaBot Version
 */
-var version = 5.1;
+var version = 5.2;
 /*
     Welcome Message
 */
@@ -41,6 +41,7 @@ API.on(API.CHAT, function(data) {
                                     if (wl.length < 50) {
                                         clearInterval(timer);
                                         API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateMoveDJ(dj.id, 3);
                                         API.moderateLockWaitList(false, false);
                                     } 
                                     else {
@@ -63,6 +64,7 @@ API.on(API.CHAT, function(data) {
                                     if (wl.length < 50) {
                                         clearInterval(timer);
                                         API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateMoveDJ(dj.id, 3);
                                         API.moderateLockWaitList(false, false);
                                     } 
                                     else {
@@ -85,6 +87,7 @@ API.on(API.CHAT, function(data) {
                                     if (wl.length < 50) {
                                         clearInterval(timer);
                                         API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateMoveDJ(dj.id, 3);
                                         API.moderateLockWaitList(false, false);
                                     } 
                                     else {
@@ -107,6 +110,7 @@ API.on(API.CHAT, function(data) {
                                     if (wl.length < 50) {
                                         clearInterval(timer);
                                         API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateMoveDJ(dj.id, 3);
                                         API.moderateLockWaitList(false, false);
                                     } 
                                     else {
@@ -129,6 +133,7 @@ API.on(API.CHAT, function(data) {
                                     if (wl.length < 50) {
                                         clearInterval(timer);
                                         API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateMoveDJ(dj.id, 3);
                                         API.moderateLockWaitList(false, false);
                                     } 
                                     else {

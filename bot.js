@@ -4,7 +4,7 @@
 /*
     ElsaBot Version
 */
-var version = 5.3;
+var version = 5.4;
 /*
     Welcome Message
 */
@@ -267,12 +267,29 @@ API.on(API.CHAT, function(data) {
 /*
     Dc lookup
 */
+var dcListPos = [];
+var dcListId = [];
+var globalWaitList = [];
+API.on(API.ADVANCE, function(data) {
+    globaWaitList = API.getWaitList();
+});
+API.on(API.USER_LEAVE, function(data) {
+    for (var i = 0, l = wl.length; i < l; i++) {
+        if (globalWaitList[i].username === data.username) {
+            dcListId.push(data.username);
+            dcListPos.push(i);
+            
+        }
+    }
+});
 /*
     Test Command
 */
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
-        alert(JSON.stringify(data));
+        var time;
+        time = getTime();
+        alert(JSON.stringify(time));
     }
 });
 /*

@@ -24,14 +24,12 @@ API.on(API.CHAT, function(data) {
                     API.moderateForceSkip();
                     var skiparray = [];
                     skiparray = data.message.split(" ");
-                    alert(skiparray[1]);
                     if(skiparray[1] !== undefined) {
                         var wl = [];
                         wl = API.getWaitList();
                         if (skiparray[1] === "bl") {
                             API.sendChat("@" + dj.username + " That song is on the room's blacklist. Please pick a different song.");
                             if (wl.length < 50) {
-                                alert(JSON.stringify(dj));
                                 API.moderateAddDJ(JSON.stringify(dj.id));
                                 API.moderateMoveDJ(dj.id, 3);
                             }
@@ -54,7 +52,6 @@ API.on(API.CHAT, function(data) {
                         if (skiparray[1] === "op") {
                             API.sendChat("@" + dj.username + " That song is over played. Please pick a fresher song.");
                             if (wl.length < 50) {
-                                alert(JSON.stringify(dj));
                                 API.moderateAddDJ(JSON.stringify(dj.id));
                                 API.moderateMoveDJ(dj.id, 3);
                             }
@@ -77,7 +74,6 @@ API.on(API.CHAT, function(data) {
                         if (skiparray[1] === "nsfw") {
                             API.sendChat("@" + dj.username + " That song is NSFW. Please pick a cleaner song.");
                             if (wl.length < 50) {
-                                alert(JSON.stringify(dj));
                                 API.moderateAddDJ(JSON.stringify(dj.id));
                                 API.moderateMoveDJ(dj.id, 3);
                             }
@@ -100,7 +96,6 @@ API.on(API.CHAT, function(data) {
                         if (skiparray[1] === "theme") {
                             API.sendChat("@" + dj.username + " That song doesnt fit the room's theme. Please pick a different song.");
                             if (wl.length < 50) {
-                                alert(JSON.stringify(dj));
                                 API.moderateAddDJ(JSON.stringify(dj.id));
                                 API.moderateMoveDJ(dj.id, 3);
                             }
@@ -123,7 +118,6 @@ API.on(API.CHAT, function(data) {
                         if (skiparray[1] === "vibe") {
                             API.sendChat("@" + dj.username + " You just killed the vibe. Please try again.");
                             if (wl.length < 50) {
-                                alert(JSON.stringify(dj));
                                 API.moderateAddDJ(JSON.stringify(dj.id));
                                 API.moderateMoveDJ(dj.id, 3);
                             }
@@ -223,9 +217,7 @@ API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,4) === "!add") {
         var addarray = [];
         addarray = data.message.split(" ");
-        alert(JSON.stringify(addarray));
-        if (addarray[1] === "me") {
-            alert("pause");
+        if (addarray[1] === "me) {
             API.moderateAddDJ(JSON.stringify(data.uid));
         }
     }

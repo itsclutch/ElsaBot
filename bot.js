@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 7.4;
+var version = 7.5;
 /*
     Welcome Message
 */
@@ -45,7 +45,19 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
-                                wlFull();
+                                var wlFullTimer;
+                                wlFullTimer = setInterval(wlFull, 1000);
+                                function wlFull() {
+                                    if (wl.length < 50) {
+                                        clearInterval(wlFullTimer);
+                                        API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateMoveDJ(dj.id, 3);
+                                        API.moderateLockWaitList(false, false);
+                                    } 
+                                    else {
+                                    wl = API.getWaitList();
+                                    }
+                                }
                             }
                         }
                         if (skiparray[1] === "op") {
@@ -56,7 +68,17 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
-                                wlFull();
+                                function wlFull() {
+                                    if (wl.length < 50) {
+                                        clearInterval(wlFullTimer);
+                                        API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateMoveDJ(dj.id, 3);
+                                        API.moderateLockWaitList(false, false);
+                                    } 
+                                    else {
+                                    wl = API.getWaitList();
+                                    }
+                                }
                             }
                         }
                         if (skiparray[1] === "nsfw") {
@@ -67,7 +89,17 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
-                                wlFull();
+                                function wlFull() {
+                                    if (wl.length < 50) {
+                                        clearInterval(wlFullTimer);
+                                        API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateMoveDJ(dj.id, 3);
+                                        API.moderateLockWaitList(false, false);
+                                    } 
+                                    else {
+                                    wl = API.getWaitList();
+                                    }
+                                }
                             }
                         }
                         if (skiparray[1] === "theme") {
@@ -78,7 +110,17 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
-                                wlFull();
+                                function wlFull() {
+                                    if (wl.length < 50) {
+                                        clearInterval(wlFullTimer);
+                                        API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateMoveDJ(dj.id, 3);
+                                        API.moderateLockWaitList(false, false);
+                                    } 
+                                    else {
+                                    wl = API.getWaitList();
+                                    }
+                                }
                             }
                         }
                         if (skiparray[1] === "vibe") {
@@ -89,7 +131,17 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
-                                wlFull();
+                                function wlFull() {
+                                    if (wl.length < 50) {
+                                        clearInterval(wlFullTimer);
+                                        API.moderateAddDJ(JSON.stringify(dj.id));
+                                        API.moderateMoveDJ(dj.id, 3);
+                                        API.moderateLockWaitList(false, false);
+                                    } 
+                                    else {
+                                    wl = API.getWaitList();
+                                    }
+                                }
                             }
                         }
                         if (skiparray[1] === "ban") {

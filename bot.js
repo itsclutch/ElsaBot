@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 5.7;
+var version = 5.8;
 /*
     Welcome Message
 */
@@ -346,6 +346,124 @@ API.on(API.CHAT, function(data) {
                             API.moderateMoveDJ(wl[j].id, i);
                         }
                     }
+                }
+            }
+        }
+    }
+});
+/*
+    Chat Modes
+*/
+var announcement;
+announcement = false;
+var staffChat;
+staffChat = false;
+var subChat;
+subChat = false;
+var plebChat;
+plebChat = false;
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message.substring(0,9) === "!chatmode") {
+        var chatModeArray = [];
+        chatModeArray = data.message.split(" ");
+        var staff = [];
+        staff = API.getStaff();
+        for (var i = 0, l = staff.length; i < l; i++) {
+            if (data.un === staff[i].username) {
+                if (staff[i].role > 2) {
+                    if (chatModeArray[1] === "staff") {
+                        staffChat = true;
+                        subChat = false;
+                        plebChat = false;
+                        announcement = false;
+                    }
+                     if (chatModeArray[1] === "sub") {
+                        staffChat = false;
+                        subChat = true;
+                        plebChat = false;
+                        announcement = false;
+                    }
+                      if (chatModeArray[1] === "pleb") {
+                        staffChat = false;
+                        subChat = false;
+                        plebChat = true;
+                        announcement = false;
+                    }
+                    if (chatModeArray[1] === "normal") {
+                        staffChat = false;
+                        subChat = false;
+                        plebChat = false;
+                        announcement = false;
+                    }
+                    if (staff[i].role > 3) {
+                        if (chatModeArray[1] === "announcement") {
+                            staffChat = false;
+                            subChat = false;
+                            plebChat = false;
+                            announcement = true;
+                    }
+                }
+            }
+        }
+    }
+});
+API.on(API.CHAT, function(data) {
+    if (staffChat === true) {
+        if (data.type === "message") {
+            var staff = [];
+            staff = API.getStaff();
+            for (var i = 0, l = staff.length; i < l; i++) {
+                if (data.un === staff[i].username) {
+                    if (staff[i].role > 1) {
+                    }
+                }
+                else {
+                    API.moderateDeleteChat(data.cid);
+                }
+            }
+        }
+    }
+    if (subChat === true) {
+        if (data.type === "message") {
+            var staff = [];
+            staff = API.getStaff();
+            for (var i = 0, l = staff.length; i < l; i++) {
+                if (data.un === staff[i].username) {
+                    if (staff[i].role >= 1) {
+                    }
+                }
+                else {
+                    API.moderateDeleteChat(data.cid);
+                }
+            }
+        }
+    }
+    if (plebChat === true) {
+        if (data.type === "message") {
+            var staff = [];
+            staff = API.getStaff();
+            for (var i = 0, l = staff.length; i < l; i++) {
+                if (data.un === staff[i].username) {
+                    if (staff[i].role < 1) {
+                    }
+                }
+                else {
+                    API.moderateDeleteChat(data.cid);
+                }
+            }
+        }
+    }
+    if (announcement === true) {
+        if (data.type === "message") {
+            var staff = [];
+            staff = API.getStaff();
+            for (var i = 0, l = staff.length; i < l; i++) {
+                if (data.un === staff[i].username) {
+                    if (staff[i].role > 3) {
+                    }
+                }
+                else {
+                    API.moderateDeleteChat(data.cid);
                 }
             }
         }

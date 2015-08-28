@@ -424,7 +424,7 @@ proposeChat = false;
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,8) === "!propose") {
         var timeNow;
-        timeNow = getTime();
+        timeNow = new Date(getTime());
         alert("test");
         alert(timeNow);
         var elapsedSinceLastPropose;

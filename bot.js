@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 6.4;
+var version = 6.5;
 /*
     Welcome Message
 */
@@ -416,10 +416,23 @@ API.on(API.CHAT, function(data) {
 /*
     Test Command
 */
+var timeOfPropose;
+var timeOfAnswer;
+var testNewDate = new Date();
 API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message === "!test") {
-       function send() {
-           
+    if (data.type === "message" && data.message.substring(0,8) === "!propose") {
+       API.sendchat('will u marri mi');
+       timeOfPropose = testNewDate.getTime();
+    }
+});
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message.substring(0,8) === "I do") {
+       alert('accept');
+       timeOfAnswer = testNewDate.getTime();
+       var elapsedTime;
+       elapsedTime = (timeOfAnswer - timeOfPropose);
+       if (elapsedTime < 15000) {
+           API.sendChat("Congrats")
        }
     }
 });

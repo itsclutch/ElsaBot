@@ -422,7 +422,7 @@ var fiance;
 var proposeChat;
 proposeChat = false;
 API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message.substring(0,8) === "!propose") {
+    if (data.message.substring(0,8) === "!propose") {
         var timeNow;
         timeNow = Date.now();
         alert("test");
@@ -439,7 +439,7 @@ API.on(API.CHAT, function(data) {
             proposer = data.un;
             timeOfPropose = Date.now();
             proposeChat = true;
-            API.sendChat("@" + data.un + " asks " + "@" + marryArray[1] + "to marry them");
+            API.sendChat("@" + data.un + " asks " + marryArray[1] + " to marry them");
         }
     }
 });
@@ -461,6 +461,7 @@ API.on(API.CHAT, function(data) {
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
         alert(timeOfPropose);
+        alert(fiance);
     }
 });
 /*

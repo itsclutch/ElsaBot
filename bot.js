@@ -417,11 +417,8 @@ API.on(API.CHAT, function(data) {
     Test Command
 */
 var timeOfPropose;
-var timeOfAnswer;
 var testNewDateProp;
 testNewDateProp = new Date();
-var testNewDateAns;
-testNewDateAns = new Date();
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!propose") {
        alert("test");
@@ -431,6 +428,9 @@ API.on(API.CHAT, function(data) {
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "I do") {
        alert('accept');
+       var testNewDateAns;
+       testNewDateAns = new Date();
+       var timeOfAnswer;
        timeOfAnswer = testNewDateAns.getTime();
        var elapsedTime;
        elapsedTime = (timeOfAnswer - timeOfPropose);
@@ -442,7 +442,6 @@ API.on(API.CHAT, function(data) {
 });
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
-        alert(timeOfAnswer);
     }
 });
 /*

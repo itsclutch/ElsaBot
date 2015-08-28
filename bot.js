@@ -432,7 +432,7 @@ API.on(API.CHAT, function(data) {
         alert(elapsedSinceLastPropose);
         if (elapsedSinceLastPropose < 3600000 || timeOfPropose === undefined) {
             alert("test2");
-            marryArray = [];
+            var marryArray = [];
             marryArray = data.message.split(" ");
             fiance = marryArray[1].substring(1);
             alert(marryArray[1]);

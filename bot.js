@@ -102,10 +102,8 @@ API.on(API.CHAT, function(data) {
                                 if (seconds === 0) {
                                     clearInterval(timer2);
                                     API.moderateBanUser(dj.id, 1, API.BAN.HOUR);
-                                    alert("ban");
                                 } 
                                 else {
-                                    alert(seconds);
                                     seconds--;
                                 }
                             }

@@ -410,30 +410,26 @@ API.on(API.CHAT, function(data) {
 API.on(API.CHAT, function(data) {
     if (staffChat === true) {
         if (data.type === "message") {
-            var staff = [];
-            staff = API.getStaff();
-            for (var i = 0, l = staff.length; i < l; i++) {
-                if (data.un === staff[i].username) {
-                    if (staff[i].role > 1) {
+            var allUsers = [];
+            allUsers = API.getUsers();
+            for (var i = 0, l = allUsers.length; i < l; i++) {
+                if (data.un === allUsers[i].username) {
+                    if (allUsers[i].role < 1) {
+                        API.moderateDeleteChat(data.cid);
                     }
-                }
-                else {
-                    API.moderateDeleteChat(data.cid);
                 }
             }
         }
     }
     if (subChat === true) {
         if (data.type === "message") {
-            var staff = [];
-            staff = API.getStaff();
-            for (var i = 0, l = staff.length; i < l; i++) {
-                if (data.un === staff[i].username) {
-                    if (staff[i].role >= 1) {
+            var allUsers = [];
+            allUsers = API.getUsers();
+            for (var i = 0, l = allUsers.length; i < l; i++) {
+                if (data.un === allUsers[i].username) {
+                    if (allUsers[i].role < 1) {
+                        API.moderateDeleteChat(data.cid);
                     }
-                }
-                else {
-                    API.moderateDeleteChat(data.cid);
                 }
             }
         }
@@ -444,10 +440,6 @@ API.on(API.CHAT, function(data) {
             staff = API.getStaff();
             for (var i = 0, l = staff.length; i < l; i++) {
                 if (data.un === staff[i].username) {
-                    if (staff[i].role < 1) {
-                    }
-                }
-                else {
                     API.moderateDeleteChat(data.cid);
                 }
             }
@@ -455,15 +447,13 @@ API.on(API.CHAT, function(data) {
     }
     if (announcement === true) {
         if (data.type === "message") {
-            var staff = [];
-            staff = API.getStaff();
-            for (var i = 0, l = staff.length; i < l; i++) {
-                if (data.un === staff[i].username) {
-                    if (staff[i].role > 3) {
+            var allUsers = [];
+            allUsers = API.getUsers();
+            for (var i = 0, l = allUsers.length; i < l; i++) {
+                if (data.un === allUsers[i].username) {
+                    if (allUsers[i].role < 4) {
+                        API.moderateDeleteChat(data.cid);
                     }
-                }
-                else {
-                    API.moderateDeleteChat(data.cid);
                 }
             }
         }

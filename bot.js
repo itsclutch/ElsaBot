@@ -439,7 +439,7 @@ API.on(API.CHAT, function(data) {
             proposer = data.un;
             timeOfPropose = Date.now();
             proposeChat = true;
-            API.sendChat("@" + data.un + " asks " + marryArray[1] + " to marry them");
+            API.sendChat("@" + data.un + " asks " + "@" marryArray[1].substring(1) + " to marry them");
         }
     }
 });

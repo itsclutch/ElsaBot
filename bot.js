@@ -97,17 +97,16 @@ API.on(API.CHAT, function(data) {
                             var seconds;
                             seconds = 5;
                             var timer2;
-                            timer = setInterval(banTimer, 1000);
+                            timer2 = setInterval(banTimer, 1000);
                             function banTimer() {
                                 if (seconds === 0) {
-                                    clearInterval(timer);
+                                    clearInterval(timer2);
                                     API.moderateBanUser(dj.id, 1, API.BAN.HOUR)
                                 } 
                                 else {
-                                    API.sendChat(seconds)
+                                    API.sendChat(seconds);
                                     seconds--;
                                 }
-                            banTimer();
                             }
                         }
                     }

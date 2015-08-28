@@ -424,7 +424,7 @@ proposeChat = false;
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,8) === "!propose") {
         var timeNow;
-        timeNow = testNewDate.getTime();
+        timeNow = getTime();
         alert("test");
         alert(timeNow);
         var elapsedSinceLastPropose;
@@ -436,8 +436,6 @@ API.on(API.CHAT, function(data) {
             marryArray = data.message.split(" ");
             fiance = marryArray[1].substring(1);
             proposer = data.un;
-            var testNewDate;
-            testNewDate = new Date();
             timeOfPropose = testNewDate.getTime();
             proposeChat = true;
             API.sendChat("@" + data.un + " asks " + "@" + marryArray[1] + "to marry them");

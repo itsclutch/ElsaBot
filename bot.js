@@ -425,17 +425,12 @@ API.on(API.CHAT, function(data) {
     if (data.message.substring(0,8) === "!propose") {
         var timeNow;
         timeNow = Date.now();
-        alert("test");
-        alert(timeNow);
         var elapsedSinceLastPropose;
         elapsedSinceLastPropose = (timeNow - timeOfPropose);
-        alert(elapsedSinceLastPropose);
         if (elapsedSinceLastPropose < 3600000 || timeOfPropose === undefined) {
-            alert("test2");
             var marryArray = [];
             marryArray = data.message.split(" ");
             fiance = marryArray[1].substring(1);
-            alert(marryArray[1]);
             proposer = data.un;
             timeOfPropose = Date.now();
             proposeChat = true;
@@ -451,8 +446,6 @@ API.on(API.CHAT, function(data) {
             var elapsedTime;
             elapsedTime = (timeOfAnswer - timeOfPropose);
             if (elapsedTime < 60000) {
-                alert("congrats");
-                alert(elapsedTime);
                 API.sendChat("throw rice");
             }
         }

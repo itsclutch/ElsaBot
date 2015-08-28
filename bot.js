@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 5.9;
+var version = 6.1;
 /*
     Welcome Message
 */
@@ -22,6 +22,8 @@ API.on(API.CHAT, function(data) {
                     var skiparray = [];
                     skiparray = data.message.split(" ");
                     if(skiparray[1] !== undefined) {
+                        var timer;
+                        timer = setInterval(secondPassed, 1000);
                         var wl = [];
                         wl = API.getWaitList();
                         if (skiparray[1] === "bl") {
@@ -32,8 +34,6 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
-                                var timer;
-                                timer = setInterval(secondPassed, 1000);
                                 function secondPassed() {
                                     if (wl.length < 50) {
                                         clearInterval(timer);
@@ -55,8 +55,6 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
-                                var timer;
-                                timer = setInterval(secondPassed, 1000);
                                 function secondPassed() {
                                     if (wl.length < 50) {
                                         clearInterval(timer);
@@ -78,8 +76,6 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
-                                var timer;
-                                timer = setInterval(secondPassed, 1000);
                                 function secondPassed() {
                                     if (wl.length < 50) {
                                         clearInterval(timer);
@@ -101,8 +97,6 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
-                                var timer;
-                                timer = setInterval(secondPassed, 1000);
                                 function secondPassed() {
                                     if (wl.length < 50) {
                                         clearInterval(timer);
@@ -124,8 +118,6 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
-                                var timer;
-                                timer = setInterval(secondPassed, 1000);
                                 function secondPassed() {
                                     if (wl.length < 50) {
                                         clearInterval(timer);

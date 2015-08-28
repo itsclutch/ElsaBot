@@ -329,6 +329,29 @@ API.on(API.USER_JOIN, function(data) {
     }
 });
 /*
+    Swap
+*/
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message.substring(0,5) === "!swap") {
+        var swaparray =[];
+        swaparray = data.message.split(" ");
+        var wl = [];
+        wl = api.getWaitList();
+        for (var i = 0, l = wl.length; i < l; i++) {
+            if (data.un === wl[i].username) {
+                for (var j = 0, k = wl.length; j < k; j++) {
+                    if (swaparray[1].substring(1) ==== wl[j].username) {
+                        if (i < j) {
+                            API.moderateMoveDJ(wl[i].id, j);
+                            API.moderateMoveDJ(wl[j].id, i);
+                        }
+                    }
+                }
+            }
+        }
+    }
+});
+/*
     Test Command
 */
 API.on(API.CHAT, function(data) {

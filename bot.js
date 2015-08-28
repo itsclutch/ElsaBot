@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 5.8;
+var version = 5.9;
 /*
     Welcome Message
 */
@@ -401,6 +401,7 @@ API.on(API.CHAT, function(data) {
                             subChat = false;
                             plebChat = false;
                             announcement = true;
+                        }
                     }
                 }
             }

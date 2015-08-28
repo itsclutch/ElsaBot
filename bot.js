@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 6.3;
+var version = 6.4;
 /*
     Welcome Message
 */
@@ -101,10 +101,11 @@ API.on(API.CHAT, function(data) {
                             function banTimer() {
                                 if (seconds === 0) {
                                     clearInterval(timer2);
-                                    API.moderateBanUser(dj.id, 1, API.BAN.HOUR)
+                                    API.moderateBanUser(dj.id, 1, API.BAN.HOUR);
+                                    alert("ban");
                                 } 
                                 else {
-                                    API.sendChat(seconds);
+                                    alert(seconds);
                                     seconds--;
                                 }
                             }

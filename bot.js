@@ -417,8 +417,6 @@ API.on(API.CHAT, function(data) {
     Marriage Commands
 */
 var timeOfPropose;
-var testNewDate;
-testNewDate = new Date();
 var proposer;
 var fiance;
 var proposeChat;
@@ -438,6 +436,8 @@ API.on(API.CHAT, function(data) {
             marryArray = data.message.split(" ");
             fiance = marryArray[1].substring(1);
             proposer = data.un;
+            var testNewDate;
+            testNewDate = new Date();
             timeOfPropose = testNewDate.getTime();
             proposeChat = true;
             API.sendChat("@" + data.un + " asks " + "@" + marryArray[1] + "to marry them");
@@ -447,6 +447,8 @@ API.on(API.CHAT, function(data) {
 API.on(API.CHAT, function(data) {
     if (data.un === fiance) {
         if (data.type === "message" && data.message === "I do") {
+            var testNewDate;
+            testNewDate = new Date();
             var timeOfAnswer;
             timeOfAnswer = testNewDate.getTime();
             var elapsedTime;

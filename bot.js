@@ -9,6 +9,19 @@ API.sendChat("Elsabot Version " + version + " is active!");
 /*
     Skip Command
 */
+var wlFullTimer;
+wlFullTimer = setInterval(wlFull, 1000);
+function wlFull() {
+    if (wl.length < 50) {
+        clearInterval(wlFullTimer);
+        API.moderateAddDJ(JSON.stringify(dj.id));
+        API.moderateMoveDJ(dj.id, 3);
+        API.moderateLockWaitList(false, false);
+    } 
+    else {
+        wl = API.getWaitList();
+    }
+}
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!skip") {
         var staff = [];
@@ -22,19 +35,6 @@ API.on(API.CHAT, function(data) {
                     var skiparray = [];
                     skiparray = data.message.split(" ");
                     if(skiparray[1] !== undefined) {
-                        var timer;
-                        timer = setInterval(wlFull, 1000);
-                        function wlFull() {
-                            if (wl.length < 50) {
-                                clearInterval(timer);
-                                API.moderateAddDJ(JSON.stringify(dj.id));
-                                API.moderateMoveDJ(dj.id, 3);
-                                API.moderateLockWaitList(false, false);
-                            } 
-                            else {
-                                wl = API.getWaitList();
-                            }
-                        }
                         var wl = [];
                         wl = API.getWaitList();
                         if (skiparray[1] === "bl") {

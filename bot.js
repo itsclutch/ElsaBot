@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 6.1;
+var version = 6.3;
 /*
     Welcome Message
 */
@@ -23,7 +23,18 @@ API.on(API.CHAT, function(data) {
                     skiparray = data.message.split(" ");
                     if(skiparray[1] !== undefined) {
                         var timer;
-                        timer = setInterval(secondPassed, 1000);
+                        timer = setInterval(wlFull, 1000);
+                        function wlFull() {
+                            if (wl.length < 50) {
+                                clearInterval(timer);
+                                API.moderateAddDJ(JSON.stringify(dj.id));
+                                API.moderateMoveDJ(dj.id, 3);
+                                API.moderateLockWaitList(false, false);
+                            } 
+                            else {
+                                wl = API.getWaitList();
+                            }
+                        }
                         var wl = [];
                         wl = API.getWaitList();
                         if (skiparray[1] === "bl") {
@@ -34,17 +45,7 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
-                                function secondPassed() {
-                                    if (wl.length < 50) {
-                                        clearInterval(timer);
-                                        API.moderateAddDJ(JSON.stringify(dj.id));
-                                        API.moderateMoveDJ(dj.id, 3);
-                                        API.moderateLockWaitList(false, false);
-                                    } 
-                                    else {
-                                        wl = API.getWaitList();
-                                    }
-                                }
+                                wlFull();
                             }
                         }
                         if (skiparray[1] === "op") {
@@ -55,17 +56,7 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
-                                function secondPassed() {
-                                    if (wl.length < 50) {
-                                        clearInterval(timer);
-                                        API.moderateAddDJ(JSON.stringify(dj.id));
-                                        API.moderateMoveDJ(dj.id, 3);
-                                        API.moderateLockWaitList(false, false);
-                                    } 
-                                    else {
-                                        wl = API.getWaitList();
-                                    }
-                                }
+                                wlFull();
                             }
                         }
                         if (skiparray[1] === "nsfw") {
@@ -76,17 +67,7 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
-                                function secondPassed() {
-                                    if (wl.length < 50) {
-                                        clearInterval(timer);
-                                        API.moderateAddDJ(JSON.stringify(dj.id));
-                                        API.moderateMoveDJ(dj.id, 3);
-                                        API.moderateLockWaitList(false, false);
-                                    } 
-                                    else {
-                                        wl = API.getWaitList();
-                                    }
-                                }
+                                wlFull();
                             }
                         }
                         if (skiparray[1] === "theme") {
@@ -97,17 +78,7 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
-                                function secondPassed() {
-                                    if (wl.length < 50) {
-                                        clearInterval(timer);
-                                        API.moderateAddDJ(JSON.stringify(dj.id));
-                                        API.moderateMoveDJ(dj.id, 3);
-                                        API.moderateLockWaitList(false, false);
-                                    } 
-                                    else {
-                                        wl = API.getWaitList();
-                                    }
-                                }
+                                wlFull();
                             }
                         }
                         if (skiparray[1] === "vibe") {
@@ -118,33 +89,25 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
-                                function secondPassed() {
-                                    if (wl.length < 50) {
-                                        clearInterval(timer);
-                                        API.moderateAddDJ(JSON.stringify(dj.id));
-                                        API.moderateMoveDJ(dj.id, 3);
-                                        API.moderateLockWaitList(false, false);
-                                    } 
-                                    else {
-                                        wl = API.getWaitList();
-                                    }
-                                }
+                                wlFull();
                             }
                         }
                         if (skiparray[1] === "ban") {
                             API.sendChat("@" + dj.username + " You played a really bad song.  You will be kicked for 1 hour.");
                             var seconds;
                             seconds = 5;
-                            var timer;
-                            timer = setInterval(secondPassed, 1000);
-                            function secondPassed() {
+                            var timer2;
+                            timer = setInterval(banTimer, 1000);
+                            function banTimer() {
                                 if (seconds === 0) {
                                     clearInterval(timer);
                                     API.moderateBanUser(dj.id, 1, API.BAN.HOUR)
                                 } 
                                 else {
+                                    API.sendChat(seconds)
                                     seconds--;
                                 }
+                            banTimer();
                             }
                         }
                     }
@@ -457,11 +420,9 @@ API.on(API.CHAT, function(data) {
 */
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
-        var d = new Date();
-        var n = d.getTime();
-        var g = (3 - 2);
-        alert("hello");
-        alert(JSON.stringify(g));
+       function send() {
+           
+       }
     }
 });
 /*

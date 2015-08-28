@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 7.3;
+var version = 7.4;
 /*
     Welcome Message
 */
@@ -427,9 +427,13 @@ API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,8) === "!propose") {
         var timeNow;
         timeNow = testNewDate.getTime();
+        alert("test");
+        alert(timeNow);
         var elapsedSinceLastPropose;
         elapsedSinceLastPropose = (timeNow - timeOfPropose);
+        alert(elapsedSinceLastPropose);
         if (elapsedSinceLastPropose < 3600000 || timeOfPropose === undefined) {
+            alert("test2");
             marryArray = [];
             marryArray = data.message.split(" ");
             fiance = marryArray[1].substring(1);

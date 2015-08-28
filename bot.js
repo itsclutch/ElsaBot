@@ -333,7 +333,7 @@ API.on(API.USER_JOIN, function(data) {
 */
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!swap") {
-        var swaparray =[];
+        var swaparray = [];
         swaparray = data.message.split(" ");
         var wl = [];
         wl = api.getWaitList();

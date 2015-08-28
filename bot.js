@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 6.6;
+var version = 6.7;
 /*
     Welcome Message
 */
@@ -435,6 +435,11 @@ API.on(API.CHAT, function(data) {
            alert("congrats");
            alert(elapsedTime);
        }
+    }
+});
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message === "!test") {
+        alert(timeOfPropose);
     }
 });
 /*

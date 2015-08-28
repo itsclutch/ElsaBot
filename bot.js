@@ -432,7 +432,8 @@ API.on(API.CHAT, function(data) {
        var elapsedTime;
        elapsedTime = (timeOfAnswer - timeOfPropose);
        if (elapsedTime < 60000) {
-           alert("congrats")
+           alert("congrats");
+           alert(elapsedTime);
        }
     }
 });

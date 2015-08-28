@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 6.5;
+var version = 6.6;
 /*
     Welcome Message
 */
@@ -431,8 +431,8 @@ API.on(API.CHAT, function(data) {
        timeOfAnswer = testNewDate.getTime();
        var elapsedTime;
        elapsedTime = (timeOfAnswer - timeOfPropose);
-       if (elapsedTime < 15000) {
-           API.sendChat("Congrats")
+       if (elapsedTime < 60000) {
+           alert("congrats")
        }
     }
 });

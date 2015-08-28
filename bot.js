@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 6.9;
+var version = 7.1;
 /*
     Welcome Message
 */
@@ -420,6 +420,8 @@ var timeOfPropose;
 var timeOfAnswer;
 var testNewDateProp;
 testNewDateProp = new Date();
+var testNewDateAns;
+testNewDateAns = new Date();
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!propose") {
        alert("test");
@@ -429,7 +431,7 @@ API.on(API.CHAT, function(data) {
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "I do") {
        alert('accept');
-       timeOfAnswer = testNewDateProp.getTime();
+       timeOfAnswer = testNewDateAns.getTime();
        var elapsedTime;
        elapsedTime = (timeOfAnswer - timeOfPropose);
        if (elapsedTime < 60000) {
@@ -440,7 +442,7 @@ API.on(API.CHAT, function(data) {
 });
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
-        alert(timeOfPropose);
+        alert(timeOfAnswer);
     }
 });
 /*

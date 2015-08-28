@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 7.1;
+var version = 7.2;
 /*
     Welcome Message
 */
@@ -414,30 +414,45 @@ API.on(API.CHAT, function(data) {
     }
 });
 /*
-    Test Command
+    Marriage Commands
 */
 var timeOfPropose;
-var testNewDateProp;
-testNewDateProp = new Date();
+var testNewDate;
+testNewDate = new Date();
+var proposer;
+var fiance;
+var proposeChat;
+proposeChat = false;
 API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message === "!propose") {
-       alert("test");
-       timeOfPropose = testNewDateProp.getTime();
+    if (data.type === "message" && data.message.substring(0,8) === "!propose") {
+        var timeNow;
+        timeNow = testNewDate.getTime();
+        var elapsedSinceLastPropose;
+        elapsedSinceLastPropose = (timeNow - timeOfPropose);
+        if (elapsedSinceLastPropose < 3600000) {
+            marryArray = [];
+            marryArray = data.message.split(" ");
+            fiance = marryArray[1].substring(1);
+            proposer = data.un;
+            timeOfPropose = testNewDate.getTime();
+            proposeChat = true;
+            API.sendChat("@" + data.un + " asks " + "@" + marryArray[1] + "to marry them");
+        }
     }
 });
 API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message === "I do") {
-       alert('accept');
-       var testNewDateAns;
-       testNewDateAns = new Date();
-       var timeOfAnswer;
-       timeOfAnswer = testNewDateAns.getTime();
-       var elapsedTime;
-       elapsedTime = (timeOfAnswer - timeOfPropose);
-       if (elapsedTime < 60000) {
-           alert("congrats");
-           alert(elapsedTime);
-       }
+    if (data.un === fiance) {
+        if (data.type === "message" && data.message === "I do") {
+            var timeOfAnswer;
+            timeOfAnswer = testNewDate.getTime();
+            var elapsedTime;
+            elapsedTime = (timeOfAnswer - timeOfPropose);
+            if (elapsedTime < 60000) {
+                alert("congrats");
+                alert(elapsedTime);
+                API.sendChat("throw rice");
+            }
+        }
     }
 });
 API.on(API.CHAT, function(data) {

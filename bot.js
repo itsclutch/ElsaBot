@@ -9,19 +9,6 @@ API.sendChat("Elsabot Version " + version + " is active!");
 /*
     Skip Command
 */
-var wlFullTimer;
-wlFullTimer = setInterval(wlFull, 1000);
-function wlFull() {
-    if (wl.length < 50) {
-        clearInterval(wlFullTimer);
-        API.moderateAddDJ(JSON.stringify(dj.id));
-        API.moderateMoveDJ(dj.id, 3);
-        API.moderateLockWaitList(false, false);
-    } 
-    else {
-        wl = API.getWaitList();
-    }
-}
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!skip") {
         var staff = [];
@@ -68,6 +55,8 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
+                                var wlFullTimer;
+                                wlFullTimer = setInterval(wlFull, 1000);
                                 function wlFull() {
                                     if (wl.length < 50) {
                                         clearInterval(wlFullTimer);
@@ -89,6 +78,8 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
+                                var wlFullTimer;
+                                wlFullTimer = setInterval(wlFull, 1000);
                                 function wlFull() {
                                     if (wl.length < 50) {
                                         clearInterval(wlFullTimer);
@@ -110,6 +101,8 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
+                                var wlFullTimer;
+                                wlFullTimer = setInterval(wlFull, 1000);
                                 function wlFull() {
                                     if (wl.length < 50) {
                                         clearInterval(wlFullTimer);
@@ -131,6 +124,8 @@ API.on(API.CHAT, function(data) {
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
+                                var wlFullTimer;
+                                wlFullTimer = setInterval(wlFull, 1000);
                                 function wlFull() {
                                     if (wl.length < 50) {
                                         clearInterval(wlFullTimer);
@@ -276,7 +271,7 @@ var dcListPos = [];
 var dcListId = [];
 var globalWaitList = [];
 API.on(API.ADVANCE, function(data) {
-    globaWaitList = API.getWaitList();
+    globalWaitList = API.getWaitList();
     var d = new Date();
     var n = d.getTime();
     for (var i = 0, l = dcTime.length; i < l; i++) {
@@ -302,7 +297,7 @@ API.on(API.USER_LEAVE, function(data) {
 API.on(API.USER_JOIN, function(data) {
     for (var i = 0, l = dcListId.length; i < l; i++) {
         if (data.id === dcListId[i]) {
-            wl = [];
+            var wl = [];
             wl = API.getWaitlist();
             if (wl.length < 50) {
                 API.moderateAddDJ(JSON.stringify(data.id));
@@ -351,15 +346,15 @@ API.on(API.CHAT, function(data) {
             var swapArray = [];
             swapArray = data.message.split(" ");
             var wl = [];
-            wl = api.getWaitList();
+            wl = API.getWaitList();
             for (var i = 0, l = wl.length; i < l; i++) {
                 if (data.un === wl[i].username) {
                     for (var j = 0, k = wl.length; j < k; j++) {
                         if (swapArray[1].substring(1) === wl[j].username) {
                             if (i < j) {
-                                API.sendChat("Hey, " + swaparray[1] + ", " + "@" + data.un + " would like to swap with you. Type !swapaccept to swap");
+                                API.sendChat("Hey, " + swapArray[1] + ", " + "@" + data.un + " would like to swap with you. Type !swapaccept to swap");
                                 swapperId = wl[i].id;
-                                swapeeId = wl[j].id
+                                swappeeId = wl[j].id
                                 swapperPos = i;
                                 swappeePos = j;
                                 timeOfLastSwap = Date.now();
@@ -557,8 +552,8 @@ API.on(API.CHAT, function(data) {
                             allUsers = API.getUsers();
                             var winnerName;
                             for (var i = 0, l = wl.length; i < l; i++) {
-                                if (allusers[i].id === rouletteEntries[winner]) {
-                                    winnerName = allusers[i].username;
+                                if (allUsers[i].id === rouletteEntries[winner]) {
+                                    winnerName = allUsers[i].username;
                                 }
                             }
                             for (var i = 0, l = wl.length; i < l; i++) {

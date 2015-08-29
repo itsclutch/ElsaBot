@@ -556,16 +556,18 @@ API.on(API.CHAT, function(data) {
     }
 });
 // TEST PLS REMOVE 
+var test;
+test = 0;
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
         setTimeout(function() { 
-            alert("test"); 
+            alert(test); 
         }, 5000);
     }
 });
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test1") {
-        loading();
+        test++;
     }
 });
 /*

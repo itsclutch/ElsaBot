@@ -503,7 +503,7 @@ for (var i = 0, l = cookieArray.length; i < l; i++) {
         moniesIdKV = cookieKV.split("=");
         moniesId = JSON.parse(moniesIdKV[1]);
     }
-    if (cookieArray[i].startswith("moniesValue") === true) {
+    if (cookieArray[i].startsWith("moniesValue") === true) {
         var moniesValueKV = [];
         moniesValueKV = cookieKV.split("=");
         moniesValue = JSON.parse(moniesValueKV[1]);

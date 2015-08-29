@@ -493,11 +493,10 @@ API.on(API.CHAT, function(data) {
 /*
     Load Cookies
 */
-/*
 var cookies;
 cookies = document.cookie;
 cookieArray = [];
-cookieArray = cookies.split(";");
+cookieArray = cookies.split(":");
 var moniesId = [];
 var moniesValue = [];
 for (var i = 0, l = cookieArray.length; i < l; i++) {
@@ -514,7 +513,6 @@ for (var i = 0, l = cookieArray.length; i < l; i++) {
         moniesValue = JSON.parse(moniesValueKV[1]);
     }
 }
-*/
 /*
     Monies Updater
 */
@@ -529,8 +527,6 @@ setInterval(function() {
 }, 10000);
 //this sends the score on the song advance for the previous song
 API.on(API.ADVANCE, function(data) {
-    alert("test");
-    alert(JSON.stringify(data.lastPlay.dj));
 });
 /*
     Marriage Commands

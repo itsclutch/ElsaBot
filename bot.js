@@ -493,10 +493,8 @@ API.on(API.CHAT, function(data) {
 /*
     Load Cookies
 */
-var cookies;
-cookies = document.cookie;
-cookieArray = [];
-cookieArray = cookies.split(":");
+var cookieArray = [];
+cookieArray = document.cookie.split(":");
 var moniesId = [];
 var moniesValue = [];
 for (var i = 0, l = cookieArray.length; i < l; i++) {

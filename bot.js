@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 1.4;
+var version = 1.5;
 /*
     Welcome Message
 */
@@ -521,13 +521,10 @@ function getScore() {
 }
 //this updates the score every 10 seconds
 setInterval(function(){ getScore(); }, 10000);
-//this sends the score
-function sendScore() {
-    API.sendChat("Woots: " + woots + " | Mehs: " + mehs + " | Grabs: " + grabs);
-}
+
 //this sends the score on the song advance for the previous song
 API.on(API.ADVANCE, function(data) {
-        sendScore();
+        API.sendChat("Woots: " + woots + " | Mehs: " + mehs + " | Grabs: " + grabs);
 });
 /*
     Marriage Commands
@@ -548,7 +545,7 @@ API.on(API.CHAT, function(data) {
             marryArray = data.message.split(" ");
             var allUsers = [];
             allUsers = API.getUsers();
-            for (var i = 0, l = staff.length; i < l; i++) {
+            for (var i = 0, l = allUsers.length; i < l; i++) {
                 if (marryArray[1].substring(1) === allUsers[i].username) {
                     fiance = marryArray[1].substring(1);
                     proposer = data.un;

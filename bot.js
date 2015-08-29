@@ -608,13 +608,11 @@ API.on(API.CHAT, function(data) {
     }
 });
 // TEST PLS REMOVE 
-var test;
-test = 0;
+var testArray = [];
+testArray = [1, 2, 3]
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
-        setTimeout(function() { 
-            alert(test); 
-        }, 5000);
+        alert(JSON.stringify(testArray));
     }
 });
 API.on(API.CHAT, function(data) {

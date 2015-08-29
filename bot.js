@@ -546,8 +546,8 @@ API.on(API.CHAT, function(data) {
                     if (rouletteStatus === false) {
                         API.sendChat("@" + data.un + " has started a roulette. Type !join to enter.");
                         rouletteStatus = true;
-                        setTimeout(function() { 
-                            rouletteStatus = false;
+                        setTimeout(function() {
+                            rouletteStatus = false; 
                         }, 20000);
                     }
                 }
@@ -558,10 +558,9 @@ API.on(API.CHAT, function(data) {
 // TEST PLS REMOVE 
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
-            setTimeout(function() { 
-                alert("test"); 
-            }, 5000);
-        }
+        setTimeout(function() { 
+            alert("test"); 
+        }, 5000);
     }
 });
 API.on(API.CHAT, function(data) {

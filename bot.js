@@ -485,6 +485,29 @@ API.on(API.CHAT, function(data) {
     }
 });
 /*
+    Load Cookies
+*/
+var cookies;
+cookies = document.cookie;
+cookieArray = [];
+cookieArray = cookies.split(";");
+var moniesId = [];
+var moniesValue = [];
+for (var i = 0, l = cookieArray.length; i < l; i++) {
+    var cookieKV = cookieArray[i];
+    cookieKV = cookieKV.trim();
+    if (cookieKV.startswith("moniesId") === true) {
+        var moniesIdKV = [];
+        moniesIdKV = cookieKV.split("=");
+        moniesId = JSON.parse(moniesIdKV[1]);
+    }
+    if (cookieKV.startswith("moniesValue") === true) {
+        var moniesValueKV = [];
+        moniesValueKV = cookieKV.split("=");
+        moniesValue = JSON.parse(moniesValueKV[1]);
+    }
+}
+/*
     Marriage Commands
 */
 var timeOfPropose;

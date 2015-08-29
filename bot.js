@@ -357,7 +357,6 @@ API.on(API.CHAT, function(data) {
                                 swappeeId = wl[j].id
                                 swapperPos = i;
                                 swappeePos = j;
-                                timeOfLastSwap = Date.now();
                             }
                         }
                     }
@@ -371,6 +370,7 @@ API.on(API.CHAT, function(data) {
         if (data.uid === swappeeId) {
             API.moderateMoveDJ(data.uid, swapperPos);
             API.moderateMoveDJ(swapperId, swappeePos);
+            timeOfLastSwap = Date.now();
             swappeeId = 1;
         }
     }

@@ -487,6 +487,7 @@ API.on(API.CHAT, function(data) {
 /*
     Load Cookies
 */
+/*
 var cookies;
 cookies = document.cookie;
 cookieArray = [];
@@ -507,6 +508,7 @@ for (var i = 0, l = cookieArray.length; i < l; i++) {
         moniesValue = JSON.parse(moniesValueKV[1]);
     }
 }
+*/
 /*
     Monies Updater
 */

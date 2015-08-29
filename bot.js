@@ -524,7 +524,7 @@ setInterval(function() {
 //this sends the score on the song advance for the previous song
 API.on(API.ADVANCE, function(data) {
     alert("test");
-    var a = data.parse();
+    var a = JSON.parse(data);
     alert(JSON.stringify(a.lastPlay.dj));
 });
 /*

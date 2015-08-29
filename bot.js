@@ -523,7 +523,8 @@ setInterval(function() {
 }, 10000);
 //this sends the score on the song advance for the previous song
 API.on(API.ADVANCE, function(data) {
-    API.sendChat("Woots: " + woots + " | Mehs: " + mehs + " | Grabs: " + grabs);
+    var a = data.parse();
+    test(a.lastPlay.score.positive);
 });
 /*
     Marriage Commands

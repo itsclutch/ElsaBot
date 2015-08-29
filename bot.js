@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 7.7;
+var version = 7.8;
 /*
     Welcome Message
 */
@@ -558,8 +558,7 @@ API.on(API.CHAT, function(data) {
 // TEST PLS REMOVE 
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
-        function loading(){
-            setTimeout(function(){ 
+            setTimeout(function() { 
                 alert("test"); 
             }, 5000);
         }

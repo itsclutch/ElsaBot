@@ -7,6 +7,12 @@ var version = 1.5;
 */
 API.sendChat("Elsabot Version " + version + " is active!");
 /*
+    Status message
+*/
+API.on(API.USER_JOIN, function(data) {
+    API.sendChat("hi! @" + data.username + "! I am currently testing a bot. Ping me to say hi :ravechu:")
+});
+/*
     Skip Command
 */
 API.on(API.CHAT, function(data) {

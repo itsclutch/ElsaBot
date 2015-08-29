@@ -339,25 +339,31 @@ API.on(API.USER_JOIN, function(data) {
 var timeOfLastSwap;
 var swapperId;
 var swapperPos;
-var swapeeId;
-var swapeePos;
+var swappeeId;
+var swappeePos;
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!swap") {
-        var swaparray = [];
-        swaparray = data.message.split(" ");
-        var wl = [];
-        wl = api.getWaitList();
-        for (var i = 0, l = wl.length; i < l; i++) {
-            if (data.un === wl[i].username) {
-                for (var j = 0, k = wl.length; j < k; j++) {
-                    if (swaparray[1].substring(1) === wl[j].username) {
-                        if (i < j) {
-                            API.sendChat("Hey, " + swaparray[1] + ", " + "@" + data.un + " would like to swap with you. Type !swapaccept to swap");
-                            swapperId = wl[i].id;
-                            swapeeId = wl[j].id
-                            swapperPos = i;
-                            swappeePos = j;
-                            timeOfLastSwap = Date.now();
+        var swapAttempt;
+        swapAttempt = Date.now();
+        var elapsedTime;
+        elapsedTime = (swapAttempt - timeOfLastSwap);
+        if (elapsedTime > 60000 || timeOfLastSwap === undefined) {
+            var swapArray = [];
+            swapArray = data.message.split(" ");
+            var wl = [];
+            wl = api.getWaitList();
+            for (var i = 0, l = wl.length; i < l; i++) {
+                if (data.un === wl[i].username) {
+                    for (var j = 0, k = wl.length; j < k; j++) {
+                        if (swapArray[1].substring(1) === wl[j].username) {
+                            if (i < j) {
+                                API.sendChat("Hey, " + swaparray[1] + ", " + "@" + data.un + " would like to swap with you. Type !swapaccept to swap");
+                                swapperId = wl[i].id;
+                                swapeeId = wl[j].id
+                                swapperPos = i;
+                                swappeePos = j;
+                                timeOfLastSwap = Date.now();
+                            }
                         }
                     }
                 }
@@ -367,6 +373,11 @@ API.on(API.CHAT, function(data) {
 });
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!swapaccept") {
+        if (data.uid === swappeeId) {
+            API.moderateMoveDJ(data.uid, swapperPos);
+            API.moderateMoveDJ(swapperId, swappeePos);
+            swappeeId = 1;
+        }
     }
 });
 /*

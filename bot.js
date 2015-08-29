@@ -513,15 +513,12 @@ for (var i = 0, l = cookieArray.length; i < l; i++) {
 var woots = API.getScore().positive;
 var mehs = API.getScore().negative;
 var grabs = API.getScore().grabs;
-
-function getScore() {
+//this updates the score every 10 seconds
+setInterval(function() {
     woots = API.getScore().positive;
     mehs = API.getScore().negative;
     grabs = API.getScore().grabs;
-}
-//this updates the score every 10 seconds
-setInterval(function(){ getScore(); }, 10000);
-
+}, 10000);
 //this sends the score on the song advance for the previous song
 API.on(API.ADVANCE, function(data) {
     API.sendChat("Woots: " + woots + " | Mehs: " + mehs + " | Grabs: " + grabs);
@@ -654,7 +651,8 @@ var testArray = [];
 testArray = [1, 2, 3]
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
-        alert(woots);
+        alert("test");
+        API.sendChat("Woots: " + woots + " | Mehs: " + mehs + " | Grabs: " + grabs);
     }
 });
 API.on(API.CHAT, function(data) {

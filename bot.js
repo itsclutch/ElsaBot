@@ -527,9 +527,47 @@ API.on(API.CHAT, function(data) {
         }
     }
 });
+/*
+    Roulette
+*/
+var rouletteStatus;
+var rouletteWl = [];
+rouletteStatus = false;
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message === "!roulette") {
+        var staff = [];
+        staff = API.getStaff();
+        for (var i = 0, l = staff.length; i < l; i++) {
+            if (data.un === staff[i].username) {
+                if (staff[i].role > 1) {
+                    RouletteWl = API.getWaitList();
+                    var lastRoulette;
+                    lastRoulette = Date.now();
+                    if (rouletteStatus === false) {
+                        API.sendChat("@" + data.un + " has started a roulette. Type !join to enter.");
+                        rouletteStatus = true;
+                        setTimeout(function() { 
+                            rouletteStatus = false;
+                        }
+                    }, 20000);
+                }
+            }
+        }
+    }
+});
+// TEST PLS REMOVE 
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
-        alert(JSON.stringify(data));
+        function loading(){
+            setTimeout(function(){ 
+                alert("test"); 
+            }, 5000);
+        }
+    }
+});
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message === "!test1") {
+        loading();
     }
 });
 /*

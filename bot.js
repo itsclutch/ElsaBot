@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 1.2;
+var version = 1.3;
 /*
     Welcome Message
 */
@@ -512,7 +512,9 @@ for (var i = 0, l = cookieArray.length; i < l; i++) {
 */
 API.on(API.ADVANCE, function(data) {
     alert("test");
-    var advanceJSON = JSON.parse(data);
+    var lastPlayJSON 
+    lastPlayJSON = JSON.parse(data.lastPlay);
+    alert(JSON.stringify(lastPlayJSON.dj));
 });
 /*
     Marriage Commands

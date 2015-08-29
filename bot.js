@@ -511,7 +511,9 @@ for (var i = 0, l = cookieArray.length; i < l; i++) {
     Monies Updater
 */
 API.on(API.ADVANCE, function(data) {
-    alert(JSON.stringify(data));
+    JSON.parse(data);
+    alert("test");
+    alert(JSON.stringify(data.lastPlay.dj));
 });
 /*
     Marriage Commands

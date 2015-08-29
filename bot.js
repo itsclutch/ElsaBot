@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 7.6;
+var version = 7.7;
 /*
     Welcome Message
 */
@@ -548,8 +548,8 @@ API.on(API.CHAT, function(data) {
                         rouletteStatus = true;
                         setTimeout(function() { 
                             rouletteStatus = false;
-                        }
-                    }, 20000);
+                        }, 20000);
+                    }
                 }
             }
         }

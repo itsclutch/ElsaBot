@@ -524,7 +524,7 @@ setInterval(function(){ getScore(); }, 10000);
 
 //this sends the score on the song advance for the previous song
 API.on(API.ADVANCE, function(data) {
-        API.sendChat("Woots: " + woots + " | Mehs: " + mehs + " | Grabs: " + grabs);
+    API.sendChat("Woots: " + woots + " | Mehs: " + mehs + " | Grabs: " + grabs);
 });
 /*
     Marriage Commands
@@ -654,7 +654,7 @@ var testArray = [];
 testArray = [1, 2, 3]
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
-        alert(JSON.stringify(testArray));
+        alert(woots);
     }
 });
 API.on(API.CHAT, function(data) {

@@ -511,8 +511,8 @@ for (var i = 0, l = cookieArray.length; i < l; i++) {
     Monies Updater
 */
 API.on(API.ADVANCE, function(data) {
-    JSON.parse(data);
     alert("test");
+    JSON.parse(data);
     alert(JSON.stringify(data.lastPlay.dj));
 });
 /*

@@ -512,8 +512,8 @@ for (var i = 0, l = cookieArray.length; i < l; i++) {
 */
 API.on(API.ADVANCE, function(data) {
     alert("test");
-    JSON.parse(data);
-    alert(JSON.stringify(data.lastPlay.dj));
+    var advanceJSON = JSON.parse(data);
+    alert(JSON.stringify(advanceJSON.lastPlay.dj));
 });
 /*
     Marriage Commands

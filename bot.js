@@ -175,7 +175,7 @@ API.on(API.CHAT, function(data) {
                     ma = data.message.split(" ");
                     var wl = [];
                     wl = API.getWaitList();
-                    for (var i = 0, l = staff.length; i < l; i++) {
+                    for (var i = 0, l = wl.length; i < l; i++) {
                         if (ma[1].substring(1) === wl[i].username) {
                             API.moderateMoveDJ(wl[i].id, ma[2]);
                         } 

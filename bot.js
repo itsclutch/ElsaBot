@@ -523,8 +523,9 @@ setInterval(function() {
 }, 10000);
 //this sends the score on the song advance for the previous song
 API.on(API.ADVANCE, function(data) {
+    alert("test");
     var a = data.parse();
-    test(a.lastPlay.score.positive);
+    alert(JSON.stringify(a.lastPlay.dj));
 });
 /*
     Marriage Commands

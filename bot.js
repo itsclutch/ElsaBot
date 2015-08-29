@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 7.9;
+var version = 1.1;
 /*
     Welcome Message
 */
@@ -501,23 +501,29 @@ API.on(API.CHAT, function(data) {
         if (elapsedSinceLastPropose < 3600000 || timeOfPropose === undefined) {
             var marryArray = [];
             marryArray = data.message.split(" ");
-            fiance = marryArray[1].substring(1);
-            proposer = data.un;
-            timeOfPropose = Date.now();
-            proposeChat = true;
-            API.sendChat("@" + data.un + " asks " + "@" + marryArray[1].substring(1) + " to marry them");
+            var allUsers = [];
+            allUsers = API.getUsers();
+            for (var i = 0, l = staff.length; i < l; i++) {
+                if (marryArray[1].substring(1) === allUsers[i].username) {
+                    fiance = marryArray[1].substring(1);
+                    proposer = data.un;
+                    timeOfPropose = Date.now();
+                    proposeChat = true;
+                    API.sendChat("@" + data.un + " asks " + "@" + marryArray[1].substring(1) + ' to marry them. Type "!I do" to accept');
+                }
+            }
         }
     }
 });
 API.on(API.CHAT, function(data) {
     if (data.un === fiance) {
-        if (data.type === "message" && data.message === "I do") {
+        if (data.type === "message" && data.message === "!I do") {
             var timeOfAnswer;
             timeOfAnswer = Date.now();
             var elapsedTime;
             elapsedTime = (timeOfAnswer - timeOfPropose);
             if (elapsedTime < 60000) {
-                API.sendChat("throw rice");
+                API.sendChat("@" + fiance + ", @" + proposer + ", I now pronouce you to be wed.");
             }
         }
     }

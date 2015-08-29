@@ -272,10 +272,10 @@ var dcListId = [];
 var globalWaitList = [];
 API.on(API.ADVANCE, function(data) {
     globalWaitList = API.getWaitList();
-    var d = new Date();
-    var n = d.getTime();
+    var timeNow;
+    timeNow = Date.now();
     for (var i = 0, l = dcTime.length; i < l; i++) {
-        var g = (n - dcTime[i]);
+        var g = (timeNow - dcTime[i]);
         if (g > 3600000) {
             dcTime.splice(i, 1);
             dcListPos.splice(i, 1);
@@ -286,11 +286,11 @@ API.on(API.ADVANCE, function(data) {
 API.on(API.USER_LEAVE, function(data) {
     for (var i = 0, l = globalWaitList.length; i < l; i++) {
         if (globalWaitList[i].username === data.username) {
-            var d = new Date();
-            var n = d.getTime();
+            var timeNow;
+            timeNow = Date.now();
             dcListId.push(data.username);
             dcListPos.push(i);
-            dcTime.push(n);
+            dcTime.push(timeNow);
         }
     }
 });

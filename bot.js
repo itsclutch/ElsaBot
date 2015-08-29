@@ -498,7 +498,7 @@ cookieArray = document.cookie.split(":");
 var moniesId = [];
 var moniesValue = [];
 for (var i = 0, l = cookieArray.length; i < l; i++) {
-    if (cookieArray[i].startswith("moniesId") === true) {
+    if (cookieArray[i].startsWith("moniesId") === true) {
         var moniesIdKV = [];
         moniesIdKV = cookieKV.split("=");
         moniesId = JSON.parse(moniesIdKV[1]);

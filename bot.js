@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 7.8;
+var version = 7.9;
 /*
     Welcome Message
 */
@@ -531,8 +531,8 @@ API.on(API.CHAT, function(data) {
     Roulette
 */
 var rouletteStatus;
-var rouletteWl = [];
 rouletteStatus = false;
+var rouletteEntries = [];
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!roulette") {
         var staff = [];
@@ -540,18 +540,69 @@ API.on(API.CHAT, function(data) {
         for (var i = 0, l = staff.length; i < l; i++) {
             if (data.un === staff[i].username) {
                 if (staff[i].role > 1) {
-                    RouletteWl = API.getWaitList();
                     var lastRoulette;
                     lastRoulette = Date.now();
                     if (rouletteStatus === false) {
                         API.sendChat("@" + data.un + " has started a roulette. Type !join to enter.");
                         rouletteStatus = true;
                         setTimeout(function() {
-                            rouletteStatus = false; 
+                            rouletteStatus = false;
+                            var winner;
+                            winner = Math.floor((Math.random() * rouletteEntries.length) + 1);
+                            var wl = [];
+                            wl = API.getWaitList();
+                            var winnerPos;
+                            winnerPos = Math.floor((Math.random() * wl.length) + 1);
+                            var allUsers = [];
+                            allUsers = API.getUsers();
+                            var winnerName;
+                            for (var i = 0, l = wl.length; i < l; i++) {
+                                if (allusers[i].id === rouletteEntries[winner]) {
+                                    winnerName = allusers[i].username;
+                                }
+                            }
+                            for (var i = 0, l = wl.length; i < l; i++) {
+                                if (rouletteEntries[winner] === wl[i].id) {
+                                    API.sendChat("@" + winnerName + " won the roulette and will be moved to position " + winnerPos);
+                                    API.moderateMoveDJ(wl[i].id, winnerPos);
+                                    rouletteEntries = [];
+                                } 
+                                else if (wl.length < 50) {
+                                    API.sendChat("@" + winnerName + " won the roulette and will be moved to position " + winnerPos);
+                                    API.moderateAddDJ(JSON.stringify(rouletteEntries[winner]));
+                                    API.moderateMoveDJ(rouletteEntries[winner], winnerPos);
+                                    rouletteEntries = [];
+                                }
+                                else {
+                                    API.moderateLockWaitList(true, false);
+                                    API.sendChat("@" + winnerName + " won the roulette and will be moved to position " + winnerPos);
+                                    var timer;
+                                    timer = setInterval(secondPassed, 1000);
+                                    function secondPassed() {
+                                        if (wl.length < 50) {
+                                            clearInterval(timer);
+                                            API.moderateAddDJ(JSON.stringify(rouletteEntries[winner]));
+                                            API.moderateMoveDJ(rouletteEntries[winner], winnerPos);
+                                            API.moderateLockWaitList(false, false);
+                                            rouletteEntries = [];
+                                        } 
+                                        else {
+                                            wl = API.getWaitList();
+                                        }
+                                    }
+                                }
+                            }
                         }, 20000);
                     }
                 }
             }
+        }
+    }
+});
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message === "!join") {
+        if (rouletteStatus === true) {
+            rouletteEntries.push(data.uid);
         }
     }
 });

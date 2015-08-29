@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 7.5;
+var version = 7.6;
 /*
     Welcome Message
 */
@@ -336,6 +336,11 @@ API.on(API.USER_JOIN, function(data) {
 /*
     Swap
 */
+var timeOfLastSwap;
+var swapperId;
+var swapperPos;
+var swapeeId;
+var swapeePos;
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!swap") {
         var swaparray = [];
@@ -347,13 +352,21 @@ API.on(API.CHAT, function(data) {
                 for (var j = 0, k = wl.length; j < k; j++) {
                     if (swaparray[1].substring(1) === wl[j].username) {
                         if (i < j) {
-                            API.moderateMoveDJ(wl[i].id, j);
-                            API.moderateMoveDJ(wl[j].id, i);
+                            API.sendChat("Hey, " + swaparray[1] + ", " + "@" + data.un + " would like to swap with you. Type !swapaccept to swap");
+                            swapperId = wl[i].id;
+                            swapeeId = wl[j].id
+                            swapperPos = i;
+                            swappeePos = j;
+                            timeOfLastSwap = Date.now();
                         }
                     }
                 }
             }
         }
+    }
+});
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message === "!swapaccept") {
     }
 });
 /*
@@ -505,8 +518,7 @@ API.on(API.CHAT, function(data) {
 });
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
-        alert(timeOfPropose);
-        alert(fiance);
+        alert(JSON.stringify(data));
     }
 });
 /*

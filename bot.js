@@ -566,7 +566,7 @@ API.on(API.CHAT, function(data) {
             allUsers = API.getUsers();
             duelArray = data.message.split(" ");
             dueler = data.un;
-            duelee = data.message.substring(1);
+            duelee = duelArray[1].substring(1);
             timeOfLastDuel = Date.now();
             API.sendChat("@" + duelee + ", @" + dueler + " has challenged you to a duel. Type !duelaccept to duel");
         }

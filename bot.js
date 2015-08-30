@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 1.7;
+var version = 1.8;
 /*
     Welcome Message
 */
@@ -535,10 +535,16 @@ API.on(API.ADVANCE, function(data) {
 */
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!monies") {
+        var hasMonies;
+        hasMonies = false;
         for (var i = 0, l = moniesId.length; i < l; i++) {
             if (data.uid === moniesId[i]) {
                 API.sendChat("@" + data.un + " you have " + moniesValue[i] + " monies");
+                hasMonies = true;
             }
+        }
+        if (hasMonies = false) {
+            API.sendChat("@" + data.un + "you don't have any monies");
         }
     }
 });
@@ -572,7 +578,7 @@ API.on(API.CHAT, function(data) {
                     proposer = data.un;
                     timeOfPropose = Date.now();
                     proposeChat = true;
-                    API.sendChat(":warmbeat: @" + data.un + " asks " + "@" + marryArray[1].substring(1) + ' to marry them. Type "!I do" to accept :warmbeat:');
+                    API.sendChat("@" + data.un + " asks " + "@" + marryArray[1].substring(1) + ' to marry them. Type "!I do" to accecpt');
                 }
                 else {
                     alert("testb")

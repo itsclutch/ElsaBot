@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 1.9;
+var version = 2.1;
 /*
     Welcome Message
 */
@@ -560,7 +560,7 @@ API.on(API.CHAT, function(data) {
         timeNow = Date.now();
         var elapsedTime;
         elapsedTime = (timeNow - timeOfLastDuel);
-        if (elapsedTime > 300000 || timeOfLastDuel === undefined) {
+        if (elapsedTime > 1 || timeOfLastDuel === undefined) {
             duelArray = [];
             var allUsers = [];
             allUsers = API.getUsers();

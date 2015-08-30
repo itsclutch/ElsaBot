@@ -494,7 +494,7 @@ API.on(API.CHAT, function(data) {
     Load Local Storage
 */
 if (localStorage.moniesId === undefined) {
-    localstorage.moniesId = "[1,2]";
+    localStorage.moniesId = "[1,2]";
 }
 if (localStorage.moniesValue === undefined) {
     localStorage.moniesValue = "[1,2]";

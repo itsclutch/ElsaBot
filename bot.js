@@ -589,6 +589,35 @@ API.on(API.CHAT, function(data) {
     }
 });
 /*
+    Flower
+*/
+var flowerGiver;
+var flowerReciever;
+var timeOfLastFlower;
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message.substring(0,7) === "!flower") {
+        var timeNow;
+        timeNow = Date.now();
+        var elapsedTime;
+        elapsedTime = (timeNow - timeOfLastFlower);
+        if (elapsedTime > 1 || timeOfLastFlower === undefined) {
+            var flowerArray = [];
+            flowerArray = data.message.split(" ");
+            flowerGiver = data.un;
+            flowerReciever = flowerArray[1].substring(1);
+            timeOfLastFlower = Date.now();
+            API.sendChat("@" + flowerGiver + ", @" + flowerReciever + " has offered you a flower. Type !floweraccept to take it");
+        }
+    }
+});
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message === "!floweraccept") {
+        if (data.un === flowerReciever) {
+            API.sendChat("@" + flowerReciever + " smells the flower")
+        }
+    }
+});
+/*
     Marriage Commands
 */
 var timeOfPropose;

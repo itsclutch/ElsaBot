@@ -568,12 +568,12 @@ API.on(API.CHAT, function(data) {
             dueler = data.un;
             duelee = duelArray[1].substring(1);
             timeOfLastDuel = Date.now();
-            API.sendChat("@" + duelee + ", @" + dueler + " has challenged you to a duel. Type !duelaccept to duel");
+            API.sendChat("@" + duelee + ", @" + dueler + ' has challenged you to a duel. "Type !come at me bro" to duel');
         }
     }
 });
 API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message === "!duelaccept") {
+    if (data.type === "message" && data.message === "!come at me bro") {
         if (data.un === duelee) {
             var x;
             x = Math.floor((Math.random() * 2) + 1);
@@ -606,13 +606,13 @@ API.on(API.CHAT, function(data) {
             flowerGiver = data.un;
             flowerReciever = flowerArray[1].substring(1);
             timeOfLastFlower = Date.now();
-            API.sendChat("@" + flowerGiver + ", @" + flowerReciever + " has offered you a flower. Type !floweraccept to take it");
+            API.sendChat("@" + flowerGiver + ", @" + flowerReciever + ' has offered you a flower. Type "!take the flower"to take it');
         }
     }
 });
 API.on(API.CHAT, function(data) {
     alert("test");
-    if (data.type === "message" && data.message === "!floweraccept") {
+    if (data.type === "message" && data.message === "!take the flower") {
         alert("test1");
         if (data.un === flowerReciever) {
             alert("test2");

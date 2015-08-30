@@ -508,25 +508,27 @@ var woots = 0;
 var mehs = 0;
 var grabs = 0;
 API.on(API.ADVANCE, function(data) {
+    var newMonies;
+    var playedBefore = false;
+    newMonies = (data.lastPlay.score.positive + (data.lastPlay.score.grabs * 10) + data.lastPlay.score.negative - woots - mehs - (grabs * 10) + 10);
     for (var i = 0, l = moniesId.length; i < l; i++) {
         if (data.lastPlay.dj.id === moniesId[i]) {
-            moniesValue[i] = (moniesValue[i] + data.lastPlay.score.positive + (data.lastPlay.score.grabs * 10) + data.lastPlay.score.negative - woots - mehs - (grabs * 10) + 10);
-            localStorage.moniesValue = JSON.stringify(moniesValue);
-            localStorage.moniesId = JSON.stringify(moniesId);
+            moniesValue[i] = (moniesValue[i] + newMonies);
+            playedBefore = true;
         }
-        else {
-            moniesId.push(data.lastPlay.dj.id);
-            moniesValue.push(data.lastPlay.score.positive + (data.lastPlay.score.grabs * 10) + data.lastPlay.score.negative - woots - mehs - (grabs * 10) + 10);
-            localStorage.moniesValue = JSON.stringify(moniesValue);
-            localStorage.moniesId = JSON.stringify(moniesId);
-        }
+    }
+    if (playedBefore === false) {
+        moniesId.push(data.lastPlay.dj.id);
+        moniesValue.push(newMonies);
     }
     setTimeout(function() {
         woots = API.getScore().positive;
         mehs = API.getScore().negative;
         grabs = API.getScore().grabs;
     },1000);
-    API.sendChat("@" + data.lastPlay.dj.username + " earned "(data.lastPlay.score.positive + (data.lastPlay.score.grabs * 10) + data.lastPlay.score.negative - woots - mehs - (grabs * 10) + 10) + " monies for the last song.");
+    localStorage.moniesValue = JSON.stringify(moniesValue);
+    localStorage.moniesId = JSON.stringify(moniesId);
+    API.sendChat("@" + data.lastPlay.dj.username + " earned " + newMonies + " monies for the last song.");
 });
 /*
     Marriage Commands

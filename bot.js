@@ -504,17 +504,25 @@ var moniesValue = JSON.parse(localStorage.moniesValue);
 /*
     Monies Updater
 */
-var woots = API.getScore().positive;
-var mehs = API.getScore().negative;
-var grabs = API.getScore().grabs;
-//this updates the score every 10 seconds
-setInterval(function() {
-    woots = API.getScore().positive;
-    mehs = API.getScore().negative;
-    grabs = API.getScore().grabs;
-}, 10000);
-//this sends the score on the song advance for the previous song
+var woots = 0;
+var mehs = 0;
+var grabs = 0;
 API.on(API.ADVANCE, function(data) {
+    for (var i = 0, l = moniesId.length; i < l; i++) {
+        if (data.lastPlay.dj.id === moniesId[i]) {
+            moniesValue[i] = (moniesValue[i] + data.lastPlay.score.positive + (data.lastPlay.score.grabs * 10) + data.lastPlay.score.negative - woots - mehs - (grabs * 10));
+        }
+        else {
+            moniesId.push(data.lastPlay.dj.id);
+            moniesValue.push(data.lastPlay.score.positive + (data.lastPlay.score.grabs * 10) + data.lastPlay.score.negative - woots - mehs - (grabs * 10));
+        }
+    }
+    setTimeout(function() {
+        woots = API.getScore().positive;
+        mehs = API.getScore().negative;
+        grabs = API.getScore().grabs;
+    },1000);
+    alert(data.lastPlay.score.positive + (data.lastPlay.score.grabs * 10) + data.lastPlay.score.negative - woots - mehs - (grabs * 10) + 1);
 });
 /*
     Marriage Commands

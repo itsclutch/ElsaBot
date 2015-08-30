@@ -570,7 +570,7 @@ API.on(API.CHAT, function(data) {
                     proposer = data.un;
                     timeOfPropose = Date.now();
                     proposeChat = true;
-                    API.sendChat("@" + data.un + " asks " + "@" + marryArray[1].substring(1) + ' to marry them. Type "!I do" to accept');
+                    API.sendChat(":warmbeat: @" + data.un + " asks " + "@" + marryArray[1].substring(1) + ' to marry them. Type "!I do" to accept :warmbeat:');
                 }
             }
         }
@@ -666,6 +666,13 @@ API.on(API.CHAT, function(data) {
         if (rouletteStatus === true) {
             rouletteEntries.push(data.uid);
         }
+    }
+});
+// test
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message === "!test") {
+        x = API.getUsers();
+        alert(JSON.stringify(x[0]));
     }
 });
 /*

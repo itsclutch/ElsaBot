@@ -493,8 +493,8 @@ API.on(API.CHAT, function(data) {
 /*
     Load Local Storage
 */
-var moniesId = localStorage.moniesId.parse();
-var moniesValue = localStorage.moniesValueString.parse();
+var moniesId = JSON.parse(localStorage.moniesId);
+var moniesValue = JSON.parse(localStorage.moniesValue);
 /*
     Monies Updater
 */

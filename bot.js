@@ -751,8 +751,7 @@ API.on(API.CHAT, function(data) {
 // test
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!test") {
-        x = API.getUsers();
-        alert(JSON.stringify(x[0]));
+        alert(JSON.stringify(data));
     }
 });
 /*

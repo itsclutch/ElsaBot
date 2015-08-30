@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 2.2;
+var version = 2.3;
 /*
     Welcome Message
 */
@@ -561,12 +561,12 @@ API.on(API.CHAT, function(data) {
         var elapsedTime;
         elapsedTime = (timeNow - timeOfLastDuel);
         if (elapsedTime > 1 || timeOfLastDuel === undefined) {
-            duelArray = [];
+            var duelArray = [];
             var allUsers = [];
             allUsers = API.getUsers();
             duelArray = data.message.split(" ");
             dueler = data.un;
-            duelee = allUsers[i].username;
+            duelee = data.message.substring(1);
             timeOfLastDuel = Date.now();
             API.sendChat("@" + duelee + ", @" + dueler + " has challenged you to a duel. Type !duelaccept to duel");
         }

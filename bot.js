@@ -565,6 +565,7 @@ API.on(API.CHAT, function(data) {
             allUsers = API.getUsers();
             for (var i = 0, l = allUsers.length; i < l; i++) {
                 if (marryArray[1].substring(1) === allUsers[i].username) {
+                    alert("test2")
                     fiance = marryArray[1].substring(1);
                     proposer = data.un;
                     timeOfPropose = Date.now();

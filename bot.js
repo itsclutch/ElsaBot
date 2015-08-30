@@ -612,7 +612,8 @@ API.on(API.CHAT, function(data) {
 });
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!floweraccept") {
-        if (data.un === flowerReciever) {
+        if (data.un === flowergiver) {
+            alert("test");
             API.sendChat("@" + flowerReciever + " smells the flower");
         }
     }

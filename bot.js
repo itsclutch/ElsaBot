@@ -534,7 +534,7 @@ API.on(API.ADVANCE, function(data) {
     Monies Check
 */
 API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message. === "!monies") {
+    if (data.type === "message" && data.message === "!monies") {
         for (var i = 0, l = moniesId.length; i < l; i++) {
             if (data.uid === moniesId[i]) {
                 API.sendChat("@" + data.un + " you have " + moniesValue[i] + " monies");

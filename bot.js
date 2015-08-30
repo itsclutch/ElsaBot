@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 1.5;
+var version = 1.6;
 /*
     Welcome Message
 */
@@ -563,6 +563,8 @@ API.on(API.CHAT, function(data) {
             marryArray = data.message.split(" ");
             var allUsers = [];
             allUsers = API.getUsers();
+            alert("test");
+            alert(marryArray[1].substring(1));
             for (var i = 0, l = allUsers.length; i < l; i++) {
                 if (marryArray[1].substring(1) === allUsers[i].username) {
                     alert("test2")

@@ -491,24 +491,10 @@ API.on(API.CHAT, function(data) {
     }
 });
 /*
-    Load Cookies
+    Load Local Storage
 */
-var cookieArray = [];
-cookieArray = document.cookie.split(";");
-var moniesId = [];
-var moniesValue = [];
-for (var i = 0, l = cookieArray.length; i < l; i++) {
-    if (cookieArray[i].startsWith("moniesId") === true) {
-        var moniesIdKV = [];
-        moniesIdKV = cookieKV.split("=");
-        moniesId = JSON.parse(moniesIdKV[1]);
-    }
-    if (cookieArray[i].startsWith("moniesValue") === true) {
-        var moniesValueKV = [];
-        moniesValueKV = cookieKV.split("=");
-        moniesValue = JSON.parse(moniesValueKV[1]);
-    }
-}
+var moniesId = localStorage.moniesId.parse();
+var moniesValue = localStorage.moniesValueString.parse();
 /*
     Monies Updater
 */

@@ -493,6 +493,12 @@ API.on(API.CHAT, function(data) {
 /*
     Load Local Storage
 */
+if (localStorage.moniesId === undefined) {
+    localstorage.moniesId = [];
+}
+if (localStorage.moniesValue === undefined) {
+    localStorage.moniesValue = [];
+}
 var moniesId = JSON.parse(localStorage.moniesId);
 var moniesValue = JSON.parse(localStorage.moniesValue);
 /*

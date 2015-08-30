@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 1.8;
+var version = 1.9;
 /*
     Welcome Message
 */
@@ -525,7 +525,7 @@ API.on(API.ADVANCE, function(data) {
         woots = API.getScore().positive;
         mehs = API.getScore().negative;
         grabs = API.getScore().grabs;
-    },1000);
+    },5000);
     localStorage.moniesValue = JSON.stringify(moniesValue);
     localStorage.moniesId = JSON.stringify(moniesId);
     API.sendChat("@" + data.lastPlay.dj.username + " earned " + newMonies + " monies");
@@ -545,6 +545,49 @@ API.on(API.CHAT, function(data) {
         }
         if (hasMonies = false) {
             API.sendChat("@" + data.un + "you don't have any monies");
+        }
+    }
+});
+/*
+    Duel
+*/
+var dueler;
+var duelee;
+var timeOfLastDuel;
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message.substring(0,5) === "!duel") {
+        var timeNow;
+        timeNow = Date.now();
+        var elapsedTime;
+        elapsedTime = (timeNow - timeOfLastDuel);
+        if (elapsedTime > 300000 || timeOfLastDuel === undefined) {
+            duelArray = [];
+            var allUsers = [];
+            allUsers = API.getUsers();
+            duelArray = data.message.split(" ");
+            for (var i = 0, l = allUsers.length; i < l; i++) {
+                if (duelArray[1].substring(1) === allUsers[i].username) {
+                    dueler = data.un;
+                    duelee = allUsers[i].username;
+                    timeOfLastDuel = Date.now();
+                    API.sendChat("@" + duelee + ", @" + dueler + " has challenged you to a duel. Type !duelaccept to duel");
+                }
+            }
+        }
+    }
+});
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message === "!duelaccept") {
+        if (data.un === duelee) {
+            var x = Math.floor((Math.random() * 2) + 1);
+            if (x === 1) {
+                API.sendChat("@" + duelee + " has won the duel!");
+                duelee = "done";
+            }
+            if (x === 2) {
+                API.sendChat("@" + dueler + " has won the duel!");
+                duelee = "done";
+            }
         }
     }
 });

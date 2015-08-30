@@ -612,8 +612,7 @@ API.on(API.CHAT, function(data) {
 });
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!floweraccept") {
-        if (data.un === flowergiver) {
-            alert("test");
+        if (data.un === flowerReciever) {
             API.sendChat("@" + flowerReciever + " smells the flower");
         }
     }
@@ -628,18 +627,15 @@ var proposeChat;
 proposeChat = false;
 API.on(API.CHAT, function(data) {
     if (data.message.substring(0,8) === "!propose") {
-        alert("test")
         var timeNow;
         timeNow = Date.now();
         var elapsedSinceLastPropose;
         elapsedSinceLastPropose = (timeNow - timeOfPropose);
         if (elapsedSinceLastPropose < 3600000 || timeOfPropose === undefined) {
-            alert("test1");
             var marryArray = [];
             marryArray = data.message.split(" ");
             var allUsers = [];
             allUsers = API.getUsers();
-            alert("test");
             alert(marryArray[1].substring(1));
             for (var i = 0, l = allUsers.length; i < l; i++) {
                 if (marryArray[1].substring(1) === allUsers[i].username) {
@@ -649,9 +645,6 @@ API.on(API.CHAT, function(data) {
                     timeOfPropose = Date.now();
                     proposeChat = true;
                     API.sendChat("@" + data.un + " asks " + "@" + marryArray[1].substring(1) + ' to marry them. Type "!I do" to accecpt');
-                }
-                else {
-                    alert("testb")
                 }
             }
         }

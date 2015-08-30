@@ -613,7 +613,7 @@ API.on(API.CHAT, function(data) {
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!floweraccept") {
         if (data.un === flowerReciever) {
-            API.sendChat("@" + flowerReciever + " smells the flower")
+            API.sendChat("@" + flowerReciever + " smells the flower");
         }
     }
 });

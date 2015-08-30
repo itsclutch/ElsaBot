@@ -494,10 +494,10 @@ API.on(API.CHAT, function(data) {
     Load Local Storage
 */
 if (localStorage.moniesId === undefined) {
-    localstorage.moniesId = [];
+    localstorage.moniesId = "[1,2]";
 }
 if (localStorage.moniesValue === undefined) {
-    localStorage.moniesValue = [];
+    localStorage.moniesValue = "[1,2]";
 }
 var moniesId = JSON.parse(localStorage.moniesId);
 var moniesValue = JSON.parse(localStorage.moniesValue);

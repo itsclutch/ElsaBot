@@ -528,7 +528,19 @@ API.on(API.ADVANCE, function(data) {
     },1000);
     localStorage.moniesValue = JSON.stringify(moniesValue);
     localStorage.moniesId = JSON.stringify(moniesId);
-    API.sendChat("@" + data.lastPlay.dj.username + " earned " + newMonies + " monies for the last song.");
+    API.sendChat("@" + data.lastPlay.dj.username + " earned " + newMonies + " monies");
+});
+/*
+    Monies Check
+*/
+API.on(API.CHAT, function(data) {
+    if (data.type === "message" && data.message. === "!monies") {
+        for (var i = 0, l = moniesId.length; i < l; i++) {
+            if (data.uid === moniesId[i]) {
+                API.sendChat("@" + data.un + " you have " + moniesValue[i] + " monies");
+            }
+        }
+    }
 });
 /*
     Marriage Commands

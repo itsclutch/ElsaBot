@@ -7,10 +7,136 @@ var version = 2.3;
 */
 API.sendChat("Elsabot Version " + version + " is active!");
 /*
-    Status message
+    variables
 */
+var announcement;
+announcement = false;
+var staffChat;
+staffChat = false;
+var subChat;
+subChat = false;
+var plebChat;
+plebChat = false;
+var timeOfLastSwap;
+var swapperId;
+var swapperPos;
+var swappeeId;
+var swappeePos;
+var swapAttempt;
+var dueler;
+var duelee;
+var timeOfLastDuel;
+var flowerGiver;
+var flowerReciever;
+var timeOfLastFlower;
+var timeOfPropose;
+var proposer;
+var fiance;
+var proposeChat;
+proposeChat = false;
+/*
+    Dc lookup
+*/
+var dcTime = [];
+var dcListPos = [];
+var dcListId = [];
+var globalWaitList = [];
+API.on(API.ADVANCE, function(data) {
+    globalWaitList = API.getWaitList();
+    var timeNow;
+    timeNow = Date.now();
+    for (var i = 0, l = dcTime.length; i < l; i++) {
+        var g = (timeNow - dcTime[i]);
+        if (g > 3600000) {
+            dcTime.splice(i, 1);
+            dcListPos.splice(i, 1);
+            dcListId.splice(i, 1);
+        }
+    }
+});
+API.on(API.USER_LEAVE, function(data) {
+    for (var i = 0, l = globalWaitList.length; i < l; i++) {
+        if (globalWaitList[i].username === data.username) {
+            var timeNow;
+            timeNow = Date.now();
+            dcListId.push(data.username);
+            dcListPos.push(i);
+            dcTime.push(timeNow);
+        }
+    }
 API.on(API.USER_JOIN, function(data) {
-    //API.sendChat("hi! @" + data.username + "! I am currently testing a bot. Ping me to say hi :ravechu:")
+    for (var i = 0, l = dcListId.length; i < l; i++) {
+        if (data.id === dcListId[i]) {
+            var wl = [];
+            wl = API.getWaitlist();
+            if (wl.length < 50) {
+                API.moderateAddDJ(JSON.stringify(data.id));
+                API.moderateMoveDJ(data.id, dcListPos[i]);
+                dcTime.splice(i, 1);
+                dcListPos.splice(i, 1);
+                dcListId.splice(i, 1);
+            }
+            else {
+                API.moderateLockWaitList(true, false);
+                var timer;
+                timer = setInterval(secondPassed, 1000);
+                function secondPassed() {
+                    if (wl.length < 50) {
+                        clearInterval(timer);
+                        API.moderateAddDJ(JSON.stringify(data.id));
+                        API.moderateMoveDJ(data.id, dcListPos[i]);
+                        API.moderateLockWaitList(false, false);
+                        dcTime.splice(i, 1);
+                        dcListPos.splice(i, 1);
+                        dcListId.splice(i, 1);
+                    } 
+                    else {
+                        wl = API.getWaitList();
+                    }
+                }
+            }
+        }
+    }
+});
+/*
+    Load Local Storage
+*/
+if (localStorage.moniesId === undefined) {
+    localStorage.moniesId = "[1,2]";
+}
+if (localStorage.moniesValue === undefined) {
+    localStorage.moniesValue = "[1,2]";
+}
+var moniesId = JSON.parse(localStorage.moniesId);
+var moniesValue = JSON.parse(localStorage.moniesValue);
+/*
+    Monies Updater
+*/
+var woots = 0;
+var mehs = 0;
+var grabs = 0;
+API.on(API.ADVANCE, function(data) {
+    var newMonies;
+    var playedBefore = false;
+    newMonies = (data.lastPlay.score.positive + (data.lastPlay.score.grabs * 10) + data.lastPlay.score.negative - woots - mehs - (grabs * 10) + 10);
+    for (var i = 0, l = moniesId.length; i < l; i++) {
+        if (data.lastPlay.dj.id === moniesId[i]) {
+            moniesValue[i] = (moniesValue[i] + newMonies);
+            playedBefore = true;
+        }
+    }
+    if (playedBefore === false) {
+        moniesId.push(data.lastPlay.dj.id);
+        moniesValue.push(newMonies);
+    }
+    setTimeout(function() {
+        woots = API.getScore().positive;
+        mehs = API.getScore().negative;
+        grabs = API.getScore().grabs;
+    },5000);
+    localStorage.moniesValue = JSON.stringify(moniesValue);
+    localStorage.moniesId = JSON.stringify(moniesId);
+    API.sendChat("@" + data.lastPlay.dj.username + " earned " + newMonies + " monies");
 });
 /*
     Skip Command
@@ -166,11 +292,9 @@ API.on(API.CHAT, function(data) {
             }
         }
     }
-});
 /*
     Move Command
 */
-API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!move") {
         var staff = [];
         staff = API.getStaff();
@@ -217,11 +341,9 @@ API.on(API.CHAT, function(data) {
             }
         }
     }
-});
 /*
     Add Command
 */
-API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,4) === "!add") {
         var staff = [];
         staff = API.getStaff();
@@ -260,97 +382,30 @@ API.on(API.CHAT, function(data) {
             }
         }
     }
-});
 /*
     Join Command
 */
-API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!join") {
         API.moderateAddDJ(JSON.stringify(data.uid));
     }
-});
-/*
-    Dc lookup
-*/
-var dcTime = [];
-var dcListPos = [];
-var dcListId = [];
-var globalWaitList = [];
-API.on(API.ADVANCE, function(data) {
-    globalWaitList = API.getWaitList();
-    var timeNow;
-    timeNow = Date.now();
-    for (var i = 0, l = dcTime.length; i < l; i++) {
-        var g = (timeNow - dcTime[i]);
-        if (g > 3600000) {
-            dcTime.splice(i, 1);
-            dcListPos.splice(i, 1);
-            dcListId.splice(i, 1);
-        }
-    }
-});
-API.on(API.USER_LEAVE, function(data) {
-    for (var i = 0, l = globalWaitList.length; i < l; i++) {
-        if (globalWaitList[i].username === data.username) {
-            var timeNow;
-            timeNow = Date.now();
-            dcListId.push(data.username);
-            dcListPos.push(i);
-            dcTime.push(timeNow);
-        }
-    }
-});
-API.on(API.USER_JOIN, function(data) {
-    for (var i = 0, l = dcListId.length; i < l; i++) {
-        if (data.id === dcListId[i]) {
-            var wl = [];
-            wl = API.getWaitlist();
-            if (wl.length < 50) {
-                API.moderateAddDJ(JSON.stringify(data.id));
-                API.moderateMoveDJ(data.id, dcListPos[i]);
-                dcTime.splice(i, 1);
-                dcListPos.splice(i, 1);
-                dcListId.splice(i, 1);
-            }
-            else {
-                API.moderateLockWaitList(true, false);
-                var timer;
-                timer = setInterval(secondPassed, 1000);
-                function secondPassed() {
-                    if (wl.length < 50) {
-                        clearInterval(timer);
-                        API.moderateAddDJ(JSON.stringify(data.id));
-                        API.moderateMoveDJ(data.id, dcListPos[i]);
-                        API.moderateLockWaitList(false, false);
-                        dcTime.splice(i, 1);
-                        dcListPos.splice(i, 1);
-                        dcListId.splice(i, 1);
-                    } 
-                    else {
-                        wl = API.getWaitList();
-                    }
-                }
-            }
-        }
-    }
-});
 /*
     Swap
 */
-var timeOfLastSwap;
-var swapperId;
-var swapperPos;
-var swappeeId;
-var swappeePos;
-API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!swap") {
-        var swapAttempt;
+        var swapArray = [];
+        swapArray = data.message.split(" ");
+        if (swapArray[2] === accept) {
+            if (data.uid === swappeeId) {
+                API.moderateMoveDJ(data.uid, swapperPos);
+                API.moderateMoveDJ(swapperId, swappeePos);
+                timeOfLastSwap = Date.now();
+                swappeeId = 1;
+            }
+        }
         swapAttempt = Date.now();
         var elapsedTime;
         elapsedTime = (swapAttempt - timeOfLastSwap);
         if (elapsedTime > 60000 || timeOfLastSwap === undefined) {
-            var swapArray = [];
-            swapArray = data.message.split(" ");
             var wl = [];
             wl = API.getWaitList();
             for (var i = 0, l = wl.length; i < l; i++) {
@@ -358,7 +413,7 @@ API.on(API.CHAT, function(data) {
                     for (var j = 0, k = wl.length; j < k; j++) {
                         if (swapArray[1].substring(1) === wl[j].username) {
                             if (i < j) {
-                                API.sendChat("Hey, " + swapArray[1] + ", " + "@" + data.un + " would like to swap with you. Type !swapaccept to swap");
+                                API.sendChat("Hey, " + swapArray[1] + ", " + "@" + data.un + " would like to swap with you. Type !swap accept to swap");
                                 swapperId = wl[i].id;
                                 swappeeId = wl[j].id
                                 swapperPos = i;
@@ -370,29 +425,9 @@ API.on(API.CHAT, function(data) {
             }
         }
     }
-});
-API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message === "!swapaccept") {
-        if (data.uid === swappeeId) {
-            API.moderateMoveDJ(data.uid, swapperPos);
-            API.moderateMoveDJ(swapperId, swappeePos);
-            timeOfLastSwap = Date.now();
-            swappeeId = 1;
-        }
-    }
-});
 /*
     Chat Modes
 */
-var announcement;
-announcement = false;
-var staffChat;
-staffChat = false;
-var subChat;
-subChat = false;
-var plebChat;
-plebChat = false;
-API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,9) === "!chatmode") {
         var chatModeArray = [];
         chatModeArray = data.message.split(" ");
@@ -437,8 +472,6 @@ API.on(API.CHAT, function(data) {
             }
         }
     }
-});
-API.on(API.CHAT, function(data) {
     if (staffChat === true) {
         if (data.type === "message") {
             var allUsers = [];
@@ -489,51 +522,9 @@ API.on(API.CHAT, function(data) {
             }
         }
     }
-});
-/*
-    Load Local Storage
-*/
-if (localStorage.moniesId === undefined) {
-    localStorage.moniesId = "[1,2]";
-}
-if (localStorage.moniesValue === undefined) {
-    localStorage.moniesValue = "[1,2]";
-}
-var moniesId = JSON.parse(localStorage.moniesId);
-var moniesValue = JSON.parse(localStorage.moniesValue);
-/*
-    Monies Updater
-*/
-var woots = 0;
-var mehs = 0;
-var grabs = 0;
-API.on(API.ADVANCE, function(data) {
-    var newMonies;
-    var playedBefore = false;
-    newMonies = (data.lastPlay.score.positive + (data.lastPlay.score.grabs * 10) + data.lastPlay.score.negative - woots - mehs - (grabs * 10) + 10);
-    for (var i = 0, l = moniesId.length; i < l; i++) {
-        if (data.lastPlay.dj.id === moniesId[i]) {
-            moniesValue[i] = (moniesValue[i] + newMonies);
-            playedBefore = true;
-        }
-    }
-    if (playedBefore === false) {
-        moniesId.push(data.lastPlay.dj.id);
-        moniesValue.push(newMonies);
-    }
-    setTimeout(function() {
-        woots = API.getScore().positive;
-        mehs = API.getScore().negative;
-        grabs = API.getScore().grabs;
-    },5000);
-    localStorage.moniesValue = JSON.stringify(moniesValue);
-    localStorage.moniesId = JSON.stringify(moniesId);
-    API.sendChat("@" + data.lastPlay.dj.username + " earned " + newMonies + " monies");
-});
 /*
     Monies Check
 */
-API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!monies") {
         var hasMonies;
         hasMonies = false;
@@ -547,85 +538,60 @@ API.on(API.CHAT, function(data) {
             API.sendChat("@" + data.un + "you don't have any monies");
         }
     }
-});
 /*
     Duel
 */
-var dueler;
-var duelee;
-var timeOfLastDuel;
-API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!duel") {
+        var duelArray = [];
+        duelArray = data.message.split(" ");
+        var allUsers = [];
+        if (duelArray[1] === accept) {
+            if (data.un === duelee) {
+                var x;
+                x = Math.floor((Math.random() * 2) + 1);
+                if (x === 1) {
+                    API.sendChat("@" + duelee + " has won the duel!");
+                    duelee = "done";
+                }
+                if (x === 2) {
+                    API.sendChat("@" + dueler + " has won the duel!");
+                    duelee = "done";
+                }
+            }
+        }
         var timeNow;
         timeNow = Date.now();
         var elapsedTime;
         elapsedTime = (timeNow - timeOfLastDuel);
         if (elapsedTime > 1 || timeOfLastDuel === undefined) {
-            var duelArray = [];
-            var allUsers = [];
-            allUsers = API.getUsers();
-            duelArray = data.message.split(" ");
             dueler = data.un;
             duelee = duelArray[1].substring(1);
             timeOfLastDuel = Date.now();
-            API.sendChat("@" + duelee + ", @" + dueler + ' has challenged you to a duel. "Type !come at me bro" to duel');
+            API.sendChat("@" + duelee + ", @" + dueler + ' has challenged you to a duel. "Type !duel accept" to duel');
         }
     }
-});
-API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message === "!come at me bro") {
-        if (data.un === duelee) {
-            var x;
-            x = Math.floor((Math.random() * 2) + 1);
-            if (x === 1) {
-                API.sendChat("@" + duelee + " has won the duel!");
-                duelee = "done";
-            }
-            if (x === 2) {
-                API.sendChat("@" + dueler + " has won the duel!");
-                duelee = "done";
-            }
-        }
-    }
-});
 /*
     Flower
 */
-var flowerGiver;
-var flowerReciever;
-var timeOfLastFlower;
-API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message.substring(0,7) === "!flower") {
+        var flowerArray = [];
+        flowerArray = data.message.split(" ");
+        if (flowerArray[1] === "accept") {
+            if (data.un === flowerReciever) {
+                API.sendChat("@" + flowerReciever + " smells the flower");
+            }
+        }
         var timeNow;
         timeNow = Date.now();
         var elapsedTime;
         elapsedTime = (timeNow - timeOfLastFlower);
         if (elapsedTime > 1 || timeOfLastFlower === undefined) {
-            var flowerArray = [];
-            flowerArray = data.message.split(" ");
             flowerGiver = data.un;
             flowerReciever = flowerArray[1].substring(1);
             timeOfLastFlower = Date.now();
-            API.sendChat("@" + flowerGiver + ", @" + flowerReciever + ' has offered you a flower. Type "!take the flower"to take it');
+            API.sendChat("@" + flowerGiver + ", @" + flowerReciever + ' has offered you a flower. Type "!flower accept" to take it');
         }
     }
-});
-API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message === "!take the flower") {
-        if (data.un === flowerReciever) {
-            API.sendChat("@" + flowerReciever + " smells the flower");
-        }
-    }
-});
-/*
-    Marriage Commands
-*/
-var timeOfPropose;
-var proposer;
-var fiance;
-var proposeChat;
-proposeChat = false;
-API.on(API.CHAT, function(data) {
     if (data.message.substring(0,8) === "!propose") {
         var timeNow;
         timeNow = Date.now();
@@ -649,8 +615,6 @@ API.on(API.CHAT, function(data) {
             }
         }
     }
-});
-API.on(API.CHAT, function(data) {
     if (data.un === fiance) {
         if (data.type === "message" && data.message === "!I do") {
             var timeOfAnswer;

@@ -10,7 +10,7 @@ API.sendChat("Elsabot Version " + version + " is active!");
     Status message
 */
 API.on(API.USER_JOIN, function(data) {
-    API.sendChat("hi! @" + data.username + "! I am currently testing a bot. Ping me to say hi :ravechu:")
+    //API.sendChat("hi! @" + data.username + "! I am currently testing a bot. Ping me to say hi :ravechu:")
 });
 /*
     Skip Command
@@ -552,11 +552,13 @@ var proposeChat;
 proposeChat = false;
 API.on(API.CHAT, function(data) {
     if (data.message.substring(0,8) === "!propose") {
+        alert("test")
         var timeNow;
         timeNow = Date.now();
         var elapsedSinceLastPropose;
         elapsedSinceLastPropose = (timeNow - timeOfPropose);
         if (elapsedSinceLastPropose < 3600000 || timeOfPropose === undefined) {
+            alert("test1");
             var marryArray = [];
             marryArray = data.message.split(" ");
             var allUsers = [];
@@ -663,20 +665,6 @@ API.on(API.CHAT, function(data) {
         if (rouletteStatus === true) {
             rouletteEntries.push(data.uid);
         }
-    }
-});
-// TEST PLS REMOVE 
-var testArray = [];
-testArray = [1, 2, 3]
-API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message === "!test") {
-        alert("test");
-        API.sendChat("Woots: " + woots + " | Mehs: " + mehs + " | Grabs: " + grabs);
-    }
-});
-API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message === "!test1") {
-        test++;
     }
 });
 /*

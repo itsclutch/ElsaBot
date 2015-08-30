@@ -575,7 +575,8 @@ API.on(API.CHAT, function(data) {
 API.on(API.CHAT, function(data) {
     if (data.type === "message" && data.message === "!duelaccept") {
         if (data.un === duelee) {
-            var x = Math.floor((Math.random() * 2) + 1);
+            var x;
+            x = Math.floor((Math.random() * 2) + 1);
             if (x === 1) {
                 API.sendChat("@" + duelee + " has won the duel!");
                 duelee = "done";

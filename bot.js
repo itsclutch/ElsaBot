@@ -1,7 +1,7 @@
 /*
     ElsaBot Version
 */
-var version = 1.6;
+var version = 1.7;
 /*
     Welcome Message
 */
@@ -568,11 +568,14 @@ API.on(API.CHAT, function(data) {
             for (var i = 0, l = allUsers.length; i < l; i++) {
                 if (marryArray[1].substring(1) === allUsers[i].username) {
                     alert("test2")
-                    fiance = marryArray[1].substring(1);
+                    fiance = allUsers[i].username;
                     proposer = data.un;
                     timeOfPropose = Date.now();
                     proposeChat = true;
                     API.sendChat(":warmbeat: @" + data.un + " asks " + "@" + marryArray[1].substring(1) + ' to marry them. Type "!I do" to accept :warmbeat:');
+                }
+                else {
+                    alert("testb")
                 }
             }
         }

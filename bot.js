@@ -1,3 +1,4 @@
+/* global API */
 /*
     ElsaBot Version
 */
@@ -9,14 +10,10 @@ API.sendChat("Elsabot Version " + version + " is active!");
 /*
     variables
 */
-var announcement;
-announcement = false;
-var staffChat;
-staffChat = false;
-var subChat;
-subChat = false;
-var plebChat;
-plebChat = false;
+var announcement = false;
+var staffChat = false;
+var subChat = false;
+var plebChat = false;
 var timeOfLastSwap;
 var swapperId;
 var swapperPos;
@@ -32,8 +29,15 @@ var timeOfLastFlower;
 var timeOfPropose;
 var proposer;
 var fiance;
-var proposeChat;
-proposeChat = false;
+var proposeChat = false;
+/*
+    Chat to function
+*/
+API.on(API.chat, function (data) {
+    if (data.message.startsWith("!skip")) {
+        skip();
+    }
+});
 /*
     Dc lookup
 */
@@ -41,7 +45,7 @@ var dcTime = [];
 var dcListPos = [];
 var dcListId = [];
 var globalWaitList = [];
-API.on(API.ADVANCE, function(data) {
+function dcLookupWaitListUpdate(data) {
     globalWaitList = API.getWaitList();
     var timeNow;
     timeNow = Date.now();
@@ -53,8 +57,8 @@ API.on(API.ADVANCE, function(data) {
             dcListId.splice(i, 1);
         }
     }
-});
-API.on(API.USER_LEAVE, function(data) {
+}
+function pushToDcLookupList(data) {
     for (var i = 0, l = globalWaitList.length; i < l; i++) {
         if (globalWaitList[i].username === data.username) {
             var timeNow;
@@ -64,7 +68,8 @@ API.on(API.USER_LEAVE, function(data) {
             dcTime.push(timeNow);
         }
     }
-API.on(API.USER_JOIN, function(data) {
+}
+function dcCheck(data) {
     for (var i = 0, l = dcListId.length; i < l; i++) {
         if (data.id === dcListId[i]) {
             var wl = [];
@@ -97,7 +102,7 @@ API.on(API.USER_JOIN, function(data) {
             }
         }
     }
-});
+}
 /*
     Load Local Storage
 */
@@ -115,7 +120,7 @@ var moniesValue = JSON.parse(localStorage.moniesValue);
 var woots = 0;
 var mehs = 0;
 var grabs = 0;
-API.on(API.ADVANCE, function(data) {
+function moniesUpdate(data) {
     var newMonies;
     var playedBefore = false;
     newMonies = (data.lastPlay.score.positive + (data.lastPlay.score.grabs * 10) + data.lastPlay.score.negative - woots - mehs - (grabs * 10) + 10);
@@ -137,202 +142,136 @@ API.on(API.ADVANCE, function(data) {
     localStorage.moniesValue = JSON.stringify(moniesValue);
     localStorage.moniesId = JSON.stringify(moniesId);
     API.sendChat("@" + data.lastPlay.dj.username + " earned " + newMonies + " monies");
-});
+}
 /*
     Skip Command
 */
-API.on(API.CHAT, function(data) {
+var djSkip;
+var wlSkip;
+var wlFullTimerSkip;
+function wlFullSkip() {
+    if (wlSkip.length < 50) {
+        clearInterval(wlFullTimerSkip);
+        API.moderateAddDJ(JSON.stringify(djSkip.id));
+        API.moderateMoveDJ(djSkip.id, 3);
+        API.moderateLockWaitList(false, false);
+    }
+    else {
+        wlSkip = API.getWaitList();
+    }
+}
+function addToWaitListSkip() {
+    if (wlSkip.length < 50) {
+        API.moderateAddDJ(JSON.stringify(djSkip.id));
+        API.moderateMoveDJ(djSkip.id, 3);
+    }
+    else {
+        API.moderateLockWaitList(true, false);
+        wlFullTimerSkip = setInterval(wlFullSkip, 1000);
+    }
+}
+var seconds;
+var timer2;
+function banTimer() {
+    if (seconds === 0) {
+        clearInterval(timer2);
+        API.moderateBanUser(djSkip.id, 1, API.BAN.HOUR);
+    } 
+    else {
+        seconds--;
+    }
+}
+function skipValues(data) {
+    djSkip = API.getDJ();
+    API.moderateForceSkip();
+    var skiparray = [];
+    skiparray = data.message.split(" ");
+    if(skiparray[1] !== undefined) {              
+        wlSkip = API.getWaitList();
+        if (skiparray[1] === "bl") {
+            API.sendChat("@" + djSkip.username + " That song is on the room's blacklist. Please pick a different song.");
+            addToWaitListSkip();
+        }
+        if (skiparray[1] === "op") {
+            API.sendChat("@" + djSkip.username + " That song is over played. Please pick a fresher song.");
+            addToWaitListSkip();
+        }
+        if (skiparray[1] === "nsfw") {
+            API.sendChat("@" + djSkip.username + " That song is NSFW. Please pick a cleaner song.");
+            addToWaitListSkip();
+        }
+        if (skiparray[1] === "theme") {
+            API.sendChat("@" + djSkip.username + " That song doesnt fit the room's theme. Please pick a different song.");
+            addToWaitListSkip();
+        }
+        if (skiparray[1] === "vibe") {
+            API.sendChat("@" + djSkip.username + " You just killed the vibe. Please try again.");
+            addToWaitListSkip();
+        }
+        if (skiparray[1] === "ban") {
+                API.sendChat("@" + djSkip.username + " You played a really bad song.  You will be kicked for 1 hour.");
+                seconds = 5;
+                timer2 = setInterval(banTimer, 1000);
+        }
+    }
+}
+function skip(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!skip") {
         var staff = [];
         staff = API.getStaff();
         for (var i = 0, l = staff.length; i < l; i++) {
             if (data.un === staff[i].username) {
                 if (staff[i].role > 1) {
-                    var dj = [];
-                    dj = API.getDJ();
-                    API.moderateForceSkip();
-                    var skiparray = [];
-                    skiparray = data.message.split(" ");
-                    if(skiparray[1] !== undefined) {
-                        var wl = [];
-                        wl = API.getWaitList();
-                        if (skiparray[1] === "bl") {
-                            API.sendChat("@" + dj.username + " That song is on the room's blacklist. Please pick a different song.");
-                            if (wl.length < 50) {
-                                API.moderateAddDJ(JSON.stringify(dj.id));
-                                API.moderateMoveDJ(dj.id, 3);
-                            }
-                            else {
-                                API.moderateLockWaitList(true, false);
-                                var wlFullTimer;
-                                wlFullTimer = setInterval(wlFull, 1000);
-                                function wlFull() {
-                                    if (wl.length < 50) {
-                                        clearInterval(wlFullTimer);
-                                        API.moderateAddDJ(JSON.stringify(dj.id));
-                                        API.moderateMoveDJ(dj.id, 3);
-                                        API.moderateLockWaitList(false, false);
-                                    } 
-                                    else {
-                                    wl = API.getWaitList();
-                                    }
-                                }
-                            }
-                        }
-                        if (skiparray[1] === "op") {
-                            API.sendChat("@" + dj.username + " That song is over played. Please pick a fresher song.");
-                            if (wl.length < 50) {
-                                API.moderateAddDJ(JSON.stringify(dj.id));
-                                API.moderateMoveDJ(dj.id, 3);
-                            }
-                            else {
-                                API.moderateLockWaitList(true, false);
-                                var wlFullTimer;
-                                wlFullTimer = setInterval(wlFull, 1000);
-                                function wlFull() {
-                                    if (wl.length < 50) {
-                                        clearInterval(wlFullTimer);
-                                        API.moderateAddDJ(JSON.stringify(dj.id));
-                                        API.moderateMoveDJ(dj.id, 3);
-                                        API.moderateLockWaitList(false, false);
-                                    } 
-                                    else {
-                                    wl = API.getWaitList();
-                                    }
-                                }
-                            }
-                        }
-                        if (skiparray[1] === "nsfw") {
-                            API.sendChat("@" + dj.username + " That song is NSFW. Please pick a cleaner song.");
-                            if (wl.length < 50) {
-                                API.moderateAddDJ(JSON.stringify(dj.id));
-                                API.moderateMoveDJ(dj.id, 3);
-                            }
-                            else {
-                                API.moderateLockWaitList(true, false);
-                                var wlFullTimer;
-                                wlFullTimer = setInterval(wlFull, 1000);
-                                function wlFull() {
-                                    if (wl.length < 50) {
-                                        clearInterval(wlFullTimer);
-                                        API.moderateAddDJ(JSON.stringify(dj.id));
-                                        API.moderateMoveDJ(dj.id, 3);
-                                        API.moderateLockWaitList(false, false);
-                                    } 
-                                    else {
-                                    wl = API.getWaitList();
-                                    }
-                                }
-                            }
-                        }
-                        if (skiparray[1] === "theme") {
-                            API.sendChat("@" + dj.username + " That song doesnt fit the room's theme. Please pick a different song.");
-                            if (wl.length < 50) {
-                                API.moderateAddDJ(JSON.stringify(dj.id));
-                                API.moderateMoveDJ(dj.id, 3);
-                            }
-                            else {
-                                API.moderateLockWaitList(true, false);
-                                var wlFullTimer;
-                                wlFullTimer = setInterval(wlFull, 1000);
-                                function wlFull() {
-                                    if (wl.length < 50) {
-                                        clearInterval(wlFullTimer);
-                                        API.moderateAddDJ(JSON.stringify(dj.id));
-                                        API.moderateMoveDJ(dj.id, 3);
-                                        API.moderateLockWaitList(false, false);
-                                    } 
-                                    else {
-                                    wl = API.getWaitList();
-                                    }
-                                }
-                            }
-                        }
-                        if (skiparray[1] === "vibe") {
-                            API.sendChat("@" + dj.username + " You just killed the vibe. Please try again.");
-                            if (wl.length < 50) {
-                                API.moderateAddDJ(JSON.stringify(dj.id));
-                                API.moderateMoveDJ(dj.id, 3);
-                            }
-                            else {
-                                API.moderateLockWaitList(true, false);
-                                var wlFullTimer;
-                                wlFullTimer = setInterval(wlFull, 1000);
-                                function wlFull() {
-                                    if (wl.length < 50) {
-                                        clearInterval(wlFullTimer);
-                                        API.moderateAddDJ(JSON.stringify(dj.id));
-                                        API.moderateMoveDJ(dj.id, 3);
-                                        API.moderateLockWaitList(false, false);
-                                    } 
-                                    else {
-                                    wl = API.getWaitList();
-                                    }
-                                }
-                            }
-                        }
-                        if (skiparray[1] === "ban") {
-                            API.sendChat("@" + dj.username + " You played a really bad song.  You will be kicked for 1 hour.");
-                            var seconds;
-                            seconds = 5;
-                            var timer2;
-                            timer2 = setInterval(banTimer, 1000);
-                            function banTimer() {
-                                if (seconds === 0) {
-                                    clearInterval(timer2);
-                                    API.moderateBanUser(dj.id, 1, API.BAN.HOUR);
-                                } 
-                                else {
-                                    seconds--;
-                                }
-                            }
-                        }
-                    }
+                    skipValues();
                 }
             }
         }
     }
+}
 /*
     Move Command
 */
+var wlMove = [];
+var moveTimer;
+var allUsersMove = [];
+function wlFullMove() {
+    if (wlMove.length < 50) {
+        clearInterval(moveTimer);
+        API.moderateAddDJ(JSON.stringify(allUsersMove[i].id));
+        API.moderateLockWaitList(false, false);
+    } 
+    else {
+        wlMove = API.getWaitList();
+    }
+}
+function move(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!move") {
+        var inWaitList = false;
         var staff = [];
         staff = API.getStaff();
-        for (var i = 0, l = staff.length; i < l; i++) {
+        for (var i = 0; i < staff.length; i++) {
             if (data.un === staff[i].username) {
                 if (staff[i].role > 1) {
                     var ma = [];
                     ma = data.message.split(" ");
-                    var wl = [];
-                    wl = API.getWaitList();
-                    for (var i = 0, l = wl.length; i < l; i++) {
-                        if (ma[1].substring(1) === wl[i].username) {
-                            API.moderateMoveDJ(wl[i].id, ma[2]);
-                        } 
-                        else {
-                            var allusers = [];
-                            allusers = API.getUsers();
-                            for (var i = 0, l = allusers.length; i < l; i++) {
-                                if (ma[1].substring(1) === allusers[i].username) {
-                                    if (wl.length < 50) {
-                                        API.moderateAddDJ(JSON.stringify(allusers[i].id));
-                                        API.moderateMoveDJ(allusers[i].id, ma[2]);
-                                    }
-                                    else {
-                                        API.moderateLockWaitList(true, false);
-                                        var timer;
-                                        timer = setInterval(secondPassed, 1000);
-                                        function secondPassed() {
-                                            if (wl.length < 50) {
-                                                clearInterval(timer);
-                                                API.moderateAddDJ(JSON.stringify(allusers[i].id));
-                                                API.moderateLockWaitList(false, false);
-                                            } 
-                                            else {
-                                                wl = API.getWaitList();
-                                            }
-                                        }
-                                    }
+                    wlMove = API.getWaitList();
+                    for (var j = 0; j < wlMove.length; j++) {
+                        if (ma[1].substring(1) === wlMove[j].username) {
+                            API.moderateMoveDJ(wlMove[i].id, ma[2]);
+                            inWaitList = true;
+                        }
+                    }
+                    if (inWaitList === false) {
+                        allUsersMove = API.getUsers(); 
+                        for (var k = 0; k < allUsersMove.length; k++) {
+                            if (ma[1].substring(1) === allUsersMove[k].username) {
+                                if (wlMove.length < 50) {
+                                    API.moderateAddDJ(JSON.stringify(allUsersMove[k].id));
+                                    API.moderateMoveDJ(allUsersMove[k].id, ma[2]);
+                                }
+                                else {
+                                    API.moderateLockWaitList(true, false);
+                                    moveTimer = setInterval(wlFullMove, 1000);
                                 }
                             }
                         }
@@ -341,13 +280,26 @@ API.on(API.CHAT, function(data) {
             }
         }
     }
+}
 /*
     Add Command
 */
+var addTimer;
+function wlFullAdd() {
+    if (wl.length < 50) {
+        clearInterval(addTimer);
+        API.moderateAddDJ(JSON.stringify(allusers[i].id));
+        API.moderateLockWaitList(false, false);
+    } 
+    else {
+        wl = API.getWaitList();
+    }
+}
+function add(data) {
     if (data.type === "message" && data.message.substring(0,4) === "!add") {
         var staff = [];
         staff = API.getStaff();
-        for (var i = 0, l = staff.length; i < l; i++) {
+        for (var i; i < staff.length; i++) {
             if (data.un === staff[i].username) {
                 if (staff[i].role > 1) {
                     var wl = [];
@@ -356,25 +308,14 @@ API.on(API.CHAT, function(data) {
                     addarray = data.message.split(" ");
                     var allusers = [];
                     allusers = API.getUsers();
-                    for (var i = 0, l = allusers.length; i < l; i++) {
-                        if (allusers[i].username === addarray[1].substring(1)) {
+                    for (var j = 0; j < allusers.length; j++) {
+                        if (allusers[j].username === addarray[1].substring(1)) {
                             if (wl.length < 50) {
                                 API.moderateAddDJ(JSON.stringify(allusers[i].id));
                             }
                             else {
                                 API.moderateLockWaitList(true, false);
-                                var timer;
-                                timer = setInterval(secondPassed, 1000);
-                                function secondPassed() {
-                                    if (wl.length < 50) {
-                                        clearInterval(timer);
-                                        API.moderateAddDJ(JSON.stringify(allusers[i].id));
-                                        API.moderateLockWaitList(false, false);
-                                    } 
-                                    else {
-                                        wl = API.getWaitList();
-                                    }
-                                }
+                                addTimer = setInterval(wlFullMove, 1000);
                             }
                         }
                     }
@@ -382,19 +323,23 @@ API.on(API.CHAT, function(data) {
             }
         }
     }
+}
 /*
     Join Command
 */
+function join(data) {
     if (data.type === "message" && data.message === "!join") {
         API.moderateAddDJ(JSON.stringify(data.uid));
     }
+}
 /*
     Swap
 */
+function swap(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!swap") {
         var swapArray = [];
         swapArray = data.message.split(" ");
-        if (swapArray[2] === accept) {
+        if (swapArray[2] === "accept") {
             if (data.uid === swappeeId) {
                 API.moderateMoveDJ(data.uid, swapperPos);
                 API.moderateMoveDJ(swapperId, swappeePos);
@@ -415,7 +360,7 @@ API.on(API.CHAT, function(data) {
                             if (i < j) {
                                 API.sendChat("Hey, " + swapArray[1] + ", " + "@" + data.un + " would like to swap with you. Type !swap accept to swap");
                                 swapperId = wl[i].id;
-                                swappeeId = wl[j].id
+                                swappeeId = wl[j].id;
                                 swapperPos = i;
                                 swappeePos = j;
                             }
@@ -425,9 +370,11 @@ API.on(API.CHAT, function(data) {
             }
         }
     }
+}
 /*
     Chat Modes
 */
+function chatmodes(data) {
     if (data.type === "message" && data.message.substring(0,9) === "!chatmode") {
         var chatModeArray = [];
         chatModeArray = data.message.split(" ");
@@ -472,10 +419,11 @@ API.on(API.CHAT, function(data) {
             }
         }
     }
+}
+function chatModeDelete(data) {
     if (staffChat === true) {
         if (data.type === "message") {
-            var allUsers = [];
-            allUsers = API.getUsers();
+            var allUsers = API.getUsers();
             for (var i = 0, l = allUsers.length; i < l; i++) {
                 if (data.un === allUsers[i].username) {
                     if (allUsers[i].role < 1) {
@@ -487,8 +435,7 @@ API.on(API.CHAT, function(data) {
     }
     if (subChat === true) {
         if (data.type === "message") {
-            var allUsers = [];
-            allUsers = API.getUsers();
+            var allUsers = API.getUsers();
             for (var i = 0, l = allUsers.length; i < l; i++) {
                 if (data.un === allUsers[i].username) {
                     if (allUsers[i].role < 1) {
@@ -511,8 +458,7 @@ API.on(API.CHAT, function(data) {
     }
     if (announcement === true) {
         if (data.type === "message") {
-            var allUsers = [];
-            allUsers = API.getUsers();
+            var allUsers = API.getUsers();
             for (var i = 0, l = allUsers.length; i < l; i++) {
                 if (data.un === allUsers[i].username) {
                     if (allUsers[i].role < 4) {
@@ -522,9 +468,11 @@ API.on(API.CHAT, function(data) {
             }
         }
     }
+}
 /*
     Monies Check
 */
+function moniesCheck(data){
     if (data.type === "message" && data.message === "!monies") {
         var hasMonies;
         hasMonies = false;
@@ -534,18 +482,19 @@ API.on(API.CHAT, function(data) {
                 hasMonies = true;
             }
         }
-        if (hasMonies = false) {
+        if (hasMonies === false) {
             API.sendChat("@" + data.un + "you don't have any monies");
         }
     }
+}
 /*
     Duel
 */
+function duel(data) {
     if (data.type === "message" && data.message.substring(0,5) === "!duel") {
         var duelArray = [];
         duelArray = data.message.split(" ");
-        var allUsers = [];
-        if (duelArray[1] === accept) {
+        if (duelArray[1] === "accept") {
             if (data.un === duelee) {
                 var x;
                 x = Math.floor((Math.random() * 2) + 1);
@@ -570,9 +519,11 @@ API.on(API.CHAT, function(data) {
             API.sendChat("@" + duelee + ", @" + dueler + ' has challenged you to a duel. "Type !duel accept" to duel');
         }
     }
+}
 /*
     Flower
 */
+function flower(data) {
     if (data.type === "message" && data.message.substring(0,7) === "!flower") {
         var flowerArray = [];
         flowerArray = data.message.split(" ");
@@ -592,6 +543,8 @@ API.on(API.CHAT, function(data) {
             API.sendChat("@" + flowerGiver + ", @" + flowerReciever + ' has offered you a flower. Type "!flower accept" to take it');
         }
     }
+}
+function marry() {
     if (data.message.substring(0,8) === "!propose") {
         var timeNow;
         timeNow = Date.now();
@@ -602,10 +555,9 @@ API.on(API.CHAT, function(data) {
             marryArray = data.message.split(" ");
             var allUsers = [];
             allUsers = API.getUsers();
-            alert(marryArray[1].substring(1));
             for (var i = 0, l = allUsers.length; i < l; i++) {
                 if (marryArray[1].substring(1) === allUsers[i].username) {
-                    alert("test2")
+
                     fiance = allUsers[i].username;
                     proposer = data.un;
                     timeOfPropose = Date.now();
@@ -626,14 +578,14 @@ API.on(API.CHAT, function(data) {
             }
         }
     }
-});
+}
 /*
     Roulette
 */
 var rouletteStatus;
 rouletteStatus = false;
 var rouletteEntries = [];
-API.on(API.CHAT, function(data) {
+function roulette(data) {
     if (data.type === "message" && data.message === "!roulette") {
         var staff = [];
         staff = API.getStaff();
@@ -698,25 +650,25 @@ API.on(API.CHAT, function(data) {
             }
         }
     }
-});
-API.on(API.CHAT, function(data) {
-    if (data.type === "message" && data.message === "!join") {
-        if (rouletteStatus === true) {
-            rouletteEntries.push(data.uid);
-        }
-    }
-});
+}
+//function join() {
+//    if (data.type === "message" && data.message === "!join") {
+//        if (rouletteStatus === true) {
+//           rouletteEntries.push(data.uid);
+//        }
+//    }
+//}
 // test
-API.on(API.CHAT, function(data) {
+function test(data) {
     if (data.type === "message" && data.message === "!test") {
         alert(JSON.stringify(data));
     }
-});
+}
 /*
     Delete commands from chat
 */
-API.on(API.CHAT, function(data) {
+function deleteChat(data) {
     if (data.type === "message" && data.message.substring(0,1) === "!") {
        API.moderateDeleteChat(data.cid);
     }
-});
+}

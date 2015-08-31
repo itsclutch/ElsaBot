@@ -669,6 +669,7 @@ function deleteChat(data) {
 */
 API.on(API.chat, function (data) {
     if (data.message.startsWith("!skip")) {
+        alert("test");
         skip();
     }
 });

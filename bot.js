@@ -31,14 +31,6 @@ var proposer;
 var fiance;
 var proposeChat = false;
 /*
-    Chat to function
-*/
-API.on(API.chat, function (data) {
-    if (data.message.startsWith("!skip")) {
-        skip();
-    }
-});
-/*
     Dc lookup
 */
 var dcTime = [];
@@ -672,3 +664,11 @@ function deleteChat(data) {
        API.moderateDeleteChat(data.cid);
     }
 }
+/*
+    Chat to function
+*/
+API.on(API.chat, function (data) {
+    if (data.message.startsWith("!skip")) {
+        skip();
+    }
+});

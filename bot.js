@@ -1,675 +1,626 @@
 /* global API */
 /*
-    ElsaBot Version
+                         /$$                     /$$                   /$$                        /$$  
+                        | $$                    | $$                  | $$                      /$$$$  
+                /$$$$$$ | $$  /$$$$$$$  /$$$$$$ | $$$$$$$   /$$$$$$  /$$$$$$         /$$    /$$|_  $$  
+               /$$__  $$| $$ /$$_____/ |____  $$| $$__  $$ /$$__  $$|_  $$_/        |  $$  /$$/  | $$  
+              | $$$$$$$$| $$|  $$$$$$   /$$$$$$$| $$  \ $$| $$  \ $$  | $$           \  $$/$$/   | $$  
+              | $$_____/| $$ \____  $$ /$$__  $$| $$  | $$| $$  | $$  | $$ /$$        \  $$$/    | $$  
+              |  $$$$$$$| $$ /$$$$$$$/|  $$$$$$$| $$$$$$$/|  $$$$$$/  |  $$$$/         \  $/    /$$$$$$
+               \_______/|__/|_______/  \_______/|_______/  \______/    \___/            \_/    |______/
+                                                                                                        
+              ********************** a moderation and user engagement bot for plug.dj ******************
+  
+                             
+  
+                                                                                                                                                                                                                
 */
-var version = 2.3;
 /*
-    Welcome Message
+
+
+                  _                     
+        _ _  ___ | | ___  __ _  ___ ___ 
+       | '_|/ -_)| |/ -_)/ _` |(_-</ -_)
+       |_|  \___||_|\___|\__,_|/__/\___|
+                                  
+
+
 */
-API.sendChat("Elsabot Version " + version + " is active!");
 /*
-    variables
+    elsabot version is set to 1
 */
-var announcement = false;
-var staffChat = false;
-var subChat = false;
-var plebChat = false;
-var timeOfLastSwap;
-var swapperId;
-var swapperPos;
-var swappeeId;
-var swappeePos;
-var swapAttempt;
-var dueler;
-var duelee;
-var timeOfLastDuel;
-var flowerGiver;
-var flowerReciever;
-var timeOfLastFlower;
-var timeOfPropose;
-var proposer;
-var fiance;
-var proposeChat = false;
+localStorage.elsaBotVersion = 1
 /*
-    Dc lookup
+    if elabot release is undefined
+    elsabot release is set to 1
 */
-var dcTime = [];
-var dcListPos = [];
-var dcListId = [];
-var globalWaitList = [];
-function dcLookupWaitListUpdate(data) {
-    globalWaitList = API.getWaitList();
-    var timeNow;
-    timeNow = Date.now();
-    for (var i = 0, l = dcTime.length; i < l; i++) {
-        var g = (timeNow - dcTime[i]);
-        if (g > 3600000) {
-            dcTime.splice(i, 1);
-            dcListPos.splice(i, 1);
-            dcListId.splice(i, 1);
-        }
-    }
-}
-function pushToDcLookupList(data) {
-    for (var i = 0, l = globalWaitList.length; i < l; i++) {
-        if (globalWaitList[i].username === data.username) {
-            var timeNow;
-            timeNow = Date.now();
-            dcListId.push(data.username);
-            dcListPos.push(i);
-            dcTime.push(timeNow);
-        }
-    }
-}
-function dcCheck(data) {
-    for (var i = 0, l = dcListId.length; i < l; i++) {
-        if (data.id === dcListId[i]) {
-            var wl = [];
-            wl = API.getWaitlist();
-            if (wl.length < 50) {
-                API.moderateAddDJ(JSON.stringify(data.id));
-                API.moderateMoveDJ(data.id, dcListPos[i]);
-                dcTime.splice(i, 1);
-                dcListPos.splice(i, 1);
-                dcListId.splice(i, 1);
-            }
-            else {
-                API.moderateLockWaitList(true, false);
-                var timer;
-                timer = setInterval(secondPassed, 1000);
-                function secondPassed() {
-                    if (wl.length < 50) {
-                        clearInterval(timer);
-                        API.moderateAddDJ(JSON.stringify(data.id));
-                        API.moderateMoveDJ(data.id, dcListPos[i]);
-                        API.moderateLockWaitList(false, false);
-                        dcTime.splice(i, 1);
-                        dcListPos.splice(i, 1);
-                        dcListId.splice(i, 1);
-                    } 
-                    else {
-                        wl = API.getWaitList();
-                    }
-                }
-            }
-        }
-    }
+if (localStorage.elsaBotRelease === undefined) {
+    localStorage.elsaBotRelease = 1;
 }
 /*
-    Load Local Storage
+    turn the string stored by localStorage into a number
 */
-if (localStorage.moniesId === undefined) {
-    localStorage.moniesId = "[1,2]";
-}
-if (localStorage.moniesValue === undefined) {
-    localStorage.moniesValue = "[1,2]";
-}
-var moniesId = JSON.parse(localStorage.moniesId);
-var moniesValue = JSON.parse(localStorage.moniesValue);
+var release = JSON.parse(localStorage.elsaBotRelease);
 /*
-    Monies Updater
+    increment release by 1
 */
-var woots = 0;
-var mehs = 0;
-var grabs = 0;
-function moniesUpdate(data) {
-    var newMonies;
-    var playedBefore = false;
-    newMonies = (data.lastPlay.score.positive + (data.lastPlay.score.grabs * 10) + data.lastPlay.score.negative - woots - mehs - (grabs * 10) + 10);
-    for (var i = 0, l = moniesId.length; i < l; i++) {
-        if (data.lastPlay.dj.id === moniesId[i]) {
-            moniesValue[i] = (moniesValue[i] + newMonies);
-            playedBefore = true;
-        }
+release = release + 1;
+/*
+    save the new release
+*/
+localStorage.elsaBotRelease = release
+/*
+    send elsabot version to the plug.dj chat
+*/
+API.sendChat("Elsabot Version " + localStorage.elsaBotVersion + "." + localStorage.elsaBotRelease + " is active!");
+/*
+
+
+
+
+
+                                                                          __     
+       __ __  ___ ___   ____      ____ ___   __ _   __ _  ___ _  ___  ___/ /  ___
+      / // / (_-</ -_) / __/     / __// _ \ /  ' \ /  ' \/ _ `/ / _ \/ _  /  (_-<
+      \_,_/ /___/\__/ /_/        \__/ \___//_/_/_//_/_/_/\_,_/ /_//_/\_,_/  /___/
+      ___________________________________________________________________________
+                                                                           
+
+
+
+
+
+/*
+    send chat data to functions
+*/
+API.on(API.CHAT, function(chatData) {
+    if (chatData.message.startsWith("!skip")) {
+        skip(chatData);
     }
-    if (playedBefore === false) {
-        moniesId.push(data.lastPlay.dj.id);
-        moniesValue.push(newMonies);
+    if (chatData.message.startsWith("!add")) {
+        add(chatData);
     }
-    setTimeout(function() {
-        woots = API.getScore().positive;
-        mehs = API.getScore().negative;
-        grabs = API.getScore().grabs;
-    },5000);
-    localStorage.moniesValue = JSON.stringify(moniesValue);
-    localStorage.moniesId = JSON.stringify(moniesId);
-    API.sendChat("@" + data.lastPlay.dj.username + " earned " + newMonies + " monies");
+    if (chatData.message.startsWith("!move")) {
+        move(chatData);
+    }
+    if (chatData.message === "!test") {
+        test(chatData);
+    }
+});
+/*
+
+
+            _    _       
+        ___| |__(_) _ __ 
+       (_-<| / /| || '_ \
+       /__/|_\_\|_|| .__/
+                   |_|  
+             
+             
+              
+*/
+/*
+    Dispatcher
+    **********
+    
+    skip function sends to check on staff function
+*/
+function skip(chatData) {
+    onStaffSkip(chatData);
 }
 /*
-    Skip Command
+    On Staff Check
+    **************
+    
+    if chatter has permisions to skip
+    sends to split chatData function
 */
-var djSkip;
-var wlSkip;
-var wlFullTimerSkip;
-function wlFullSkip() {
-    if (wlSkip.length < 50) {
-        clearInterval(wlFullTimerSkip);
-        API.moderateAddDJ(JSON.stringify(djSkip.id));
-        API.moderateMoveDJ(djSkip.id, 3);
-        API.moderateLockWaitList(false, false);
-    }
-    else {
-        wlSkip = API.getWaitList();
+function onStaffSkip(chatData) {
+    if (API.hasPermission(chatData.uid, 2)) {
+        splitChatDataSkip(chatData);
     }
 }
-function addToWaitListSkip() {
-    if (wlSkip.length < 50) {
-        API.moderateAddDJ(JSON.stringify(djSkip.id));
-        API.moderateMoveDJ(djSkip.id, 3);
+/*
+    Split Chat Data
+    ***************
+    
+    splits chat message into an array
+    sends to the skip reasons function
+*/
+function splitChatDataSkip(chatData) {
+    var messageArray = chatData.message.split(" ");
+    reasonSkip(chatData, messageArray);
+}
+/*
+    Skip Reasons
+    ************
+    
+    checks message array  for the reason the song will be skipped
+    
+    the reasons are as follows:
+        op:         skips song and puts you into number 3 on the waitlist.
+        theme:      skips song and puts you into number 3 on the waitlist.
+        vibe:       skips song and puts you into number 3 on the waitlist.
+        history:    skips song and puts you into number 3 on the waitlist.
+        nsfw:       skips song and puts you into number 3 on the waitlist.
+        noreason:   skips the song without a reason and puts you into number 3 on the waitlist:
+        ban:        skips song and kickes you from the room for an hour.
+        default:    **this will not add the dj into the waitlist**
+        
+        sends a message to chat explaining to the user why they were skipped
+        sends to the appropiate function
+*/
+function reasonSkip(chatData, messageArray) {
+    switch (messageArray[1]) {
+        case "op":
+            API.sendChat("@" + chatData.un + " skipped your song because it is overplayed. Please pick a fresher song.");
+            getDJInfoSkip();
+            break;
+        case "theme":
+            API.sendChat("@" + chatData.un + " skipped your song because it doesn't fit the room theme. Please pick a more room appropriate song.");
+            getDJInfoSkip();
+            break;
+        case "vibe":
+            API.sendChat("@" + chatData.un + " skipped your song because, bitch, you killed my vibe! Please pick a different song.");
+            getDJInfoSkip();
+            break;
+        case "history":
+            API.sendChat("@" + chatData.un + " skipped your song because it's in the dj history. Please pick a different song.");
+            getDJInfoSkip();
+            break;
+        case "nsfw":
+            API.sendChat("@" + chatData.un + " skipped your song because it's NSFW. Please pick a cleaner song.");
+            getDJInfoSkip();
+            break;
+        case "noreason":
+            API.sendChat("@" + chatData.un + " skipped your for god knows what reason. I guess they are giving you another chance tho.");
+            getDJInfoSkip();
+            break;
+        case "ban":
+            API.sendChat("@" + chatData.un + " skipped your song and decided to ban you for an hour. May god have mercy on you.");
+            banSkip();
+            break;
+         default:
+            API.sendChat("@" + chatData.un + " skipped your song. Do not pass go. Do not collect 100 dollars.");
+            API.moderateForceSkip();
+    }
+}
+/*
+    Get Dj Info
+    ***********
+          
+    gets DJ info
+    skips the song
+    sends to check waitlist function
+*/
+function getDJInfoSkip() {
+    var dj = API.getDJ();
+    var id = dj.id;
+    API.moderateForceSkip();
+    wlCheckSkip(id);
+}
+/*
+    Wait List Check
+    ***************
+    
+    if the waitlist isn't full it adds the user to the waitlist
+    sends to the move to in Waitlist Check function on a 1 second interval
+    
+    if it is full it locks the waitlist
+    sends to the wlFullCheck function on a 1 second interval
+*/
+var inWaitListCheckSkipTimer;
+var wlFullCheckSkipTimer;
+function wlCheckSkip(id) {
+    var wl = API.getWaitList();
+    if (wl.length < 50) {
+        API.moderateAddDJ(JSON.stringify(id));
+        inWaitListCheckSkipTimer = setInterval(function() { 
+        inWaitListCheckSkip(id);
+        } , 1000);
     }
     else {
         API.moderateLockWaitList(true, false);
-        wlFullTimerSkip = setInterval(wlFullSkip, 1000);
+        wlFullCheckSkipTimer = setInterval(function() {
+            wlFullCheckSkip(id);
+        }, 1000);
     }
 }
-var seconds;
-var timer2;
-function banTimer() {
-    if (seconds === 0) {
-        clearInterval(timer2);
-        API.moderateBanUser(djSkip.id, 1, API.BAN.HOUR);
-    } 
+/*
+    In Waitlist Check
+    *****************
+    
+    on a 1 second interval
+    this checks whether the user is in the waitlist
+    when the user is in the waitlist it moves them to position 3
+    clears the interval
+*/
+var inWaitListVarSkip;
+function inWaitListCheckSkip(id) {    
+    if (inWaitListVarSkip === -1 || inWaitListVarSkip === undefined) {
+        inWaitListVarSkip = API.getWaitListPosition(id);
+    }
     else {
-        seconds--;
+        API.moderateMoveDJ(id, 3);
+        clearInterval(inWaitListCheckSkipTimer);
+        inWaitListVarSkip = undefined;
     }
 }
-function skipValues(data) {
-    djSkip = API.getDJ();
+/*
+    WL Full Check
+    *************
+    
+    on a 1 second interval
+    checks whether the waitlist has room for a new user
+    
+    if there is less than 50 people in the waitlist
+    
+    clear the interval so the function doesnt run again
+    add the user to the waitlist
+    unlock the waitlist
+    resets the checking variable
+    send to the check in wl function on a 1 second interval
+*/
+var wlFullCheckVarSkip;
+function wlFullCheckSkip(id) {
+    if (wlFullCheckVarSkip === undefined || wlFullCheckVarSkip.length === 50) {
+        wlFullCheckVarSkip = API.getWaitList();
+    }
+    else {
+        clearInterval(wlFullCheckSkipTimer);
+        API.moderateAddDJ(JSON.stringify(id));
+        API.moderateLockWaitList(false, false);
+        wlFullCheckVarSkip = undefined;
+        inWaitListCheckSkipTimer = setInterval(function() { 
+        inWaitListCheckSkip(id);
+        } , 1000);     
+    }
+}
+/*
+    Skip Ban
+    ********
+    
+    skips the song
+    bans for an hour after 5 seconds (so the person can read about thier ban)
+*/
+function banSkip() {
+    var dj = API.getDJ();
     API.moderateForceSkip();
-    var skiparray = [];
-    skiparray = data.message.split(" ");
-    if(skiparray[1] !== undefined) {              
-        wlSkip = API.getWaitList();
-        if (skiparray[1] === "bl") {
-            API.sendChat("@" + djSkip.username + " That song is on the room's blacklist. Please pick a different song.");
-            addToWaitListSkip();
-        }
-        if (skiparray[1] === "op") {
-            API.sendChat("@" + djSkip.username + " That song is over played. Please pick a fresher song.");
-            addToWaitListSkip();
-        }
-        if (skiparray[1] === "nsfw") {
-            API.sendChat("@" + djSkip.username + " That song is NSFW. Please pick a cleaner song.");
-            addToWaitListSkip();
-        }
-        if (skiparray[1] === "theme") {
-            API.sendChat("@" + djSkip.username + " That song doesnt fit the room's theme. Please pick a different song.");
-            addToWaitListSkip();
-        }
-        if (skiparray[1] === "vibe") {
-            API.sendChat("@" + djSkip.username + " You just killed the vibe. Please try again.");
-            addToWaitListSkip();
-        }
-        if (skiparray[1] === "ban") {
-                API.sendChat("@" + djSkip.username + " You played a really bad song.  You will be kicked for 1 hour.");
-                seconds = 5;
-                timer2 = setInterval(banTimer, 1000);
-        }
-    }
-}
-function skip(data) {
-    if (data.type === "message" && data.message.substring(0,5) === "!skip") {
-        var staff = [];
-        staff = API.getStaff();
-        for (var i = 0, l = staff.length; i < l; i++) {
-            if (data.un === staff[i].username) {
-                if (staff[i].role > 1) {
-                    skipValues();
-                }
-            }
-        }
-    }
+    setTimeout( function() {
+        API.moderateBanUser(dj.id, 1, API.BAN.HOUR);
+    }, 5000);
 }
 /*
-    Move Command
-*/
-var wlMove = [];
-var moveTimer;
-var allUsersMove = [];
-function wlFullMove() {
-    if (wlMove.length < 50) {
-        clearInterval(moveTimer);
-        API.moderateAddDJ(JSON.stringify(allUsersMove[i].id));
-        API.moderateLockWaitList(false, false);
-    } 
-    else {
-        wlMove = API.getWaitList();
-    }
-}
-function move(data) {
-    if (data.type === "message" && data.message.substring(0,5) === "!move") {
-        var inWaitList = false;
-        var staff = [];
-        staff = API.getStaff();
-        for (var i = 0; i < staff.length; i++) {
-            if (data.un === staff[i].username) {
-                if (staff[i].role > 1) {
-                    var ma = [];
-                    ma = data.message.split(" ");
-                    wlMove = API.getWaitList();
-                    for (var j = 0; j < wlMove.length; j++) {
-                        if (ma[1].substring(1) === wlMove[j].username) {
-                            API.moderateMoveDJ(wlMove[i].id, ma[2]);
-                            inWaitList = true;
-                        }
-                    }
-                    if (inWaitList === false) {
-                        allUsersMove = API.getUsers(); 
-                        for (var k = 0; k < allUsersMove.length; k++) {
-                            if (ma[1].substring(1) === allUsersMove[k].username) {
-                                if (wlMove.length < 50) {
-                                    API.moderateAddDJ(JSON.stringify(allUsersMove[k].id));
-                                    API.moderateMoveDJ(allUsersMove[k].id, ma[2]);
-                                }
-                                else {
-                                    API.moderateLockWaitList(true, false);
-                                    moveTimer = setInterval(wlFullMove, 1000);
-                                }
-                            }
-                        }
-                    }    
-                }
-            }
-        }
-    }
-}
-/*
-    Add Command
-*/
-var addTimer;
-function wlFullAdd() {
-    if (wl.length < 50) {
-        clearInterval(addTimer);
-        API.moderateAddDJ(JSON.stringify(allusers[i].id));
-        API.moderateLockWaitList(false, false);
-    } 
-    else {
-        wl = API.getWaitList();
-    }
-}
-function add(data) {
-    if (data.type === "message" && data.message.substring(0,4) === "!add") {
-        var staff = [];
-        staff = API.getStaff();
-        for (var i; i < staff.length; i++) {
-            if (data.un === staff[i].username) {
-                if (staff[i].role > 1) {
-                    var wl = [];
-                    wl = API.getWaitList();
-                    var addarray = [];
-                    addarray = data.message.split(" ");
-                    var allusers = [];
-                    allusers = API.getUsers();
-                    for (var j = 0; j < allusers.length; j++) {
-                        if (allusers[j].username === addarray[1].substring(1)) {
-                            if (wl.length < 50) {
-                                API.moderateAddDJ(JSON.stringify(allusers[i].id));
-                            }
-                            else {
-                                API.moderateLockWaitList(true, false);
-                                addTimer = setInterval(wlFullMove, 1000);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-/*
-    Join Command
-*/
-function join(data) {
-    if (data.type === "message" && data.message === "!join") {
-        API.moderateAddDJ(JSON.stringify(data.uid));
-    }
-}
-/*
-    Swap
-*/
-function swap(data) {
-    if (data.type === "message" && data.message.substring(0,5) === "!swap") {
-        var swapArray = [];
-        swapArray = data.message.split(" ");
-        if (swapArray[2] === "accept") {
-            if (data.uid === swappeeId) {
-                API.moderateMoveDJ(data.uid, swapperPos);
-                API.moderateMoveDJ(swapperId, swappeePos);
-                timeOfLastSwap = Date.now();
-                swappeeId = 1;
-            }
-        }
-        swapAttempt = Date.now();
-        var elapsedTime;
-        elapsedTime = (swapAttempt - timeOfLastSwap);
-        if (elapsedTime > 60000 || timeOfLastSwap === undefined) {
-            var wl = [];
-            wl = API.getWaitList();
-            for (var i = 0, l = wl.length; i < l; i++) {
-                if (data.un === wl[i].username) {
-                    for (var j = 0, k = wl.length; j < k; j++) {
-                        if (swapArray[1].substring(1) === wl[j].username) {
-                            if (i < j) {
-                                API.sendChat("Hey, " + swapArray[1] + ", " + "@" + data.un + " would like to swap with you. Type !swap accept to swap");
-                                swapperId = wl[i].id;
-                                swappeeId = wl[j].id;
-                                swapperPos = i;
-                                swappeePos = j;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-/*
-    Chat Modes
-*/
-function chatmodes(data) {
-    if (data.type === "message" && data.message.substring(0,9) === "!chatmode") {
-        var chatModeArray = [];
-        chatModeArray = data.message.split(" ");
-        var staff = [];
-        staff = API.getStaff();
-        for (var i = 0, l = staff.length; i < l; i++) {
-            if (data.un === staff[i].username) {
-                if (staff[i].role > 2) {
-                    if (chatModeArray[1] === "staff") {
-                        staffChat = true;
-                        subChat = false;
-                        plebChat = false;
-                        announcement = false;
-                    }
-                     if (chatModeArray[1] === "sub") {
-                        staffChat = false;
-                        subChat = true;
-                        plebChat = false;
-                        announcement = false;
-                    }
-                      if (chatModeArray[1] === "pleb") {
-                        staffChat = false;
-                        subChat = false;
-                        plebChat = true;
-                        announcement = false;
-                    }
-                    if (chatModeArray[1] === "normal") {
-                        staffChat = false;
-                        subChat = false;
-                        plebChat = false;
-                        announcement = false;
-                    }
-                    if (staff[i].role > 3) {
-                        if (chatModeArray[1] === "announcement") {
-                            staffChat = false;
-                            subChat = false;
-                            plebChat = false;
-                            announcement = true;
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-function chatModeDelete(data) {
-    if (staffChat === true) {
-        if (data.type === "message") {
-            var allUsers = API.getUsers();
-            for (var i = 0, l = allUsers.length; i < l; i++) {
-                if (data.un === allUsers[i].username) {
-                    if (allUsers[i].role < 1) {
-                        API.moderateDeleteChat(data.cid);
-                    }
-                }
-            }
-        }
-    }
-    if (subChat === true) {
-        if (data.type === "message") {
-            var allUsers = API.getUsers();
-            for (var i = 0, l = allUsers.length; i < l; i++) {
-                if (data.un === allUsers[i].username) {
-                    if (allUsers[i].role < 1) {
-                        API.moderateDeleteChat(data.cid);
-                    }
-                }
-            }
-        }
-    }
-    if (plebChat === true) {
-        if (data.type === "message") {
-            var staff = [];
-            staff = API.getStaff();
-            for (var i = 0, l = staff.length; i < l; i++) {
-                if (data.un === staff[i].username) {
-                    API.moderateDeleteChat(data.cid);
-                }
-            }
-        }
-    }
-    if (announcement === true) {
-        if (data.type === "message") {
-            var allUsers = API.getUsers();
-            for (var i = 0, l = allUsers.length; i < l; i++) {
-                if (data.un === allUsers[i].username) {
-                    if (allUsers[i].role < 4) {
-                        API.moderateDeleteChat(data.cid);
-                    }
-                }
-            }
-        }
-    }
-}
-/*
-    Monies Check
-*/
-function moniesCheck(data){
-    if (data.type === "message" && data.message === "!monies") {
-        var hasMonies;
-        hasMonies = false;
-        for (var i = 0, l = moniesId.length; i < l; i++) {
-            if (data.uid === moniesId[i]) {
-                API.sendChat("@" + data.un + " you have " + moniesValue[i] + " monies");
-                hasMonies = true;
-            }
-        }
-        if (hasMonies === false) {
-            API.sendChat("@" + data.un + "you don't have any monies");
-        }
-    }
-}
-/*
-    Duel
-*/
-function duel(data) {
-    if (data.type === "message" && data.message.substring(0,5) === "!duel") {
-        var duelArray = [];
-        duelArray = data.message.split(" ");
-        if (duelArray[1] === "accept") {
-            if (data.un === duelee) {
-                var x;
-                x = Math.floor((Math.random() * 2) + 1);
-                if (x === 1) {
-                    API.sendChat("@" + duelee + " has won the duel!");
-                    duelee = "done";
-                }
-                if (x === 2) {
-                    API.sendChat("@" + dueler + " has won the duel!");
-                    duelee = "done";
-                }
-            }
-        }
-        var timeNow;
-        timeNow = Date.now();
-        var elapsedTime;
-        elapsedTime = (timeNow - timeOfLastDuel);
-        if (elapsedTime > 1 || timeOfLastDuel === undefined) {
-            dueler = data.un;
-            duelee = duelArray[1].substring(1);
-            timeOfLastDuel = Date.now();
-            API.sendChat("@" + duelee + ", @" + dueler + ' has challenged you to a duel. "Type !duel accept" to duel');
-        }
-    }
-}
-/*
-    Flower
-*/
-function flower(data) {
-    if (data.type === "message" && data.message.substring(0,7) === "!flower") {
-        var flowerArray = [];
-        flowerArray = data.message.split(" ");
-        if (flowerArray[1] === "accept") {
-            if (data.un === flowerReciever) {
-                API.sendChat("@" + flowerReciever + " smells the flower");
-            }
-        }
-        var timeNow;
-        timeNow = Date.now();
-        var elapsedTime;
-        elapsedTime = (timeNow - timeOfLastFlower);
-        if (elapsedTime > 1 || timeOfLastFlower === undefined) {
-            flowerGiver = data.un;
-            flowerReciever = flowerArray[1].substring(1);
-            timeOfLastFlower = Date.now();
-            API.sendChat("@" + flowerGiver + ", @" + flowerReciever + ' has offered you a flower. Type "!flower accept" to take it');
-        }
-    }
-}
-function marry() {
-    if (data.message.substring(0,8) === "!propose") {
-        var timeNow;
-        timeNow = Date.now();
-        var elapsedSinceLastPropose;
-        elapsedSinceLastPropose = (timeNow - timeOfPropose);
-        if (elapsedSinceLastPropose < 3600000 || timeOfPropose === undefined) {
-            var marryArray = [];
-            marryArray = data.message.split(" ");
-            var allUsers = [];
-            allUsers = API.getUsers();
-            for (var i = 0, l = allUsers.length; i < l; i++) {
-                if (marryArray[1].substring(1) === allUsers[i].username) {
 
-                    fiance = allUsers[i].username;
-                    proposer = data.un;
-                    timeOfPropose = Date.now();
-                    proposeChat = true;
-                    API.sendChat("@" + data.un + " asks " + "@" + marryArray[1].substring(1) + ' to marry them. Type "!I do" to accecpt');
-                }
-            }
-        }
-    }
-    if (data.un === fiance) {
-        if (data.type === "message" && data.message === "!I do") {
-            var timeOfAnswer;
-            timeOfAnswer = Date.now();
-            var elapsedTime;
-            elapsedTime = (timeOfAnswer - timeOfPropose);
-            if (elapsedTime < 60000) {
-                API.sendChat("@" + fiance + ", @" + proposer + ", I now pronouce you to be wed.");
-            }
-        }
+
+
+                 _     _ 
+        __ _  __| | __| |
+       / _` |/ _` |/ _` |
+       \__,_|\__,_|\__,_|
+ 
+ 
+ 
+ 
+ 
+*/
+/*
+    Dispatcher
+    **********
+    
+    add function sends to check on staff function
+*/
+function add(chatData) {
+    onStaffAdd(chatData);
+}
+/*
+    On Staff Check
+    **************
+    
+    if chatter has permisions to add
+    sends to split chatData function
+*/
+function onStaffAdd(chatData) {
+    if (API.hasPermission(chatData.uid, 2)) {
+        splitChatDataAdd(chatData);
     }
 }
 /*
-    Roulette
+    Split Chat Data
+    ***************
+    
+    splits chat message into an array
+    sends to the send to chat function
 */
-var rouletteStatus;
-rouletteStatus = false;
-var rouletteEntries = [];
-function roulette(data) {
-    if (data.type === "message" && data.message === "!roulette") {
-        var staff = [];
-        staff = API.getStaff();
-        for (var i = 0, l = staff.length; i < l; i++) {
-            if (data.un === staff[i].username) {
-                if (staff[i].role > 1) {
-                    var lastRoulette;
-                    lastRoulette = Date.now();
-                    if (rouletteStatus === false) {
-                        API.sendChat("@" + data.un + " has started a roulette. Type !join to enter.");
-                        rouletteStatus = true;
-                        setTimeout(function() {
-                            rouletteStatus = false;
-                            var winner;
-                            winner = Math.floor((Math.random() * rouletteEntries.length) + 1);
-                            var wl = [];
-                            wl = API.getWaitList();
-                            var winnerPos;
-                            winnerPos = Math.floor((Math.random() * wl.length) + 1);
-                            var allUsers = [];
-                            allUsers = API.getUsers();
-                            var winnerName;
-                            for (var i = 0, l = wl.length; i < l; i++) {
-                                if (allUsers[i].id === rouletteEntries[winner]) {
-                                    winnerName = allUsers[i].username;
-                                }
-                            }
-                            for (var i = 0, l = wl.length; i < l; i++) {
-                                if (rouletteEntries[winner] === wl[i].id) {
-                                    API.sendChat("@" + winnerName + " won the roulette and will be moved to position " + winnerPos);
-                                    API.moderateMoveDJ(wl[i].id, winnerPos);
-                                    rouletteEntries = [];
-                                } 
-                                else if (wl.length < 50) {
-                                    API.sendChat("@" + winnerName + " won the roulette and will be moved to position " + winnerPos);
-                                    API.moderateAddDJ(JSON.stringify(rouletteEntries[winner]));
-                                    API.moderateMoveDJ(rouletteEntries[winner], winnerPos);
-                                    rouletteEntries = [];
-                                }
-                                else {
-                                    API.moderateLockWaitList(true, false);
-                                    API.sendChat("@" + winnerName + " won the roulette and will be moved to position " + winnerPos);
-                                    var timer;
-                                    timer = setInterval(secondPassed, 1000);
-                                    function secondPassed() {
-                                        if (wl.length < 50) {
-                                            clearInterval(timer);
-                                            API.moderateAddDJ(JSON.stringify(rouletteEntries[winner]));
-                                            API.moderateMoveDJ(rouletteEntries[winner], winnerPos);
-                                            API.moderateLockWaitList(false, false);
-                                            rouletteEntries = [];
-                                        } 
-                                        else {
-                                            wl = API.getWaitList();
-                                        }
-                                    }
-                                }
-                            }
-                        }, 20000);
-                    }
-                }
-            }
+function splitChatDataAdd(chatData) {
+    var messageArray = chatData.message.split(" ");
+    sendToChatAdd(chatData, messageArray);
+}
+/*
+    Send to Chat
+    ************
+    
+    tells chat who added who
+    sends to get user info function
+*/
+function sendToChatAdd(chatData, messageArray) {
+    var userToBeAdded = messageArray[1];
+    API.sendChat("@" + chatData.un + " added " + userToBeAdded + " to the waitlist.");
+    getUserInfoAdd(userToBeAdded);
+}
+/*
+    Get User Info
+    *************
+          
+    gets user id
+    sends to check waitlist function
+*/
+function getUserInfoAdd(userToBeAdded) {
+    var id;
+    var allUsers = API.getUsers();
+    for (var i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].username === userToBeAdded.substring(1)) {
+            id = allUsers[i].id
         }
     }
+    wlCheckAdd(id);
 }
-//function join() {
-//    if (data.type === "message" && data.message === "!join") {
-//        if (rouletteStatus === true) {
-//           rouletteEntries.push(data.uid);
-//        }
-//    }
-//}
-// test
-function test(data) {
-    if (data.type === "message" && data.message === "!test") {
-        alert(JSON.stringify(data));
+/*
+    Wait List Check
+    ***************
+    
+    if the waitlist isn't full it adds the dj to the waitlist
+    
+    if it is full it locks the waitlist
+    sends to the wlFullCheck function on a 1 second interval
+*/
+var wlFullCheckTimerAdd;
+function wlCheckAdd(id) {
+    var wl = API.getWaitList();
+    if (wl.length < 50) {
+        API.moderateAddDJ(JSON.stringify(id));
+    }
+    else {
+        API.moderateLockWaitList(true, false);
+        wlFullCheckTimerAdd = setInterval(function() {
+            wlFullCheckAdd(id);
+        }, 1000);
     }
 }
 /*
-    Delete commands from chat
+    WL Full Check
+    *************
+    
+    on a 1 second interval this checks whether the waitlist has room for a new dj
+    
+    if there is less than 50 people in the waitlist
+    
+    clear the interval so the function doesnt run again
+    add the dj to the waitlist
+    unlock the waitlist
+    resets the checking variable
 */
-function deleteChat(data) {
-    if (data.type === "message" && data.message.substring(0,1) === "!") {
-       API.moderateDeleteChat(data.cid);
+var wlFullCheckVarAdd;
+function wlFullCheckAdd(id) {
+    if (wlFullCheckVarAdd === undefined || wlFullCheckVarAdd.length === 50) {
+        wlFullCheckVarAdd = API.getWaitList();
+    }
+    else {
+        clearInterval(wlFullCheckSkipTimer);
+        API.moderateAddDJ(JSON.stringify(id));
+        API.moderateLockWaitList(false, false);
+        wlFullCheckVarAdd = undefined;
     }
 }
 /*
-    Chat to function
+
+
+
+
+
+        _ __   ___ __ __ ___ 
+       | '  \ / _ \\ V // -_)
+       |_|_|_|\___/ \_/ \___|
+ 
+ 
+ 
+ 
+ 
+ 
 */
-API.on(API.chat, function (data) {
-    if (data.message.startsWith("!skip")) {
-        alert("test");
-        skip();
+/*
+    Dispatcher
+    **********
+    
+    move function sends to check on staff function
+*/
+function move(chatData) {
+    onStaffMove(chatData);
+}
+/*
+    On Staff Check
+    **************
+    
+    if chatter has permisions to move
+    sends to split chatData function
+*/
+function onStaffMove(chatData) {
+    if (API.hasPermission(chatData.uid, 2)) {
+        splitChatDataMove(chatData);
     }
-});
+}
+/*
+    Split Chat Data
+    ***************
+    
+    splits chat message into an array
+    sends to the get send to chat function
+*/
+function splitChatDataMove(chatData) {
+    var messageArray = chatData.message.split(" ");
+    sendToChatMove(chatData, messageArray);
+}
+/*
+    Send to Chat
+    ************
+    
+    tells chat who added who
+    sends to get user info function
+*/
+function sendToChatMove(chatData, messageArray) {
+    var userToBeMoved = messageArray[1];
+    var position = messageArray[2];
+    API.sendChat("@" + chatData.un + " moved " + userToBeMoved + " to position " + position);
+    getUserInfoMove(userToBeMoved, position);
+}
+/*
+    Get User Info
+    *************
+          
+    gets user id
+    sends to check waitlist function
+*/
+function getUserInfoMove(userToBeMoved, position) {
+    var id;
+    var allUsers = API.getUsers();
+    for (var i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].username === userToBeMoved.substring(1)) {
+            id = allUsers[i].id
+        }
+    }
+    inWLCheckMove(id, position);
+}
+/*
+    In Waitlist Check
+    *****************
+    
+    this checks whether the user is in the waitlist
+    if the user is in the waitlist it moves them
+*/
+function inWLCheckMove(id, position) {
+    var inWaitList = API.getWaitListPosition(id);  
+    if (inWaitList === -1) {
+        wlCheckMove(id, position);
+    }
+    else {
+        API.moderateMoveDJ(id, position);
+    }
+}
+/*
+    Wait List Check
+    ***************
+    
+    if the waitlist isn't full it adds the user to the waitlist
+    sends to the move to in Waitlist Check function on a 1 second interval
+    
+    if it is full it locks the waitlist
+    sends to the wlFullCheck function on a 1 second interval
+*/
+var inWaitListCheckMoveTimer;
+var wlFullCheckMoveTimer;
+function wlCheckMove(id, position) {
+    var wl = API.getWaitList();
+    if (wl.length < 50) {
+        API.moderateAddDJ(JSON.stringify(id));
+        inWaitListCheckMoveTimer = setInterval(function() { 
+        inWaitListCheckMove(id, position);
+        } , 1000);
+    }
+    else {
+        API.moderateLockWaitList(true, false);
+        wlFullCheckSkipTimer = setInterval(function() {
+            wlFullCheckMove(id, position);
+        }, 1000);
+    }
+}
+/*
+    In Waitlist Check
+    *****************
+    
+    on a 1 second interval
+    this checks whether the user is in the waitlist
+    when the user is in the waitlist it moves them
+    clears the interval
+*/
+var inWaitListVarMove;
+function inWaitListCheckMove(id, position) {    
+    if (inWaitListVarMove === -1 || inWaitListVarMove === undefined) {
+        inWaitListVarMove = API.getWaitListPosition(id);
+    }
+    else {
+        API.moderateMoveDJ(id, position);
+        clearInterval(inWaitListCheckMoveTimer);
+        inWaitListVarMove = undefined;
+    }
+}
+/*
+    WL Full Check
+    *************
+    
+    on a 1 second interval
+    checks whether the waitlist has room for the user
+    
+    if there is less than 50 people in the waitlist
+    
+    clear the interval so the function doesnt run again
+    add the user to the waitlist
+    unlock the waitlist
+    resets the checking variable
+    send to the inwaitlist check function on a 1 second interval
+*/
+var wlFullCheckVarMove;
+function wlFullCheckMove(id, position) {
+    if (wlFullCheckVarMove === undefined || wlFullCheckVarMove.length === 50) {
+        wlFullCheckVarMove = API.getWaitList();
+    }
+    else {
+        clearInterval(wlFullCheckMoveTimer);
+        API.moderateAddDJ(JSON.stringify(id));
+        API.moderateLockWaitList(false, false);
+        wlFullCheckVarMove = undefined;
+        inWaitListCheckMoveTimer = setInterval(function() { 
+        inWaitListCheckMove(id, position);
+        } , 1000);  
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function test(chatData) {
+    setTimeout( function() {
+        alert("delay test");
+    }, 5000);
+}

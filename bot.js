@@ -87,7 +87,7 @@ API.on(API.CHAT, function(chatData) {
         test(chatData);
     }
     if (chatData.message.startsWith("!swap")) {
-        swap();
+        swap(chatData);
     }
     if (chatData.message === "!rain") {
         makeItRain(chatData);
@@ -608,6 +608,140 @@ function wlFullCheckMove(id, position) {
 */
 function swap(chatData) {
     splitChatDataSwap(chatData);
+}
+/*
+    Split Chat Data
+    ***************
+    
+    splits chat message into an array
+    sends to the send to chat function
+*/
+function splitChatDataSwap(chatData) {
+    var messageArray = chatData.message.split(" ");
+    var valueSwap = messageArray[1] 
+    valueTestSwap(chatData, valueSwap);
+}
+/*
+    swap value test
+    ***************
+    
+    tests what the swap value is
+    sends to the appropriate function
+*/
+function valueTestSwap(chatData, valueSwap) {
+    if (valueSwap === "accept") {
+        acceptSwapCheck(chatData);
+    }
+    else if (valueSwap === "decline") {
+        declineSwap(chatData);
+    }
+    else {
+        wlCheckPersonOneSwap(chatData, valueSwap);
+    }
+}
+/*
+    wl check
+    *********
+    
+    check if the chatter is in the wait list
+    if not send to chat that swap is restriced to two ppl in the waitlist
+    else send to wl search target function
+*/
+function wlCheckPersonOneSwap(chatData, valueSwap) {
+    var positionPersonOne = API.getWaitListPosition(chatData.uid) + 1;
+    if (positionPersonOne === 0) {
+        API.sendChat("@" + chatData.un + " you are not in the waitlist. !swap is restricted to 2 users in the waitlist.");
+    }
+    else {
+        wlSearchTargetSwap(chatData, valueSwap, positionPersonOne);
+    }
+}
+/*
+    wl Search
+    *********
+    
+    search the waitlist for target username
+    if they are found in the waitlist
+    save the target id and position
+*/
+function wlSearchTargetSwap(chatData, valueSwap, positionPersonOne) {
+    var wl = API.getWaitList();
+    var targetSwap = {};
+    targetSwap.username = valueSwap.substring(1);
+    for (var i = 0; i < wl.length; i++) {
+        if (targetSwap.username === wl[i].username)
+        targetSwap.position = i + 1
+        targetSwap.id = wl[i].id
+    }
+    wlCheckPersonTwoSwap(chatData, targetSwap, positionPersonOne);
+}
+/*
+    wl check target
+    ***************
+    
+    checks if target's position was set in the previous function
+    if not send to chat that swap is restriced to two ppl in the waitlist
+    else send to save swap function
+*/
+function wlCheckPersonTwoSwap(chatData, targetSwap, positionPersonOne) {
+    if (targetSwap.position === undefined) {
+        API.sendChat("@" + chatData.un + " your swap target is not in the waitlist. !swap is restricted to 2 users in the waitlist.");
+    }
+    else {
+        saveSwap(chatData, targetSwap, positionPersonOne);
+    }
+}
+/*
+    save swap
+    *********
+    
+    set swap var to an object
+    save person one's info to the object
+*/
+var swapVar;
+function saveSwap(chatData, targetSwap, positionPersonOne) {   
+    swapVar = {};
+    swapVar.personOneId = chatData.uid;
+    swapVar.personOneUn = chatData.un;
+    swapVar.personOnePos = positionPersonOne;
+    swapVar.targetId = targetSwap.id;
+    swapVar.targetUsername = targetSwap.username;
+    swapVar.targetPos;
+    swapVar.time = Date.now();
+}
+/*
+    Swap Accept Check
+    *****************
+    
+    checks whether the person accepting the swap is the swap target
+*/
+function acceptSwapCheck(chatData) {
+    if (chatData.uid === swapVar.targetId) {
+        acceptSwap();
+    }
+}
+/*
+    Swap Accept
+    ***********
+    
+    swaps the targets
+*/
+function acceptSwap() {
+    API.moderateMoveDJ(swapVar.targetId, swapVar.personOnePos);
+    API.moderateMoveDJ(swapVar.personOneId, swapVar.targetPos);
+    swapVar = undefined;
+}
+/*
+    Swap Decline
+    ************
+    
+    declines the swap
+*/
+function declineSwap(chatData) {
+    if (chatData.uid === swapVar.targetId) {
+        API.sendChat("@" + chatData.un + " doesn't want to swap.");
+        swapVar = undefined
+    }
 }
 /*
 

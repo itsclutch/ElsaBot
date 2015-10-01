@@ -16,6 +16,6 @@
 #chat .chat-container ul.chat-main li .image_row:after {
     border: 0px solid transparent;
 }
-#chat .user-55ffe2e0196f170300cc1037 .username {
+#chat .chat-container ul.chat-main li .activity-row .text p a.username, #chat .chat-container ul.chat-main li .activity-row .text p a.username:hover, #chat .chat-container ul.chat-main li .activity-row .text p a.user-5607ef7e424a6203007d4fbe .username:visited {
   color: #db2f8b;
 }

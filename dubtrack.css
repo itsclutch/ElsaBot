@@ -1,3 +1,6 @@
 #chat {
   background-color: rgba(0, 0, 0, 0.6);
 }
+#chat .chat-container .pusher-chat-widget-input {
+    background-color: rgba(0, 0, 0, 0.6);
+}

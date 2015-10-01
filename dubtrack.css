@@ -11,7 +11,7 @@
     background-color: rgba(0, 0, 0, 0.8);
 }
 #chat .chat-container ul.chat-main li .image_row > img {
-  border-radius: 25px;
+  border-radius: 15px;
 }
 #chat .chat-container ul.chat-main li .image_row:after {
     border-top: 0px solid transparent;

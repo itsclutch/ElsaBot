@@ -41,7 +41,7 @@
   color: #DF5E5E;
 }
 /* CLUTCH */
-#chat .chat-container ul.chat-main li.user-5607f10927456e030071ceff .activity-row .text p a.username #char .chat-container ul.chat-main li.user-5607f10927456e030071ceff .activity-row .text p a.username:hover, #chat .chat-container ul.chat-main li.user-5607f10927456e030071ceff .activity-row .text p a.username:visited{
+#chat .chat-container ul.chat-main li.user-5607f10927456e030071ceff .activity-row .text p a.username, #char .chat-container ul.chat-main li.user-5607f10927456e030071ceff .activity-row .text p a.username:hover, #chat .chat-container ul.chat-main li.user-5607f10927456e030071ceff .activity-row .text p a.username:visited{
   color: #FF33CC; 
 }
   

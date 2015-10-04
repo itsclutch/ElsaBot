@@ -40,3 +40,8 @@
 #chat .chat-container ul.chat-main li.user-56005230239f1303009c88b4 .activity-row .text p a.username, #chat .chat-container ul.chat-main li.user-56005230239f1303009c88b4 .activity-row .text p a.username:hover, #chat .chat-container ul.chat-main li.user-56005230239f1303009c88b4 .activity-row .text p a.username:visited{
   color: #DF5E5E;
 }
+/* CLUTCH */
+#chat .chat-container ul.chat-main li.user-5607f10927456e030071ceff .activity-row .text p a.username #char .chat-container ul.chat-main li.user-5607f10927456e030071ceff .activity-row .text p a.username:hover, #chat .chat-container ul.chat-main li.user-5607f10927456e030071ceff .activity-row .text p a.username:visited{
+  color: #FF33CC; 
+}
+  
